@@ -1,0 +1,2940 @@
+{
+  "format_version": 1,
+  "source": {
+    "name": "VulnonaMAP",
+    "url": "https://vulnona.com/game/map/",
+    "map": "Gateway",
+    "map_version": "0.21.772",
+    "retrieved": "2026-08-28"
+  },
+  "note": "Editable offline point snapshot. Compact coordinate codes are multiplied by 1,000; full world-coordinate identifiers are preserved.",
+  "items": [
+    {
+      "name": "Ash 1",
+      "category": "Ash",
+      "source_id": "Ash/-173,-62",
+      "position": [
+        -173000,
+        -62000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Ash 2",
+      "category": "Ash",
+      "source_id": "Ash/-148,-52",
+      "position": [
+        -148000,
+        -52000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Ash 3",
+      "category": "Ash",
+      "source_id": "Ash/-76,22",
+      "position": [
+        -76000,
+        22000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Banana 1",
+      "category": "Banana",
+      "source_id": "Banana/-4,-205",
+      "position": [
+        -4000,
+        -205000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Banana 2",
+      "category": "Banana",
+      "source_id": "Banana/174,-363",
+      "position": [
+        174000,
+        -363000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Coconut 1",
+      "category": "Coconut",
+      "source_id": "Coconut/-500,460",
+      "position": [
+        -500000,
+        460000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Coconut 2",
+      "category": "Coconut",
+      "source_id": "Coconut/-173,539",
+      "position": [
+        -173000,
+        539000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Coconut 3",
+      "category": "Coconut",
+      "source_id": "Coconut/-164,542",
+      "position": [
+        -164000,
+        542000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Coconut 4",
+      "category": "Coconut",
+      "source_id": "Coconut/-163,541",
+      "position": [
+        -163000,
+        541000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Coconut 5",
+      "category": "Coconut",
+      "source_id": "Coconut/-161,546",
+      "position": [
+        -161000,
+        546000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Coconut 6",
+      "category": "Coconut",
+      "source_id": "Coconut/-148,546",
+      "position": [
+        -148000,
+        546000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Coconut 7",
+      "category": "Coconut",
+      "source_id": "Coconut/301,-106",
+      "position": [
+        301000,
+        -106000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Jackfruit 1",
+      "category": "Jackfruit",
+      "source_id": "Jackfruit/-299,116",
+      "position": [
+        -299000,
+        116000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Jackfruit 2",
+      "category": "Jackfruit",
+      "source_id": "Jackfruit/-280,138",
+      "position": [
+        -280000,
+        138000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Jackfruit 3",
+      "category": "Jackfruit",
+      "source_id": "Jackfruit/97,-203",
+      "position": [
+        97000,
+        -203000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Jackfruit 4",
+      "category": "Jackfruit",
+      "source_id": "Jackfruit/98,-209",
+      "position": [
+        98000,
+        -209000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Jackfruit 5",
+      "category": "Jackfruit",
+      "source_id": "Jackfruit/187,-371",
+      "position": [
+        187000,
+        -371000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Jackfruit 6",
+      "category": "Jackfruit",
+      "source_id": "Jackfruit/245,8",
+      "position": [
+        245000,
+        8000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Jackfruit 7",
+      "category": "Jackfruit",
+      "source_id": "Jackfruit/248,19",
+      "position": [
+        248000,
+        19000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Mango 1",
+      "category": "Mango",
+      "source_id": "Mango/-169,524",
+      "position": [
+        -169000,
+        524000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Mango 2",
+      "category": "Mango",
+      "source_id": "Mango/-164,537",
+      "position": [
+        -164000,
+        537000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Mango 3",
+      "category": "Mango",
+      "source_id": "Mango/-164,541",
+      "position": [
+        -164000,
+        541000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Mango 4",
+      "category": "Mango",
+      "source_id": "Mango/-158,550",
+      "position": [
+        -158000,
+        550000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Mango 5",
+      "category": "Mango",
+      "source_id": "Mango/-16,397",
+      "position": [
+        -16000,
+        397000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Mango 6",
+      "category": "Mango",
+      "source_id": "Mango/309,-99",
+      "position": [
+        309000,
+        -99000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Melon 1",
+      "category": "Melon",
+      "source_id": "Melon/217,149",
+      "position": [
+        217000,
+        149000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Melon 2",
+      "category": "Melon",
+      "source_id": "Melon/225,143",
+      "position": [
+        225000,
+        143000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Melon 3",
+      "category": "Melon",
+      "source_id": "Melon/239,143",
+      "position": [
+        239000,
+        143000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Melon 4",
+      "category": "Melon",
+      "source_id": "Melon/280,32",
+      "position": [
+        280000,
+        32000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Melon 5",
+      "category": "Melon",
+      "source_id": "Melon/293,33",
+      "position": [
+        293000,
+        33000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Melon 6",
+      "category": "Melon",
+      "source_id": "Melon/300,-37",
+      "position": [
+        300000,
+        -37000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Melon 7",
+      "category": "Melon",
+      "source_id": "Melon/315,-35",
+      "position": [
+        315000,
+        -35000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Melon 8",
+      "category": "Melon",
+      "source_id": "Melon/321,-35",
+      "position": [
+        321000,
+        -35000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Melon 9",
+      "category": "Melon",
+      "source_id": "Melon/324,-37",
+      "position": [
+        324000,
+        -37000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Melon 10",
+      "category": "Melon",
+      "source_id": "Melon/324,-33",
+      "position": [
+        324000,
+        -33000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Melon 11",
+      "category": "Melon",
+      "source_id": "Melon/363,32",
+      "position": [
+        363000,
+        32000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Melon 12",
+      "category": "Melon",
+      "source_id": "Melon/367,30",
+      "position": [
+        367000,
+        30000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Melon 13",
+      "category": "Melon",
+      "source_id": "Melon/370,22",
+      "position": [
+        370000,
+        22000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Melon 14",
+      "category": "Melon",
+      "source_id": "Melon/372,32",
+      "position": [
+        372000,
+        32000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Melon 15",
+      "category": "Melon",
+      "source_id": "Melon/375,30",
+      "position": [
+        375000,
+        30000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Melon 16",
+      "category": "Melon",
+      "source_id": "Melon/386,20",
+      "position": [
+        386000,
+        20000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Orange 1",
+      "category": "Orange",
+      "source_id": "Orange/-201,526",
+      "position": [
+        -201000,
+        526000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Orange 2",
+      "category": "Orange",
+      "source_id": "Orange/-1,420",
+      "position": [
+        -1000,
+        420000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Orange 3",
+      "category": "Orange",
+      "source_id": "Orange/22,438",
+      "position": [
+        22000,
+        438000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Orange 4",
+      "category": "Orange",
+      "source_id": "Orange/210,-348",
+      "position": [
+        210000,
+        -348000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Orange 5",
+      "category": "Orange",
+      "source_id": "Orange/260,-196",
+      "position": [
+        260000,
+        -196000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Orange 6",
+      "category": "Orange",
+      "source_id": "Orange/313,-391",
+      "position": [
+        313000,
+        -391000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Red Currant 1",
+      "category": "Red Currant",
+      "source_id": "RedCurrant/-113,221",
+      "position": [
+        -113000,
+        221000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Red Currant 2",
+      "category": "Red Currant",
+      "source_id": "RedCurrant/-94,211",
+      "position": [
+        -94000,
+        211000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Red Currant 3",
+      "category": "Red Currant",
+      "source_id": "RedCurrant/-88,219",
+      "position": [
+        -88000,
+        219000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Red Currant 4",
+      "category": "Red Currant",
+      "source_id": "RedCurrant/-54,190",
+      "position": [
+        -54000,
+        190000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Red Currant 5",
+      "category": "Red Currant",
+      "source_id": "RedCurrant/5,134",
+      "position": [
+        5000,
+        134000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Red Currant 6",
+      "category": "Red Currant",
+      "source_id": "RedCurrant/62,188",
+      "position": [
+        62000,
+        188000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Red Currant 7",
+      "category": "Red Currant",
+      "source_id": "RedCurrant/64,242",
+      "position": [
+        64000,
+        242000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Red Currant 8",
+      "category": "Red Currant",
+      "source_id": "RedCurrant/211,55",
+      "position": [
+        211000,
+        55000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Papaya 1",
+      "category": "Papaya",
+      "source_id": "Papaya/-420,266",
+      "position": [
+        -420000,
+        266000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Papaya 2",
+      "category": "Papaya",
+      "source_id": "Papaya/-327,127",
+      "position": [
+        -327000,
+        127000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Papaya 3",
+      "category": "Papaya",
+      "source_id": "Papaya/-316,127",
+      "position": [
+        -316000,
+        127000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Papaya 4",
+      "category": "Papaya",
+      "source_id": "Papaya/-286,124",
+      "position": [
+        -286000,
+        124000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Papaya 5",
+      "category": "Papaya",
+      "source_id": "Papaya/-20,-197",
+      "position": [
+        -20000,
+        -197000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Papaya 6",
+      "category": "Papaya",
+      "source_id": "Papaya/-12,-243",
+      "position": [
+        -12000,
+        -243000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Papaya 7",
+      "category": "Papaya",
+      "source_id": "Papaya/-7,-284",
+      "position": [
+        -7000,
+        -284000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Papaya 8",
+      "category": "Papaya",
+      "source_id": "Papaya/50,-220",
+      "position": [
+        50000,
+        -220000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Papaya 9",
+      "category": "Papaya",
+      "source_id": "Papaya/153,-251",
+      "position": [
+        153000,
+        -251000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Papaya 10",
+      "category": "Papaya",
+      "source_id": "Papaya/176,-382",
+      "position": [
+        176000,
+        -382000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Papaya 11",
+      "category": "Papaya",
+      "source_id": "Papaya/179,-367",
+      "position": [
+        179000,
+        -367000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Papaya 12",
+      "category": "Papaya",
+      "source_id": "Papaya/405,-7",
+      "position": [
+        405000,
+        -7000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Papaya 13",
+      "category": "Papaya",
+      "source_id": "Papaya/68120.72,230064.674",
+      "position": [
+        68120.72,
+        230064.674
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Pumpkin 1",
+      "category": "Pumpkin",
+      "source_id": "Pumpkin/-350,342",
+      "position": [
+        -350000,
+        342000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Pumpkin 2",
+      "category": "Pumpkin",
+      "source_id": "Pumpkin/-204,527",
+      "position": [
+        -204000,
+        527000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Pumpkin 3",
+      "category": "Pumpkin",
+      "source_id": "Pumpkin/-190,-164",
+      "position": [
+        -190000,
+        -164000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Pumpkin 4",
+      "category": "Pumpkin",
+      "source_id": "Pumpkin/27,-240",
+      "position": [
+        27000,
+        -240000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Pumpkin 5",
+      "category": "Pumpkin",
+      "source_id": "Pumpkin/206,-347",
+      "position": [
+        206000,
+        -347000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Pumpkin 6",
+      "category": "Pumpkin",
+      "source_id": "Pumpkin/279,-225",
+      "position": [
+        279000,
+        -225000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Pumpkin 7",
+      "category": "Pumpkin",
+      "source_id": "Pumpkin/287,-281",
+      "position": [
+        287000,
+        -281000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Pumpkin 8",
+      "category": "Pumpkin",
+      "source_id": "Pumpkin/342,-268",
+      "position": [
+        342000,
+        -268000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Cashew 1",
+      "category": "Cashew",
+      "source_id": "Cashew/-416,415",
+      "position": [
+        -416000,
+        415000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Cashew 2",
+      "category": "Cashew",
+      "source_id": "Cashew/-293,314",
+      "position": [
+        -293000,
+        314000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Cashew 3",
+      "category": "Cashew",
+      "source_id": "Cashew/-6,-150",
+      "position": [
+        -6000,
+        -150000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Cashew 4",
+      "category": "Cashew",
+      "source_id": "Cashew/148,-332",
+      "position": [
+        148000,
+        -332000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Cashew 5",
+      "category": "Cashew",
+      "source_id": "Cashew/171,-309",
+      "position": [
+        171000,
+        -309000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Cashew 6",
+      "category": "Cashew",
+      "source_id": "Cashew/299,140",
+      "position": [
+        299000,
+        140000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato 1",
+      "category": "Potato",
+      "source_id": "Potato/-85,207",
+      "position": [
+        -85000,
+        207000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato 2",
+      "category": "Potato",
+      "source_id": "Potato/-83,207",
+      "position": [
+        -83000,
+        207000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato 3",
+      "category": "Potato",
+      "source_id": "Potato/-68,177",
+      "position": [
+        -68000,
+        177000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato 4",
+      "category": "Potato",
+      "source_id": "Potato/-56,202",
+      "position": [
+        -56000,
+        202000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato 5",
+      "category": "Potato",
+      "source_id": "Potato/-48,167",
+      "position": [
+        -48000,
+        167000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato 6",
+      "category": "Potato",
+      "source_id": "Potato/-47,185",
+      "position": [
+        -47000,
+        185000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato 7",
+      "category": "Potato",
+      "source_id": "Potato/0,113",
+      "position": [
+        0,
+        113000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato 8",
+      "category": "Potato",
+      "source_id": "Potato/29,139",
+      "position": [
+        29000,
+        139000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato 9",
+      "category": "Potato",
+      "source_id": "Potato/40,218",
+      "position": [
+        40000,
+        218000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato 10",
+      "category": "Potato",
+      "source_id": "Potato/54,243",
+      "position": [
+        54000,
+        243000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato 11",
+      "category": "Potato",
+      "source_id": "Potato/63,166",
+      "position": [
+        63000,
+        166000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato 12",
+      "category": "Potato",
+      "source_id": "Potato/52459,203442",
+      "position": [
+        52459,
+        203442
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Radish 1",
+      "category": "Radish",
+      "source_id": "Radish/-176,-61",
+      "position": [
+        -176000,
+        -61000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Radish 2",
+      "category": "Radish",
+      "source_id": "Radish/-144,-2",
+      "position": [
+        -144000,
+        -2000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Radish 3",
+      "category": "Radish",
+      "source_id": "Radish/-121,-1",
+      "position": [
+        -121000,
+        -1000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Radish 4",
+      "category": "Radish",
+      "source_id": "Radish/-86,2",
+      "position": [
+        -86000,
+        2000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Radish 5",
+      "category": "Radish",
+      "source_id": "Radish/-44,-126",
+      "position": [
+        -44000,
+        -126000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Radish 6",
+      "category": "Radish",
+      "source_id": "Radish/35,-172",
+      "position": [
+        35000,
+        -172000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fireweed 1",
+      "category": "Fireweed",
+      "source_id": "Fireweed/-183,-75",
+      "position": [
+        -183000,
+        -75000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fireweed 2",
+      "category": "Fireweed",
+      "source_id": "Fireweed/-174,544",
+      "position": [
+        -174000,
+        544000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fireweed 3",
+      "category": "Fireweed",
+      "source_id": "Fireweed/-164,3",
+      "position": [
+        -164000,
+        3000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fireweed 4",
+      "category": "Fireweed",
+      "source_id": "Fireweed/-158,536",
+      "position": [
+        -158000,
+        536000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fireweed 5",
+      "category": "Fireweed",
+      "source_id": "Fireweed/-156,542",
+      "position": [
+        -156000,
+        542000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fireweed 6",
+      "category": "Fireweed",
+      "source_id": "Fireweed/-149,535",
+      "position": [
+        -149000,
+        535000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fireweed 7",
+      "category": "Fireweed",
+      "source_id": "Fireweed/-147,-61",
+      "position": [
+        -147000,
+        -61000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fireweed 8",
+      "category": "Fireweed",
+      "source_id": "Fireweed/-94,-15",
+      "position": [
+        -94000,
+        -15000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fireweed 9",
+      "category": "Fireweed",
+      "source_id": "Fireweed/-89,8",
+      "position": [
+        -89000,
+        8000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fireweed 10",
+      "category": "Fireweed",
+      "source_id": "Fireweed/9,425",
+      "position": [
+        9000,
+        425000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fireweed 11",
+      "category": "Fireweed",
+      "source_id": "Fireweed/160,-306",
+      "position": [
+        160000,
+        -306000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fireweed 12",
+      "category": "Fireweed",
+      "source_id": "Fireweed/304,-91",
+      "position": [
+        304000,
+        -91000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Marigold 1",
+      "category": "Marigold",
+      "source_id": "Marigold/-417,245",
+      "position": [
+        -417000,
+        245000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Marigold 2",
+      "category": "Marigold",
+      "source_id": "Marigold/-323,135",
+      "position": [
+        -323000,
+        135000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Marigold 3",
+      "category": "Marigold",
+      "source_id": "Marigold/-300,140",
+      "position": [
+        -300000,
+        140000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Marigold 4",
+      "category": "Marigold",
+      "source_id": "Marigold/-204,526",
+      "position": [
+        -204000,
+        526000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Marigold 5",
+      "category": "Marigold",
+      "source_id": "Marigold/-191,-162",
+      "position": [
+        -191000,
+        -162000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Marigold 6",
+      "category": "Marigold",
+      "source_id": "Marigold/18,-322",
+      "position": [
+        18000,
+        -322000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Marigold 7",
+      "category": "Marigold",
+      "source_id": "Marigold/22,253",
+      "position": [
+        22000,
+        253000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Marigold 8",
+      "category": "Marigold",
+      "source_id": "Marigold/42,-216",
+      "position": [
+        42000,
+        -216000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Marigold 9",
+      "category": "Marigold",
+      "source_id": "Marigold/179,-360",
+      "position": [
+        179000,
+        -360000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Marigold 10",
+      "category": "Marigold",
+      "source_id": "Marigold/214,-347",
+      "position": [
+        214000,
+        -347000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Marigold 11",
+      "category": "Marigold",
+      "source_id": "Marigold/269,-201",
+      "position": [
+        269000,
+        -201000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Marigold 12",
+      "category": "Marigold",
+      "source_id": "Marigold/284,-232",
+      "position": [
+        284000,
+        -232000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato Vine 1",
+      "category": "Potato Vine",
+      "source_id": "PotatoVine/-109,221",
+      "position": [
+        -109000,
+        221000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato Vine 2",
+      "category": "Potato Vine",
+      "source_id": "PotatoVine/-98,199",
+      "position": [
+        -98000,
+        199000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato Vine 3",
+      "category": "Potato Vine",
+      "source_id": "PotatoVine/-96,203",
+      "position": [
+        -96000,
+        203000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato Vine 4",
+      "category": "Potato Vine",
+      "source_id": "PotatoVine/-49,194",
+      "position": [
+        -49000,
+        194000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato Vine 5",
+      "category": "Potato Vine",
+      "source_id": "PotatoVine/-45,160",
+      "position": [
+        -45000,
+        160000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato Vine 6",
+      "category": "Potato Vine",
+      "source_id": "PotatoVine/28,216",
+      "position": [
+        28000,
+        216000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Potato Vine 7",
+      "category": "Potato Vine",
+      "source_id": "PotatoVine/52,203",
+      "position": [
+        52000,
+        203000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sumac 1",
+      "category": "Sumac",
+      "source_id": "Sumac/203,153",
+      "position": [
+        203000,
+        153000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sumac 2",
+      "category": "Sumac",
+      "source_id": "Sumac/228,150",
+      "position": [
+        228000,
+        150000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sumac 3",
+      "category": "Sumac",
+      "source_id": "Sumac/234,23",
+      "position": [
+        234000,
+        23000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sumac 4",
+      "category": "Sumac",
+      "source_id": "Sumac/250,44",
+      "position": [
+        250000,
+        44000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sumac 5",
+      "category": "Sumac",
+      "source_id": "Sumac/261,1",
+      "position": [
+        261000,
+        1000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sumac 6",
+      "category": "Sumac",
+      "source_id": "Sumac/277,122",
+      "position": [
+        277000,
+        122000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sumac 7",
+      "category": "Sumac",
+      "source_id": "Sumac/294,99",
+      "position": [
+        294000,
+        99000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sumac 8",
+      "category": "Sumac",
+      "source_id": "Sumac/295,-5",
+      "position": [
+        295000,
+        -5000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sumac 9",
+      "category": "Sumac",
+      "source_id": "Sumac/297,-36",
+      "position": [
+        297000,
+        -36000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sumac 10",
+      "category": "Sumac",
+      "source_id": "Sumac/311,-36",
+      "position": [
+        311000,
+        -36000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sumac 11",
+      "category": "Sumac",
+      "source_id": "Sumac/319,-40",
+      "position": [
+        319000,
+        -40000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sumac 12",
+      "category": "Sumac",
+      "source_id": "Sumac/321,-35",
+      "position": [
+        321000,
+        -35000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sumac 13",
+      "category": "Sumac",
+      "source_id": "Sumac/363,32",
+      "position": [
+        363000,
+        32000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sumac 14",
+      "category": "Sumac",
+      "source_id": "Sumac/367,10",
+      "position": [
+        367000,
+        10000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sumac 15",
+      "category": "Sumac",
+      "source_id": "Sumac/370,26",
+      "position": [
+        370000,
+        26000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sumac 16",
+      "category": "Sumac",
+      "source_id": "Sumac/373,27",
+      "position": [
+        373000,
+        27000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sumac 17",
+      "category": "Sumac",
+      "source_id": "Sumac/379,27",
+      "position": [
+        379000,
+        27000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sumac 18",
+      "category": "Sumac",
+      "source_id": "Sumac/392,15",
+      "position": [
+        392000,
+        15000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sunchoke 1",
+      "category": "Sunchoke",
+      "source_id": "Sunchoke/-469,297",
+      "position": [
+        -469000,
+        297000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sunchoke 2",
+      "category": "Sunchoke",
+      "source_id": "Sunchoke/-350,334",
+      "position": [
+        -350000,
+        334000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sunchoke 3",
+      "category": "Sunchoke",
+      "source_id": "Sunchoke/-204,530",
+      "position": [
+        -204000,
+        530000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Sunchoke 4",
+      "category": "Sunchoke",
+      "source_id": "Sunchoke/215,-348",
+      "position": [
+        215000,
+        -348000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Trillium 1",
+      "category": "Trillium",
+      "source_id": "Trillium/-410,269",
+      "position": [
+        -410000,
+        269000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Trillium 2",
+      "category": "Trillium",
+      "source_id": "Trillium/-330,118",
+      "position": [
+        -330000,
+        118000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Trillium 3",
+      "category": "Trillium",
+      "source_id": "Trillium/-295,110",
+      "position": [
+        -295000,
+        110000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Trillium 4",
+      "category": "Trillium",
+      "source_id": "Trillium/-81,283",
+      "position": [
+        -81000,
+        283000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Trillium 5",
+      "category": "Trillium",
+      "source_id": "Trillium/3,-221",
+      "position": [
+        3000,
+        -221000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Trillium 6",
+      "category": "Trillium",
+      "source_id": "Trillium/61,310",
+      "position": [
+        61000,
+        310000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Trillium 7",
+      "category": "Trillium",
+      "source_id": "Trillium/182,-367",
+      "position": [
+        182000,
+        -367000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Trillium 8",
+      "category": "Trillium",
+      "source_id": "Trillium/297,-94",
+      "position": [
+        297000,
+        -94000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Trillium 9",
+      "category": "Trillium",
+      "source_id": "Trillium/306,-109",
+      "position": [
+        306000,
+        -109000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 1",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/-417,373",
+      "position": [
+        -417000,
+        373000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 2",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/-331,194",
+      "position": [
+        -331000,
+        194000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 3",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/-165,540",
+      "position": [
+        -165000,
+        540000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 4",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/-162,539",
+      "position": [
+        -162000,
+        539000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 5",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/-152,537",
+      "position": [
+        -152000,
+        537000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 6",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/-95,219",
+      "position": [
+        -95000,
+        219000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 7",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/-93,198",
+      "position": [
+        -93000,
+        198000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 8",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/-79,201",
+      "position": [
+        -79000,
+        201000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 9",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/-70,180",
+      "position": [
+        -70000,
+        180000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 10",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/-52,181",
+      "position": [
+        -52000,
+        181000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 11",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/-42,162",
+      "position": [
+        -42000,
+        162000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 12",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/5,132",
+      "position": [
+        5000,
+        132000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 13",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/24,202",
+      "position": [
+        24000,
+        202000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 14",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/55,245",
+      "position": [
+        55000,
+        245000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 15",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/64,204",
+      "position": [
+        64000,
+        204000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 16",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/284,-222",
+      "position": [
+        284000,
+        -222000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 17",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/305,-101",
+      "position": [
+        305000,
+        -101000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 18",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/310,-90",
+      "position": [
+        310000,
+        -90000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Azure Apol 19",
+      "category": "Azure Apol",
+      "source_id": "AzureApol/311,-394",
+      "position": [
+        311000,
+        -394000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 1",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/-407,273",
+      "position": [
+        -407000,
+        273000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 2",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/-331,189",
+      "position": [
+        -331000,
+        189000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 3",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/-321,126",
+      "position": [
+        -321000,
+        126000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 4",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/-284,138",
+      "position": [
+        -284000,
+        138000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 5",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/-112,221",
+      "position": [
+        -112000,
+        221000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 6",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/-97,325",
+      "position": [
+        -97000,
+        325000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 7",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/-80,209",
+      "position": [
+        -80000,
+        209000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 8",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/-74,183",
+      "position": [
+        -74000,
+        183000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 9",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/-35,-108",
+      "position": [
+        -35000,
+        -108000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 10",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/-34,-137",
+      "position": [
+        -34000,
+        -137000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 11",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/-5,141",
+      "position": [
+        -5000,
+        141000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 12",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/11,295",
+      "position": [
+        11000,
+        295000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 13",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/37,215",
+      "position": [
+        37000,
+        215000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 14",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/53,242",
+      "position": [
+        53000,
+        242000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 15",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/70,206",
+      "position": [
+        70000,
+        206000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 16",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/219,150",
+      "position": [
+        219000,
+        150000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 17",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/237,48",
+      "position": [
+        237000,
+        48000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 18",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/246,45",
+      "position": [
+        246000,
+        45000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 19",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/256,47",
+      "position": [
+        256000,
+        47000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 20",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/303,36",
+      "position": [
+        303000,
+        36000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 21",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/320,-34",
+      "position": [
+        320000,
+        -34000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Crimson Apol 22",
+      "category": "Crimson Apol",
+      "source_id": "CrimApol/368,29",
+      "position": [
+        368000,
+        29000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Violet Apol 1",
+      "category": "Violet Apol",
+      "source_id": "VioletApol/-164,5",
+      "position": [
+        -164000,
+        5000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Violet Apol 2",
+      "category": "Violet Apol",
+      "source_id": "VioletApol/-157,4",
+      "position": [
+        -157000,
+        4000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Violet Apol 3",
+      "category": "Violet Apol",
+      "source_id": "VioletApol/-118,-12",
+      "position": [
+        -118000,
+        -12000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Violet Apol 4",
+      "category": "Violet Apol",
+      "source_id": "VioletApol/-102,-6",
+      "position": [
+        -102000,
+        -6000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Violet Apol 5",
+      "category": "Violet Apol",
+      "source_id": "VioletApol/-55,64",
+      "position": [
+        -55000,
+        64000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Violet Apol 6",
+      "category": "Violet Apol",
+      "source_id": "VioletApol/-53,-148",
+      "position": [
+        -53000,
+        -148000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Violet Apol 7",
+      "category": "Violet Apol",
+      "source_id": "VioletApol/-17,-124",
+      "position": [
+        -17000,
+        -124000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Violet Apol 8",
+      "category": "Violet Apol",
+      "source_id": "VioletApol/-15,-290",
+      "position": [
+        -15000,
+        -290000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Agave 1",
+      "category": "Agave",
+      "source_id": "Agave/-370,376",
+      "position": [
+        -370000,
+        376000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Agave 2",
+      "category": "Agave",
+      "source_id": "Agave/-350,343",
+      "position": [
+        -350000,
+        343000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Agave 3",
+      "category": "Agave",
+      "source_id": "Agave/-205,528",
+      "position": [
+        -205000,
+        528000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Agave 4",
+      "category": "Agave",
+      "source_id": "Agave/-191,-163",
+      "position": [
+        -191000,
+        -163000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Agave 5",
+      "category": "Agave",
+      "source_id": "Agave/212,-347",
+      "position": [
+        212000,
+        -347000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Agave 6",
+      "category": "Agave",
+      "source_id": "Agave/261,-258",
+      "position": [
+        261000,
+        -258000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Agave 7",
+      "category": "Agave",
+      "source_id": "Agave/271,-203",
+      "position": [
+        271000,
+        -203000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Agave 8",
+      "category": "Agave",
+      "source_id": "Agave/285,-232",
+      "position": [
+        285000,
+        -232000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fiddlehead 1",
+      "category": "Fiddlehead",
+      "source_id": "Fiddlehead/-427,246",
+      "position": [
+        -427000,
+        246000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fiddlehead 2",
+      "category": "Fiddlehead",
+      "source_id": "Fiddlehead/-405,272",
+      "position": [
+        -405000,
+        272000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fiddlehead 3",
+      "category": "Fiddlehead",
+      "source_id": "Fiddlehead/-324,110",
+      "position": [
+        -324000,
+        110000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fiddlehead 4",
+      "category": "Fiddlehead",
+      "source_id": "Fiddlehead/-299,125",
+      "position": [
+        -299000,
+        125000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fiddlehead 5",
+      "category": "Fiddlehead",
+      "source_id": "Fiddlehead/-280,134",
+      "position": [
+        -280000,
+        134000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fiddlehead 6",
+      "category": "Fiddlehead",
+      "source_id": "Fiddlehead/-85,268",
+      "position": [
+        -85000,
+        268000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fiddlehead 7",
+      "category": "Fiddlehead",
+      "source_id": "Fiddlehead/22,-172",
+      "position": [
+        22000,
+        -172000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fiddlehead 8",
+      "category": "Fiddlehead",
+      "source_id": "Fiddlehead/35,-172",
+      "position": [
+        35000,
+        -172000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Fiddlehead 9",
+      "category": "Fiddlehead",
+      "source_id": "Fiddlehead/179,-362",
+      "position": [
+        179000,
+        -362000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Chanterelle 1",
+      "category": "Chanterelle",
+      "source_id": "Chanterelle/238,148",
+      "position": [
+        238000,
+        148000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Chanterelle 2",
+      "category": "Chanterelle",
+      "source_id": "Chanterelle/300,-34",
+      "position": [
+        300000,
+        -34000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Chanterelle 3",
+      "category": "Chanterelle",
+      "source_id": "Chanterelle/320,-36",
+      "position": [
+        320000,
+        -36000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Chanterelle 4",
+      "category": "Chanterelle",
+      "source_id": "Chanterelle/323,-35",
+      "position": [
+        323000,
+        -35000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Chanterelle 5",
+      "category": "Chanterelle",
+      "source_id": "Chanterelle/327,45",
+      "position": [
+        327000,
+        45000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Chanterelle 6",
+      "category": "Chanterelle",
+      "source_id": "Chanterelle/375,33",
+      "position": [
+        375000,
+        33000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Chanterelle 7",
+      "category": "Chanterelle",
+      "source_id": "Chanterelle/379,19",
+      "position": [
+        379000,
+        19000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 1",
+      "category": "Russula",
+      "source_id": "Russula/37,-373",
+      "position": [
+        37000,
+        -373000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 2",
+      "category": "Russula",
+      "source_id": "Russula/227,32",
+      "position": [
+        227000,
+        32000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 3",
+      "category": "Russula",
+      "source_id": "Russula/232,33",
+      "position": [
+        232000,
+        33000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 4",
+      "category": "Russula",
+      "source_id": "Russula/232,154",
+      "position": [
+        232000,
+        154000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 5",
+      "category": "Russula",
+      "source_id": "Russula/280,3",
+      "position": [
+        280000,
+        3000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 6",
+      "category": "Russula",
+      "source_id": "Russula/291,1",
+      "position": [
+        291000,
+        1000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 7",
+      "category": "Russula",
+      "source_id": "Russula/315,-37",
+      "position": [
+        315000,
+        -37000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 8",
+      "category": "Russula",
+      "source_id": "Russula/324,-36",
+      "position": [
+        324000,
+        -36000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 9",
+      "category": "Russula",
+      "source_id": "Russula/325,-34",
+      "position": [
+        325000,
+        -34000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 10",
+      "category": "Russula",
+      "source_id": "Russula/326,-37",
+      "position": [
+        326000,
+        -37000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 11",
+      "category": "Russula",
+      "source_id": "Russula/327,45",
+      "position": [
+        327000,
+        45000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 12",
+      "category": "Russula",
+      "source_id": "Russula/360,32",
+      "position": [
+        360000,
+        32000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 13",
+      "category": "Russula",
+      "source_id": "Russula/361,26",
+      "position": [
+        361000,
+        26000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 14",
+      "category": "Russula",
+      "source_id": "Russula/363,22",
+      "position": [
+        363000,
+        22000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 15",
+      "category": "Russula",
+      "source_id": "Russula/363,28",
+      "position": [
+        363000,
+        28000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 16",
+      "category": "Russula",
+      "source_id": "Russula/364,30",
+      "position": [
+        364000,
+        30000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 17",
+      "category": "Russula",
+      "source_id": "Russula/365,24",
+      "position": [
+        365000,
+        24000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 18",
+      "category": "Russula",
+      "source_id": "Russula/366,20",
+      "position": [
+        366000,
+        20000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 19",
+      "category": "Russula",
+      "source_id": "Russula/367,6",
+      "position": [
+        367000,
+        6000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 20",
+      "category": "Russula",
+      "source_id": "Russula/375,32",
+      "position": [
+        375000,
+        32000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 21",
+      "category": "Russula",
+      "source_id": "Russula/380,26",
+      "position": [
+        380000,
+        26000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Russula 22",
+      "category": "Russula",
+      "source_id": "Russula/389,12",
+      "position": [
+        389000,
+        12000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Clam Rock 1",
+      "category": "Clam Rock",
+      "source_id": "ClamRock/-300,51",
+      "position": [
+        -300000,
+        51000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Clam Rock 2",
+      "category": "Clam Rock",
+      "source_id": "ClamRock/-300,480",
+      "position": [
+        -300000,
+        480000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Clam Rock 3",
+      "category": "Clam Rock",
+      "source_id": "ClamRock/-269,362",
+      "position": [
+        -269000,
+        362000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Clam Rock 4",
+      "category": "Clam Rock",
+      "source_id": "ClamRock/-228,56",
+      "position": [
+        -228000,
+        56000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Clam Rock 5",
+      "category": "Clam Rock",
+      "source_id": "ClamRock/-222,135",
+      "position": [
+        -222000,
+        135000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Clam Rock 6",
+      "category": "Clam Rock",
+      "source_id": "ClamRock/-81,-156",
+      "position": [
+        -81000,
+        -156000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Clam Rock 7",
+      "category": "Clam Rock",
+      "source_id": "ClamRock/60,-105",
+      "position": [
+        60000,
+        -105000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Clam Rock 8",
+      "category": "Clam Rock",
+      "source_id": "ClamRock/214,-69",
+      "position": [
+        214000,
+        -69000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Clam Rock 9",
+      "category": "Clam Rock",
+      "source_id": "ClamRock/285,19",
+      "position": [
+        285000,
+        19000
+      ],
+      "description": "Food location from the local Gateway reference snapshot.",
+      "show_label": false
+    }
+  ]
+}
+

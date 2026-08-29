@@ -1,0 +1,828 @@
+{
+  "format_version": 1,
+  "source": {
+    "name": "VulnonaMAP",
+    "url": "https://vulnona.com/game/map/",
+    "map": "Gateway",
+    "map_version": "0.21.772",
+    "retrieved": "2026-08-28"
+  },
+  "note": "Editable offline snapshot of Gateway region and landmark label centers.",
+  "items": [
+    {
+      "name": "Delta",
+      "category": "Region",
+      "source_id": "area/Delta",
+      "position": [
+        33000,
+        177200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Delta Bay",
+      "category": "Region",
+      "source_id": "area/Delta Bay",
+      "position": [
+        175000,
+        298200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "East Coast",
+      "category": "Region",
+      "source_id": "area/East Coast",
+      "position": [
+        -131000,
+        564200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Eastern Lake",
+      "category": "Region",
+      "source_id": "area/Eastern Lake",
+      "position": [
+        -157000,
+        398000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Forks Plains",
+      "category": "Region",
+      "source_id": "area/Forks Plains",
+      "position": [
+        -119000,
+        246000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Highland",
+      "category": "Region",
+      "source_id": "area/Highland",
+      "position": [
+        -127000,
+        -79800
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Central Jungle",
+      "category": "Region",
+      "source_id": "area/Central Jungle",
+      "position": [
+        -49000,
+        71000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Lagoon",
+      "category": "Region",
+      "source_id": "area/Lagoon",
+      "position": [
+        334200,
+        -87000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Mudflats",
+      "category": "Region",
+      "source_id": "area/Mudflats",
+      "position": [
+        101000,
+        -394000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "NE Cape",
+      "category": "Region",
+      "source_id": "area/NE Cape",
+      "position": [
+        -459800,
+        433200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Northern Beach",
+      "category": "Region",
+      "source_id": "area/Northern Beach",
+      "position": [
+        -379000,
+        114200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "North Plains",
+      "category": "Region",
+      "source_id": "area/North Plains",
+      "position": [
+        -345000,
+        353000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Northern Jungle",
+      "category": "Region",
+      "source_id": "area/Northern Jungle",
+      "position": [
+        -321000,
+        166000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "NW. Ridge",
+      "category": "Region",
+      "source_id": "area/NW. Ridge",
+      "position": [
+        -247800,
+        -153000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Port",
+      "category": "Region",
+      "source_id": "area/Port",
+      "position": [
+        -307800,
+        548000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Rail Beach",
+      "category": "Region",
+      "source_id": "area/Rail Beach",
+      "position": [
+        6200,
+        -388000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Sandbank Bay",
+      "category": "Region",
+      "source_id": "area/Sandbank Bay",
+      "position": [
+        74200,
+        399200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Shallows",
+      "category": "Region",
+      "source_id": "area/Shallows",
+      "position": [
+        270200,
+        225200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "South Plains",
+      "category": "Region",
+      "source_id": "area/South Plains",
+      "position": [
+        250200,
+        -302000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Southern Beach",
+      "category": "Region",
+      "source_id": "area/Southern Beach",
+      "position": [
+        397000,
+        130200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Southern Strait",
+      "category": "Region",
+      "source_id": "area/Southern Strait",
+      "position": [
+        238200,
+        -211000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Spiky Isle",
+      "category": "Region",
+      "source_id": "area/Spiky Isle",
+      "position": [
+        -379000,
+        -294800
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Swamps",
+      "category": "Region",
+      "source_id": "area/Swamps",
+      "position": [
+        273000,
+        74200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "The Pit",
+      "category": "Region",
+      "source_id": "area/The Pit",
+      "position": [
+        329000,
+        -394000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "West Rail",
+      "category": "Region",
+      "source_id": "area/West Rail",
+      "position": [
+        -3800,
+        -238000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Water Access",
+      "category": "Region",
+      "source_id": "area/Water Access",
+      "position": [
+        -213800,
+        87000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Central Dome (Hexagon)",
+      "category": "Landmark",
+      "source_id": "land/Central Dome (Hexagon)",
+      "position": [
+        104200,
+        -42800
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Dam",
+      "category": "Landmark",
+      "source_id": "land/Dam",
+      "position": [
+        -285800,
+        72200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Estuary Weir",
+      "category": "Landmark",
+      "source_id": "land/Estuary Weir",
+      "position": [
+        141000,
+        240000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Highland Bridge",
+      "category": "Landmark",
+      "source_id": "land/Highland Bridge",
+      "position": [
+        -211000,
+        9000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Log Bridge",
+      "category": "Landmark",
+      "source_id": "land/Log Bridge",
+      "position": [
+        -221000,
+        360200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Mad Grotto",
+      "category": "Landmark",
+      "source_id": "land/Mad Grotto",
+      "position": [
+        -45000,
+        213200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Pipes",
+      "category": "Landmark",
+      "source_id": "land/Pipes",
+      "position": [
+        191000,
+        47200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Pit's Antenna",
+      "category": "Landmark",
+      "source_id": "land/Pit's Antenna",
+      "position": [
+        313000,
+        -430800
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Radio Tower",
+      "category": "Landmark",
+      "source_id": "land/Radio Tower",
+      "position": [
+        -221000,
+        543200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Volcano (Extinct)",
+      "category": "Landmark",
+      "source_id": "land/Volcano (Extinct)",
+      "position": [
+        -267800,
+        250000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Site C14 - Derelict Base",
+      "category": "Landmark",
+      "source_id": "land/Site C14 - Derelict Base",
+      "position": [
+        -429000,
+        201200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Site E12 - Dam lab",
+      "category": "Landmark",
+      "source_id": "land/Site E12 - Dam lab",
+      "position": [
+        -309000,
+        92000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Site E15 - Volcano Notrh",
+      "category": "Landmark",
+      "source_id": "land/Site E15 - Volcano Notrh",
+      "position": [
+        -333000,
+        246000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Site F11 - Lakeport",
+      "category": "Landmark",
+      "source_id": "land/Site F11 - Lakeport",
+      "position": [
+        -239000,
+        37200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Site F16 - Volcano East",
+      "category": "Landmark",
+      "source_id": "land/Site F16 - Volcano East",
+      "position": [
+        -255000,
+        329000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Site F19 - Port",
+      "category": "Landmark",
+      "source_id": "land/Site F19 - Port",
+      "position": [
+        -263000,
+        501000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Site G15 - Volcano South",
+      "category": "Landmark",
+      "source_id": "land/Site G15 - Volcano South",
+      "position": [
+        -221800,
+        269000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Site G20 - Radio Base",
+      "category": "Landmark",
+      "source_id": "land/Site G20 - Radio Base",
+      "position": [
+        -203800,
+        538200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Storage G19",
+      "category": "Landmark",
+      "source_id": "land/Storage G19",
+      "position": [
+        -199800,
+        483200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Site I12 - RS",
+      "category": "Landmark",
+      "source_id": "land/Site I12 - RS",
+      "position": [
+        -109000,
+        81000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Site I19 - Water Treatment",
+      "category": "Landmark",
+      "source_id": "land/Site I19 - Water Treatment",
+      "position": [
+        -83000,
+        488200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Site J17",
+      "category": "Landmark",
+      "source_id": "land/Site J17",
+      "position": [
+        -25800,
+        362000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Site K15 - Delta side",
+      "category": "Landmark",
+      "source_id": "land/Site K15 - Delta side",
+      "position": [
+        26200,
+        245200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Site L11 - Hex's Entrance",
+      "category": "Landmark",
+      "source_id": "land/Site L11 - Hex's Entrance",
+      "position": [
+        87000,
+        30000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Site P04 - ThePit",
+      "category": "Landmark",
+      "source_id": "land/Site P04 - ThePit",
+      "position": [
+        293000,
+        -374000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "TN.F20 - Port Tunnel",
+      "category": "Landmark",
+      "source_id": "land/TN.F20 - Port Tunnel",
+      "position": [
+        -233000,
+        535200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "TN.M13 - Swamp Tunnel",
+      "category": "Landmark",
+      "source_id": "land/TN.M13 - Swamp Tunnel",
+      "position": [
+        136200,
+        123200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Gate J16",
+      "category": "Landmark",
+      "source_id": "land/Gate J16",
+      "position": [
+        -37000,
+        297000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Gate K15",
+      "category": "Landmark",
+      "source_id": "land/Gate K15",
+      "position": [
+        4200,
+        275000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Gate L15",
+      "category": "Landmark",
+      "source_id": "land/Gate L15",
+      "position": [
+        63000,
+        270200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Gate L12",
+      "category": "Landmark",
+      "source_id": "land/Gate L12",
+      "position": [
+        69000,
+        65000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Gate K12",
+      "category": "Landmark",
+      "source_id": "land/Gate K12",
+      "position": [
+        24200,
+        80200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Collapsed point F17",
+      "category": "Landmark",
+      "source_id": "land/Collapsed point F17",
+      "position": [
+        -245800,
+        386000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Gate G17",
+      "category": "Landmark",
+      "source_id": "land/Gate G17",
+      "position": [
+        -209800,
+        402200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Collapsed point G18",
+      "category": "Landmark",
+      "source_id": "land/Collapsed point G18",
+      "position": [
+        -195000,
+        450000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Collapsed point G19",
+      "category": "Landmark",
+      "source_id": "land/Collapsed point G19",
+      "position": [
+        -199000,
+        508000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Gate H19",
+      "category": "Landmark",
+      "source_id": "land/Gate H19",
+      "position": [
+        -159800,
+        505000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Gate I18",
+      "category": "Landmark",
+      "source_id": "land/Gate I18",
+      "position": [
+        -81800,
+        439000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Gate H16",
+      "category": "Landmark",
+      "source_id": "land/Gate H16",
+      "position": [
+        -163800,
+        305000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Gate D14",
+      "category": "Landmark",
+      "source_id": "land/Gate D14",
+      "position": [
+        -381000,
+        216200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Gate C14",
+      "category": "Landmark",
+      "source_id": "land/Gate C14",
+      "position": [
+        -425800,
+        230200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Gate C15",
+      "category": "Landmark",
+      "source_id": "land/Gate C15",
+      "position": [
+        -451000,
+        263000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Collapsed point C16",
+      "category": "Landmark",
+      "source_id": "land/Collapsed point C16",
+      "position": [
+        -419000,
+        320000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Gate C17",
+      "category": "Landmark",
+      "source_id": "land/Gate C17",
+      "position": [
+        -411800,
+        355000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Collapsed point D17",
+      "category": "Landmark",
+      "source_id": "land/Collapsed point D17",
+      "position": [
+        -399000,
+        399200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Gate D18",
+      "category": "Landmark",
+      "source_id": "land/Gate D18",
+      "position": [
+        -373000,
+        412200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Collapsed point E17",
+      "category": "Landmark",
+      "source_id": "land/Collapsed point E17",
+      "position": [
+        -315800,
+        395200
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Gate F17",
+      "category": "Landmark",
+      "source_id": "land/Gate F17",
+      "position": [
+        -261800,
+        397000
+      ],
+      "description": "Named location label from the local Gateway reference snapshot.",
+      "show_label": true
+    }
+  ]
+}
+

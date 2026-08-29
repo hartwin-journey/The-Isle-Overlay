@@ -1,0 +1,311 @@
+{
+  "format_version": 1,
+  "source": {
+    "name": "VulnonaMAP",
+    "url": "https://vulnona.com/game/map/",
+    "map": "Gateway",
+    "map_version": "0.21.772",
+    "retrieved": "2026-08-28"
+  },
+  "note": "Named water label centers. The detailed shoreline and water geometry is the independent map/gateway_water.webp raster layer.",
+  "items": [
+    {
+      "name": "Cascades",
+      "category": "Water",
+      "source_id": "water/Cascades",
+      "position": [
+        -171000,
+        175200
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Coastal Pond",
+      "category": "Water",
+      "source_id": "water/Coastal Pond",
+      "position": [
+        50200,
+        330200
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Dam Lake",
+      "category": "Water",
+      "source_id": "water/Dam Lake",
+      "position": [
+        -267000,
+        79200
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Delta",
+      "category": "Water",
+      "source_id": "water/Delta",
+      "position": [
+        43000,
+        189200
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Delta River",
+      "category": "Water",
+      "source_id": "water/Delta River",
+      "position": [
+        -87800,
+        237000
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "East Lake",
+      "category": "Water",
+      "source_id": "water/East Lake",
+      "position": [
+        -137000,
+        460000
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Forks Pond",
+      "category": "Water",
+      "source_id": "water/Forks Pond",
+      "position": [
+        -171000,
+        246000
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Gorge River",
+      "category": "Water",
+      "source_id": "water/Gorge River",
+      "position": [
+        135000,
+        -197800
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Highland Lake - north",
+      "category": "Water",
+      "source_id": "water/Highland Lake - north",
+      "position": [
+        -135000,
+        -21800
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Highland Lake - south",
+      "category": "Water",
+      "source_id": "water/Highland Lake - south",
+      "position": [
+        -91800,
+        -65000
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Hollow Falls",
+      "category": "Water",
+      "source_id": "water/Hollow Falls",
+      "position": [
+        -171000,
+        344000
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Jungle Pond",
+      "category": "Water",
+      "source_id": "water/Jungle Pond",
+      "position": [
+        -1800,
+        82000
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Landslid Lake",
+      "category": "Water",
+      "source_id": "water/Landslid Lake",
+      "position": [
+        -79800,
+        -226000
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "North Lake",
+      "category": "Water",
+      "source_id": "water/North Lake",
+      "position": [
+        -373800,
+        324000
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Pit Pond",
+      "category": "Water",
+      "source_id": "water/Pit Pond",
+      "position": [
+        281000,
+        -332000
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Plains River",
+      "category": "Water",
+      "source_id": "water/Plains River",
+      "position": [
+        -289800,
+        368200
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Pygmy's puddle (temp)",
+      "category": "Water",
+      "source_id": "water/Pygmy's puddle (temp)",
+      "position": [
+        82200,
+        -243800
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Rock Pond",
+      "category": "Water",
+      "source_id": "water/Rock Pond",
+      "position": [
+        319000,
+        -252000
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Endorheic",
+      "category": "Water",
+      "source_id": "water/Endorheic",
+      "position": [
+        199000,
+        179000
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "South Puddle",
+      "category": "Water",
+      "source_id": "water/South Puddle",
+      "position": [
+        200200,
+        -352000
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Swamp East",
+      "category": "Water",
+      "source_id": "water/Swamp East",
+      "position": [
+        254200,
+        106000
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Swamp West",
+      "category": "Water",
+      "source_id": "water/Swamp West",
+      "position": [
+        276200,
+        -30000
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Verdant Pond",
+      "category": "Water",
+      "source_id": "water/Verdant Pond",
+      "position": [
+        -275800,
+        156000
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Volcano Cave",
+      "category": "Water",
+      "source_id": "water/Volcano Cave",
+      "position": [
+        -257800,
+        285200
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Volcano Chamber",
+      "category": "Water",
+      "source_id": "water/Volcano Chamber",
+      "position": [
+        -283000,
+        256000
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "West Pond",
+      "category": "Water",
+      "source_id": "water/West Pond",
+      "position": [
+        20200,
+        -276800
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    },
+    {
+      "name": "Shade puddle (temp)",
+      "category": "Water",
+      "source_id": "water/Shade puddle (temp)",
+      "position": [
+        90200,
+        -128000
+      ],
+      "description": "Named water label from the local Gateway reference snapshot.",
+      "show_label": true
+    }
+  ]
+}
+

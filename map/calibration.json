@@ -1,0 +1,18 @@
+{
+  "description": "Adjust these values to align Gateway world coordinates with the local map image.",
+  "world_bounds": {
+    "min_x": -607000.0,
+    "max_x": 509000.0,
+    "min_y": -505000.0,
+    "max_y": 607000.0
+  },
+  "pixel_bounds": {
+    "min_x": 0.0,
+    "max_x": 7800.0,
+    "min_y": 0.0,
+    "max_y": 7817.0
+  },
+  "invert_y": false,
+  "invert_x": false,
+  "swap_axes": true
+}

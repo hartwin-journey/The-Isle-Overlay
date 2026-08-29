@@ -1,0 +1,203 @@
+{
+  "format_version": 1,
+  "source": {
+    "name": "VulnonaMAP",
+    "url": "https://vulnona.com/game/map/",
+    "data_url": "https://vulnona.com/game/map/map/Gateway_v0.21.7/data_1.txt",
+    "map": "Gateway",
+    "map_version": "0.21.772",
+    "retrieved": "2026-08-30"
+  },
+  "note": "Editable offline snapshot of Gateway updraft markers. Vulnona simple-map coordinates were converted to game world units by multiplying each axis by 1000.",
+  "items": [
+    {
+      "name": "Cascades Updraft 1",
+      "source_id": "sky/Cascades-0-up",
+      "area": "Cascades",
+      "position": [-171000, 217000],
+      "active_hours": "07:30–20:00",
+      "description": "Updraft near Cascades.",
+      "show_label": false
+    },
+    {
+      "name": "Cascades Updraft 2",
+      "source_id": "sky/Cascades-1-up",
+      "area": "Cascades",
+      "position": [-196000, 124000],
+      "active_hours": "09:30–20:00",
+      "description": "Updraft near Cascades.",
+      "show_label": false
+    },
+    {
+      "name": "East Coast Updraft 1",
+      "source_id": "sky/EastCoast-0-up",
+      "area": "East Coast",
+      "position": [-36000, 513000],
+      "active_hours": "06:00–19:30",
+      "description": "Updraft near East Coast.",
+      "show_label": false
+    },
+    {
+      "name": "East Coast Updraft 2",
+      "source_id": "sky/EastCoast-1-up",
+      "area": "East Coast",
+      "position": [-157000, 558000],
+      "active_hours": "06:00–19:30",
+      "description": "Updraft near East Coast.",
+      "show_label": false
+    },
+    {
+      "name": "East Coast Updraft 3",
+      "source_id": "sky/EastCoast-2-up",
+      "area": "East Coast",
+      "position": [-211000, 582000],
+      "active_hours": "06:00–19:30",
+      "description": "Updraft near East Coast.",
+      "show_label": false
+    },
+    {
+      "name": "East Coast Updraft 4",
+      "source_id": "sky/EastCoast-3-up",
+      "area": "East Coast",
+      "position": [-241000, 558000],
+      "active_hours": "06:00–19:30",
+      "description": "Updraft near East Coast.",
+      "show_label": false
+    },
+    {
+      "name": "East Plains Updraft",
+      "source_id": "sky/East Plains-0-up",
+      "area": "East Plains",
+      "position": [-102000, 384000],
+      "active_hours": "07:30–20:00",
+      "description": "Updraft near East Plains.",
+      "show_label": false
+    },
+    {
+      "name": "Delta Updraft 1",
+      "source_id": "sky/Delta-0-up",
+      "area": "Delta",
+      "position": [-1000, 156000],
+      "active_hours": "07:00–20:00",
+      "description": "Updraft near Delta.",
+      "show_label": false
+    },
+    {
+      "name": "Delta Updraft 2",
+      "source_id": "sky/Delta-1-up",
+      "area": "Delta",
+      "position": [101000, 199000],
+      "active_hours": "07:00–20:00",
+      "description": "Updraft near Delta.",
+      "show_label": false
+    },
+    {
+      "name": "Delta Updraft 3",
+      "source_id": "sky/Delta-2-up",
+      "area": "Delta",
+      "position": [45000, 291000],
+      "active_hours": "07:00–20:00",
+      "description": "Updraft near Delta.",
+      "show_label": false
+    },
+    {
+      "name": "South Plains Updraft 1",
+      "source_id": "sky/South Plains-17-up",
+      "area": "South Plains",
+      "position": [116000, -135000],
+      "active_hours": "09:30–20:00",
+      "description": "Updraft near South Plains.",
+      "show_label": false
+    },
+    {
+      "name": "South Plains Updraft 2",
+      "source_id": "sky/South Plains-18-up",
+      "area": "South Plains",
+      "position": [240000, -131000],
+      "active_hours": "09:30–20:00",
+      "description": "Updraft near South Plains.",
+      "show_label": false
+    },
+    {
+      "name": "North Plains Updraft 1",
+      "source_id": "sky/North Plains-0-up",
+      "area": "North Plains",
+      "position": [-376000, 176000],
+      "active_hours": "09:30–20:00",
+      "description": "Updraft near North Plains.",
+      "show_label": false
+    },
+    {
+      "name": "North Plains Updraft 2",
+      "source_id": "sky/North Plains-1-up",
+      "area": "North Plains",
+      "position": [-382000, 225000],
+      "active_hours": "09:30–20:00",
+      "description": "Updraft near North Plains.",
+      "show_label": false
+    },
+    {
+      "name": "Ridge Updraft 1",
+      "source_id": "sky/Ridge-0-up",
+      "area": "Ridge",
+      "position": [-142000, -200000],
+      "active_hours": "08:00–21:00",
+      "description": "Updraft near Ridge.",
+      "show_label": false
+    },
+    {
+      "name": "Ridge Updraft 2",
+      "source_id": "sky/Ridge-1-up",
+      "area": "Ridge",
+      "position": [-213000, -203000],
+      "active_hours": "08:00–21:00",
+      "description": "Updraft near Ridge.",
+      "show_label": false
+    },
+    {
+      "name": "Ridge Updraft 3",
+      "source_id": "sky/Ridge-2-up",
+      "area": "Ridge",
+      "position": [-309000, -198000],
+      "active_hours": "08:00–21:00",
+      "description": "Updraft near Ridge.",
+      "show_label": false
+    },
+    {
+      "name": "Southern Beach Updraft",
+      "source_id": "sky/Southern Beach-0-up",
+      "area": "Southern Beach",
+      "position": [424000, 31000],
+      "active_hours": "07:00–20:00",
+      "description": "Updraft near Southern Beach.",
+      "show_label": false
+    },
+    {
+      "name": "Volcano Updraft",
+      "source_id": "sky/Volcano-0-up",
+      "area": "Volcano",
+      "position": [-277000, 268000],
+      "active_hours": "Always",
+      "description": "Always-active updraft near Volcano.",
+      "show_label": false
+    },
+    {
+      "name": "Highlands Updraft",
+      "source_id": "sky/Highlands-18-up",
+      "area": "Highlands",
+      "position": [-277000, 33000],
+      "active_hours": "07:30–20:00",
+      "description": "Updraft near Highlands.",
+      "show_label": false
+    },
+    {
+      "name": "West Coast Updraft",
+      "source_id": "sky/West Coast-0-up",
+      "area": "West Coast",
+      "position": [34000, -391000],
+      "active_hours": "12:00–22:00",
+      "description": "Updraft near West Coast.",
+      "show_label": false
+    }
+  ]
+}

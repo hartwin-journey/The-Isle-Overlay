@@ -1,0 +1,254 @@
+{
+  "format_version": 1,
+  "source": {
+    "name": "VulnonaMAP",
+    "url": "https://vulnona.com/game/map/",
+    "map": "Gateway",
+    "map_version": "0.21.772",
+    "retrieved": "2026-08-28"
+  },
+  "note": "Coordinates use Vulnona's compact coordinate codes (multiplied by 1,000 for game-world units).",
+  "items": [
+    {
+      "name": "Salt Lick 1",
+      "source_id": "SaltRock/-493,468",
+      "position": [
+        -493000,
+        468000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 2",
+      "source_id": "SaltRock/-438,230",
+      "position": [
+        -438000,
+        230000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 3",
+      "source_id": "SaltRock/-325,234",
+      "position": [
+        -325000,
+        234000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 4",
+      "source_id": "SaltRock/-323,238",
+      "position": [
+        -323000,
+        238000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 5",
+      "source_id": "SaltRock/-270,366",
+      "position": [
+        -270000,
+        366000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 6",
+      "source_id": "SaltRock/-252,543",
+      "position": [
+        -252000,
+        543000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 7",
+      "source_id": "SaltRock/-234,52",
+      "position": [
+        -234000,
+        52000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 8",
+      "source_id": "SaltRock/-205,421",
+      "position": [
+        -205000,
+        421000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 9",
+      "source_id": "SaltRock/-180,157",
+      "position": [
+        -180000,
+        157000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 10",
+      "source_id": "SaltRock/-145,319",
+      "position": [
+        -145000,
+        319000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 11",
+      "source_id": "SaltRock/-114,-153",
+      "position": [
+        -114000,
+        -153000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 12",
+      "source_id": "SaltRock/-61,-21",
+      "position": [
+        -61000,
+        -21000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 13",
+      "source_id": "SaltRock/-55,160",
+      "position": [
+        -55000,
+        160000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 14",
+      "source_id": "SaltRock/-51,457",
+      "position": [
+        -51000,
+        457000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 15",
+      "source_id": "SaltRock/-25,-302",
+      "position": [
+        -25000,
+        -302000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 16",
+      "source_id": "SaltRock/40,-91",
+      "position": [
+        40000,
+        -91000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 17",
+      "source_id": "SaltRock/59,278",
+      "position": [
+        59000,
+        278000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 18",
+      "source_id": "SaltRock/73.697084,55.659284",
+      "position": [
+        73697.084,
+        55659.284
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 19",
+      "source_id": "SaltRock/125,-179",
+      "position": [
+        125000,
+        -179000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 20",
+      "source_id": "SaltRock/126,-285",
+      "position": [
+        126000,
+        -285000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 21",
+      "source_id": "SaltRock/141,384",
+      "position": [
+        141000,
+        384000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 22",
+      "source_id": "SaltRock/178,122",
+      "position": [
+        178000,
+        122000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 23",
+      "source_id": "SaltRock/252,-158",
+      "position": [
+        252000,
+        -158000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Salt Lick 24",
+      "source_id": "SaltRock/288,13",
+      "position": [
+        288000,
+        13000
+      ],
+      "description": "Salt lick from the local Gateway reference snapshot.",
+      "show_label": false
+    }
+  ]
+}
+

@@ -1,0 +1,31 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+build/
+dist/
+*.spec
+*.exe
+
+# Runtime state can contain coordinates, OCR capture geometry, and saved markers.
+logs/
+config/settings.json
+config/settings.json.tmp
+config/custom_markers.json
+config/custom_markers.json.tmp
+
+# Private-use map rasters are kept locally but are not redistribution-ready.
+map/gateway.webp
+map/gateway_water.webp
+
+# Local editor, operating-system, and secret-bearing environment files.
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
