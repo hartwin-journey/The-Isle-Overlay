@@ -7,7 +7,7 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True, slots=True)
 class MapLabelFontPreset:
-    """A stable settings value and its Windows font presentation."""
+    """A stable settings value and its preferred desktop font presentation."""
 
     label: str
     family: str

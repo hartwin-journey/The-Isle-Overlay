@@ -15,6 +15,9 @@ from PySide6.QtWidgets import (
     QGraphicsItem,
     QGraphicsSimpleTextItem,
     QGroupBox,
+    QLabel,
+    QTabWidget,
+    QToolBar,
 )
 
 from core.app_state import AppState
@@ -279,6 +282,66 @@ def test_polished_settings_hide_local_data_and_consolidate_zone_intensity():
     assert dialog.settings["layer_opacity"]["sanctuaries"] == 0.3
     assert dialog.settings["map_label_font_preset"] == "tahoma_bold"
     dialog.deleteLater()
+    app.processEvents()
+
+
+def test_linux_ui_hides_windows_features_and_can_edit_mini_map(tmp_path):
+    app = QApplication.instance() or QApplication([])
+    root = Path(__file__).resolve().parents[1]
+    settings = copy.deepcopy(DEFAULT_SETTINGS)
+    store = SettingsStore(tmp_path / "settings.json")
+    store.values = settings
+    calibration = load_calibration(root / "map" / "calibration.json")
+    repository = LayerRepository(root / "data")
+    state = AppState(settings)
+    window = MainWindow(
+        root,
+        store,
+        calibration,
+        repository,
+        state,
+        windows_features=False,
+    )
+    mini_map = MiniMapWindow(
+        root / "map" / "gateway.webp",
+        calibration,
+        repository,
+        state,
+    )
+    window.attach_mini_map(mini_map)
+
+    toolbar = window.findChild(QToolBar, "mainToolbar")
+    assert toolbar is not None
+    assert window.mini_map_edit_action in toolbar.actions()
+    assert window.automatic_tracking_action not in toolbar.actions()
+
+    window.mini_map_edit_action.trigger()
+    app.processEvents()
+    assert mini_map.interaction_enabled is True
+    assert window.mini_map_edit_action.isChecked()
+    window.mini_map_edit_action.trigger()
+    app.processEvents()
+    assert mini_map.interaction_enabled is False
+
+    dialog = SettingsWindow(
+        settings,
+        calibration,
+        root,
+        windows_features=False,
+    )
+    tabs = dialog.findChild(QTabWidget)
+    assert tabs is not None
+    assert "Shortcuts" not in [tabs.tabText(index) for index in range(tabs.count())]
+    assert any(
+        "CLIPBOARD ONLY" in label.text()
+        for label in dialog.findChildren(QLabel)
+    )
+
+    dialog.deleteLater()
+    mini_map.close()
+    window.close()
+    mini_map.deleteLater()
+    window.deleteLater()
     app.processEvents()
 
 

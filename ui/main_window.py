@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import timezone
+import os
 from pathlib import Path
 
 from PySide6.QtCore import QTimer, Qt, Signal, Slot
@@ -57,6 +58,8 @@ class MainWindow(QMainWindow):
         calibration: MapCalibration,
         repository: LayerRepository,
         state: AppState,
+        *,
+        windows_features: bool | None = None,
     ) -> None:
         super().__init__()
         self.project_root = project_root
@@ -65,6 +68,9 @@ class MainWindow(QMainWindow):
         self.calibration = calibration
         self.repository = repository
         self.state = state
+        self.windows_features = (
+            os.name == "nt" if windows_features is None else bool(windows_features)
+        )
         self.tray_available = False
         self.mini_map: MiniMapWindow | None = None
         self._ocr_setup_dialog: OcrSetupDialog | None = None
@@ -89,7 +95,9 @@ class MainWindow(QMainWindow):
         mini_map.waypoint_requested.connect(self._place_waypoint)
         mini_map.waypoint_clear_requested.connect(self.clear_waypoint)
         mini_map.settings_modified.connect(self.settings_store.save)
+        mini_map.interaction_changed.connect(self._sync_mini_map_edit_action)
         mini_map.set_nearest_poi_text(self.nearest_poi_label.text())
+        self._sync_mini_map_edit_action(mini_map.interaction_enabled)
 
     def _build_toolbar(self) -> None:
         toolbar = QToolBar("Map controls")
@@ -105,6 +113,16 @@ class MainWindow(QMainWindow):
 
         add_action("Layers", self.toggle_layer_panel)
         add_action("Mini Map", self.toggle_mini_map)
+        self.mini_map_edit_action = QAction("Edit Mini Map", self)
+        self.mini_map_edit_action.setCheckable(True)
+        self.mini_map_edit_action.setToolTip(
+            "Toggle the Mini Map between click-through and mouse editing"
+        )
+        self.mini_map_edit_action.triggered.connect(
+            self._set_mini_map_interaction
+        )
+        if not self.windows_features:
+            toolbar.addAction(self.mini_map_edit_action)
         self.automatic_tracking_action = QAction("Automatic Tracking", self)
         self.automatic_tracking_action.setCheckable(True)
         self.automatic_tracking_action.setChecked(
@@ -124,7 +142,8 @@ class MainWindow(QMainWindow):
             self.open_automatic_tracking_setup
         )
         self.automatic_tracking_action.setMenu(automatic_menu)
-        toolbar.addAction(self.automatic_tracking_action)
+        if self.windows_features:
+            toolbar.addAction(self.automatic_tracking_action)
         automatic_button = toolbar.widgetForAction(self.automatic_tracking_action)
         if isinstance(automatic_button, QToolButton):
             automatic_button.setPopupMode(
@@ -347,6 +366,8 @@ class MainWindow(QMainWindow):
 
     @Slot(bool)
     def _automatic_tracking_toggled(self, enabled: bool) -> None:
+        if not self.windows_features:
+            return
         if enabled and CaptureRegion.from_mapping(
             self.state.settings.get("automatic_tracking_region")
         ) is None:
@@ -366,6 +387,11 @@ class MainWindow(QMainWindow):
         self._begin_automatic_tracking_setup(enable_after_save=False)
 
     def _begin_automatic_tracking_setup(self, *, enable_after_save: bool) -> None:
+        if not self.windows_features:
+            self.statusBar().showMessage(
+                "Automatic Tracking is available only on Windows", 3500
+            )
+            return
         self._enable_automatic_after_setup |= enable_after_save
         if self._ocr_setup_dialog is not None:
             self._ocr_setup_dialog.showNormal()
@@ -451,6 +477,21 @@ class MainWindow(QMainWindow):
             self.mini_map.show()
             self.mini_map.raise_()
 
+    @Slot(bool)
+    def _set_mini_map_interaction(self, enabled: bool) -> None:
+        if self.mini_map is None:
+            self._sync_mini_map_edit_action(False)
+            return
+        if enabled and not self.mini_map.isVisible():
+            self.mini_map.show()
+        self.mini_map.set_interaction_enabled(enabled)
+
+    @Slot(bool)
+    def _sync_mini_map_edit_action(self, enabled: bool) -> None:
+        self.mini_map_edit_action.blockSignals(True)
+        self.mini_map_edit_action.setChecked(bool(enabled))
+        self.mini_map_edit_action.blockSignals(False)
+
     def toggle_full_map(self) -> None:
         if self.isVisible() and not self.isMinimized():
             self.hide()
@@ -490,6 +531,7 @@ class MainWindow(QMainWindow):
             self.calibration,
             self.project_root,
             self,
+            windows_features=self.windows_features,
         )
         if dialog.exec() != SettingsWindow.DialogCode.Accepted:
             return

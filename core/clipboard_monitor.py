@@ -1,4 +1,4 @@
-"""Listen only to ordinary Qt/Windows clipboard text changes."""
+"""Listen only to ordinary Qt desktop clipboard text changes."""
 
 from __future__ import annotations
 

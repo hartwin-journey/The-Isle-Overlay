@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import os
 from pathlib import Path
 from typing import Any
 
@@ -39,12 +40,17 @@ class SettingsWindow(QDialog):
         calibration: MapCalibration,
         project_root: Path,
         parent: QWidget | None = None,
+        *,
+        windows_features: bool | None = None,
     ) -> None:
         super().__init__(parent)
         self.setWindowTitle("The Isle Companion — Settings")
         self.setMinimumSize(700, 610)
         self._settings = copy.deepcopy(settings)
         self._calibration = calibration
+        self.windows_features = (
+            os.name == "nt" if windows_features is None else bool(windows_features)
+        )
         self._checks: dict[str, QCheckBox] = {}
         self._layer_opacity_sliders: dict[str, QSlider] = {}
         self._hotkeys: dict[str, QLineEdit] = {}
@@ -57,11 +63,17 @@ class SettingsWindow(QDialog):
         tabs.setDocumentMode(True)
         tabs.addTab(self._build_general_tab(), "Mini Map")
         tabs.addTab(self._build_map_tab(), "Map & Tracking")
-        tabs.addTab(self._build_hotkeys_tab(), "Shortcuts")
+        if self.windows_features:
+            tabs.addTab(self._build_hotkeys_tab(), "Shortcuts")
         tabs.addTab(self._build_calibration_tab(), "Advanced")
         layout.addWidget(tabs)
 
-        note = QLabel("OFFLINE  •  CLIPBOARD OR SELECTED SCREEN PIXELS  •  NO TELEMETRY")
+        note_text = (
+            "OFFLINE  •  CLIPBOARD OR SELECTED SCREEN PIXELS  •  NO TELEMETRY"
+            if self.windows_features
+            else "OFFLINE  •  CLIPBOARD ONLY  •  NO TELEMETRY"
+        )
+        note = QLabel(note_text)
         note.setObjectName("privacyNote")
         note.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(note)
@@ -85,8 +97,13 @@ class SettingsWindow(QDialog):
         layout.setSpacing(14)
 
         introduction = QLabel(
-            "Keep the overlay predictable during play. Press the interaction shortcut once "
-            "to edit it, then press it again to return to click-through mode."
+            (
+                "Keep the overlay predictable during play. Press the interaction shortcut once "
+                "to edit it, then press it again to return to click-through mode."
+                if self.windows_features
+                else "Use Edit Mini Map in the Full Map toolbar to switch between mouse "
+                "editing and click-through mode."
+            )
         )
         introduction.setWordWrap(True)
         introduction.setObjectName("sectionNote")
@@ -368,16 +385,17 @@ class SettingsWindow(QDialog):
         self._settings["layers"]["breadcrumbs"] = bool(
             self._settings["breadcrumbs_enabled"]
         )
-        hold_binding = self.interaction_hold_key.text().strip()
-        try:
-            parse_hold_binding(hold_binding)
-        except ValueError as exc:
-            QMessageBox.warning(self, "Invalid interaction binding", str(exc))
-            self.interaction_hold_key.setFocus(Qt.FocusReason.OtherFocusReason)
-            return
-        self._settings["overlay_interaction_hold_key"] = hold_binding
-        for key, field in self._hotkeys.items():
-            self._settings["hotkeys"][key] = field.text().strip()
+        if self.windows_features:
+            hold_binding = self.interaction_hold_key.text().strip()
+            try:
+                parse_hold_binding(hold_binding)
+            except ValueError as exc:
+                QMessageBox.warning(self, "Invalid interaction binding", str(exc))
+                self.interaction_hold_key.setFocus(Qt.FocusReason.OtherFocusReason)
+                return
+            self._settings["overlay_interaction_hold_key"] = hold_binding
+            for key, field in self._hotkeys.items():
+                self._settings["hotkeys"][key] = field.text().strip()
         zone_intensity = self._layer_opacity_sliders["zones"].value() / 100.0
         self._settings["layer_opacity"]["migrations"] = round(0.42 * zone_intensity, 3)
         self._settings["layer_opacity"]["patrol_zones"] = round(0.33 * zone_intensity, 3)

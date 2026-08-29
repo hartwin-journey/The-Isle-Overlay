@@ -1,4 +1,4 @@
-"""Separate, ordinary Windows mini-map window."""
+"""Separate, ordinary desktop mini-map window."""
 
 from __future__ import annotations
 
@@ -185,6 +185,7 @@ class MiniMapWindow(QWidget):
     waypoint_requested = Signal(float, float)
     waypoint_clear_requested = Signal()
     settings_modified = Signal()
+    interaction_changed = Signal(bool)
 
     def __init__(
         self,
@@ -296,7 +297,8 @@ class MiniMapWindow(QWidget):
 
     def set_interaction_enabled(self, enabled: bool) -> None:
         enabled = bool(enabled)
-        if enabled != self._interaction_enabled:
+        changed = enabled != self._interaction_enabled
+        if changed:
             was_visible = self.isVisible()
             self._interaction_enabled = enabled
             # Clear the Qt-level transparent attribute before rebuilding flags;
@@ -322,6 +324,8 @@ class MiniMapWindow(QWidget):
             self.map_canvas.cancel_mouse_interaction()
         self._position_overlay_controls()
         self._reapply_input_style()
+        if changed:
+            self.interaction_changed.emit(self._interaction_enabled)
 
     def _reapply_input_style(self) -> None:
         if os.name != "nt" or QGuiApplication.platformName().lower() != "windows":

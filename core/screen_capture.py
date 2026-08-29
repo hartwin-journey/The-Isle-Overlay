@@ -92,7 +92,7 @@ class ScreenCaptureService:
             region.height,
         )
         if pixmap.isNull():
-            raise ScreenCaptureError("Windows returned an empty screen capture.")
+            raise ScreenCaptureError("The desktop returned an empty screen capture.")
         return pixmap
 
     @staticmethod

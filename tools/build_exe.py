@@ -1,4 +1,4 @@
-"""Build the optional local PyInstaller bundle from a clean DLL search path."""
+"""Build an optional local PyInstaller bundle on Windows or Linux."""
 
 from __future__ import annotations
 
@@ -10,6 +10,8 @@ from pathlib import Path
 def _clean_native_search_path() -> None:
     """Prevent unrelated developer tools on PATH from leaking DLLs into the bundle."""
 
+    if os.name != "nt":
+        return
     windows = Path(os.environ.get("SystemRoot", r"C:\Windows"))
     candidates = [
         Path(sys.executable).resolve().parent,
@@ -27,6 +29,35 @@ def _clean_native_search_path() -> None:
     os.environ["PATH"] = os.pathsep.join(unique)
 
 
+def build_arguments(platform_name: str | None = None) -> list[str]:
+    """Return platform-correct PyInstaller arguments without personal config data."""
+
+    platform_name = os.name if platform_name is None else platform_name
+    data_separator = ";" if platform_name == "nt" else ":"
+    arguments = [
+        "--noconfirm",
+        "--clean",
+        "--windowed",
+        "--name",
+        "TheIsleCompanion",
+        "--contents-directory",
+        ".",
+        "--add-data",
+        f"data{data_separator}data",
+        "--add-data",
+        f"map{data_separator}map",
+    ]
+    if platform_name == "nt":
+        arguments.extend(
+            [
+                "--add-data",
+                f"core/windows_ocr.ps1{data_separator}core",
+            ]
+        )
+    arguments.append("app.py")
+    return arguments
+
+
 def main() -> int:
     try:
         from PyInstaller.__main__ import run
@@ -37,24 +68,7 @@ def main() -> int:
     project_root = Path(__file__).resolve().parents[1]
     os.chdir(project_root)
     _clean_native_search_path()
-    run(
-        [
-            "--noconfirm",
-            "--clean",
-            "--windowed",
-            "--name",
-            "TheIsleCompanion",
-            "--contents-directory",
-            ".",
-            "--add-data",
-            "data;data",
-            "--add-data",
-            "map;map",
-            "--add-data",
-            "core/windows_ocr.ps1;core",
-            "app.py",
-        ]
-    )
+    run(build_arguments())
     return 0
 
 

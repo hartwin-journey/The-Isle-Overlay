@@ -1,6 +1,8 @@
 # The Isle Companion
 
-The Isle Companion is a local Windows desktop map for **The Isle: Evrima**. It provides a full map, a separate mini-map window, manual clipboard tracking, optional pixel-only automatic tracking, breadcrumbs, editable map layers, waypoints, local settings, and Windows global hotkeys.
+The Isle Companion is a local desktop map for **The Isle: Evrima** on Windows and Linux. It provides a full map, a separate mini-map window, clipboard tracking, breadcrumbs, editable map layers, waypoints, and local settings. Windows also supports optional pixel-only automatic tracking and global shortcuts.
+
+I started this as a new player who loved exploring Gateway but found it genuinely hard to navigate. The goal is simple: make finding your way around less frustrating without touching the game itself.
 
 The source version is the primary version. It runs directly with Python and does not need an installer during development.
 
@@ -10,24 +12,20 @@ The source version is the primary version. It runs directly with Python and does
 
 Coordinates can enter through two explicitly limited local paths:
 
-1. ordinary Windows clipboard text that the player manually copies with The Isle's built-in **Copy Location** function; or
-2. optional normal screen capture of a rectangle selected by the user, followed by Windows' installed on-device OCR service.
+1. ordinary desktop clipboard text that the player manually copies with The Isle's built-in **Copy Location** function; or
+2. on Windows, optional normal screen capture of a rectangle selected by the user, followed by Windows' installed on-device OCR service.
 
 The application:
 
 - does **not** open, inspect, or communicate with The Isle's executable or process;
 - does **not** read game memory or Unreal Engine objects;
-- does **not** access Easy Anti-Cheat;
 - does **not** inject DLLs, install hooks, or draw inside the game renderer;
 - does **not** read or modify game files, save files, or configuration files;
 - does **not** inspect network traffic or communicate with Steam;
 - does **not** send input or hotkeys to The Isle;
-- does **not** save automatic-tracking screenshots during normal use;
-- does **not** send coordinates, telemetry, analytics, or any other data to a server;
 - requires no Steam, Discord, or other account; and
-- performs no network requests during normal operation.
 
-The mini map is an ordinary independent Windows desktop window. “Always on top” changes only that window's standard Windows flag; it is never injected into or attached to the game.
+The mini map is an ordinary independent desktop window. “Always on top” changes only that window's standard window flag; it is never injected into or attached to the game.
 
 The boundary is visible in the source. [`core/clipboard_monitor.py`](core/clipboard_monitor.py) receives manual text from `QClipboard`. Optional [`core/automatic_tracking.py`](core/automatic_tracking.py) receives only in-memory pixels from [`core/screen_capture.py`](core/screen_capture.py) and sends them to Windows' local OCR service through the readable [`core/windows_ocr.ps1`](core/windows_ocr.ps1) bridge. Both paths must pass [`core/coordinate_parser.py`](core/coordinate_parser.py) before producing a position. There is no game-process integration elsewhere in the project.
 
@@ -39,8 +37,8 @@ It deliberately does not reproduce features that would violate or weaken the req
 
 ## Requirements
 
-- Windows 10 or Windows 11
-- 64-bit Python 3.11 or newer
+- Windows 10/11, or a modern 64-bit Linux desktop
+- Python 3.11 or newer
 - PySide6 (the only runtime Python dependency)
 
 Automatic Tracking uses the OCR engine and language resources already installed with Windows. It does not require Tesseract, a cloud service, or another downloaded OCR executable.
@@ -61,6 +59,18 @@ If PowerShell prevents virtual-environment activation, use the interpreter direc
 .\.venv\Scripts\python.exe app.py
 ```
 
+On Linux:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python app.py
+```
+
+The [official PySide6 wheels](https://doc.qt.io/qtforpython-6/gettingstarted.html) include Qt itself, so a separate Qt SDK is not required.
+
 ## Launch from source
 
 From the project folder:
@@ -77,11 +87,13 @@ py app.py
 
 You can also double-click `run.bat`. It tries `python` first and then the Windows `py` launcher.
 
-Closing the Full Map hides it to the notification area when the Windows system tray is available. Use the tray menu's **Exit** action to stop the program. Without a tray, closing the Full Map exits normally.
+On Linux, launch with `python3 app.py` or `sh run.sh`.
+
+Closing the Full Map hides it to the notification area when a system tray is available. Use the tray menu's **Exit** action to stop the program. Without a tray, closing the Full Map exits normally.
 
 ## Coordinate tracking
 
-Copy a location in The Isle using the game's own **Copy Location** action. The application listens for the normal Windows clipboard change event and accepts complete coordinate strings such as:
+Copy a location in The Isle using the game's own **Copy Location** action. The application listens for the normal desktop clipboard change event and accepts complete coordinate strings such as:
 
 ```text
 88,879.526, 288,696.110, 21,112.882
@@ -101,7 +113,7 @@ Until a valid location is received from either local input path, the interface w
 
 World distance is displayed using Unreal's conventional 100 world units per metre. Breadcrumb history is intentionally session-local and is never transmitted.
 
-### Optional Automatic Tracking
+### Optional Automatic Tracking (Windows only)
 
 Automatic Tracking is managed entirely from the Full Map toolbar. Click the main **Automatic Tracking** button to toggle it. Use the button's arrow and choose **Set up capture area…** or **Change capture area…** to drag around the coordinate line shown in The Isle's Tab menu, adjust the exact X/Y/width/height values, capture a temporary preview, and see the text returned by local OCR. When enabling it for the first time, setup opens automatically.
 
@@ -113,7 +125,7 @@ While enabled, the companion periodically captures only that rectangle through Q
 
 Failed, ambiguous, or implausibly inconsistent readings are ignored. Predominantly dark captures are inverted in memory to help Windows recognize the game's light UI text; numeric OCR mistakes are never guessed or repaired. OCR text and screenshot pixels are not logged, and screenshots are never written during normal use. Clipboard tracking stays active as a fallback even when Automatic Tracking is enabled.
 
-Ordinary screen capture may be unavailable for some exclusive-fullscreen configurations. Borderless-windowed or windowed display is recommended. If Windows returns empty/hidden pixels, the companion reports that it is waiting and does not attempt process capture, renderer hooks, injection, or any other fallback.
+Automatic Tracking uses Windows' built-in local OCR service and is therefore hidden on Linux. Linux keeps ordinary clipboard tracking as the reliable coordinate source. On Windows, ordinary screen capture may be unavailable for some exclusive-fullscreen configurations; borderless-windowed or windowed display is recommended. If the desktop returns empty or hidden pixels, the companion reports that it is waiting and does not attempt process capture, renderer hooks, injection, or any other fallback.
 
 ## Full Map
 
@@ -143,10 +155,10 @@ The current player marker and breadcrumb dots retain a clear on-screen size when
 
 The Mini Map is a completely separate desktop window. It supports:
 
-- ordinary Windows always-on-top behavior;
+- ordinary desktop always-on-top behavior;
 - a square map surface with a square or circular visual shape and a compact external POI footer;
 - a default top-right placement on first launch;
-- toggle-to-interact click-through behavior (default `M4` / Windows `XBUTTON1`);
+- toggle-to-interact click-through behavior (`M4` on Windows, toolbar control on Linux);
 - a compact control strip for Follow Player and shape switching while interaction is enabled;
 - an inset resize handle while interaction is enabled, with a persisted 180–1200 px size;
 - a draggable control strip while interaction is enabled;
@@ -157,7 +169,7 @@ The Mini Map is a completely separate desktop window. It supports:
 - current player, active waypoint, breadcrumbs, and enabled data layers; and
 - the nearest visible named POI, distance, and direction beneath the map surface.
 
-When interaction is disabled, the overlay applies normal Windows click-through and no-activate styles. Hovering it therefore does not intercept game mouse input. Pressing the interaction binding toggles the ordinary desktop window between click-through and interactive states; the companion never suppresses or sends the binding to another application. The toggle binding can be changed in Settings to `M4`, `M5`, or a keyboard combination.
+On Windows, pressing the interaction binding toggles the overlay between click-through and interactive states. The companion never suppresses or sends that binding to another application. On Linux, use **Edit Mini Map** in the Full Map toolbar instead. Click-through support is requested through Qt and can vary between X11 and Wayland compositors.
 
 Heading-up rotation is deliberately not implemented yet. North-up is the only rendered orientation, which keeps the coordinate transform predictable.
 
@@ -167,7 +179,7 @@ Click the map to place a waypoint. Clicking elsewhere moves it; clicking the act
 
 **Save Waypoint** asks for a name and appends a normal local record to `config/custom_markers.json`. Saved custom markers persist between sessions but are ignored by Git because they can reveal personal play locations. They can also be edited manually while the application is stopped, or reloaded with **Reload local map data**.
 
-## Global hotkeys
+## Global hotkeys (Windows only)
 
 On Windows, hotkeys use the ordinary user-level `RegisterHotKey` API in [`core/hotkeys.py`](core/hotkeys.py). They listen only; the application never sends keys to The Isle or any other program.
 
@@ -184,6 +196,8 @@ On Windows, hotkeys use the ordinary user-level `RegisterHotKey` API in [`core/h
 | `Ctrl+Shift+PageDown` | Decrease overlay opacity |
 
 Hotkeys are editable in Settings. If another application already owns a shortcut, the status bar reports that it could not be registered. Supported keys include letters, digits, F1–F24, PageUp, PageDown, Home, End, Insert, Delete, and Space with Ctrl, Shift, Alt, or Windows modifiers.
+
+Linux does not show the Shortcuts settings tab. This avoids promising system-wide shortcuts that would require desktop-specific APIs or additional native dependencies.
 
 The Mini Map interaction binding is separate from `RegisterHotKey`: it is a physical key state polled with the ordinary Windows `GetAsyncKeyState` API, and each press toggles the overlay interaction state. It is not registered as a global shortcut, hooked, injected, consumed, or forwarded by this application.
 
@@ -305,7 +319,7 @@ Malformed or missing layer files produce a local log entry and an empty layer ra
 
 ## Settings and logs
 
-All settings are local JSON in `config/settings.json`. The Settings window is organized into **Mini Map**, **Map & Tracking**, **Shortcuts**, and **Advanced**. Automatic Tracking and its screen-area setup live in the Full Map toolbar instead of being duplicated here. Layer visibility stays in the Full Map's Layers panel. The data-folder path is intentionally not exposed in the everyday UI; advanced users can still edit the local JSON directly.
+All settings are local JSON in `config/settings.json`. The Settings window is organized into **Mini Map**, **Map & Tracking**, and **Advanced**, plus **Shortcuts** on Windows. Automatic Tracking and its screen-area setup live in the Windows Full Map toolbar instead of being duplicated here. Layer visibility stays in the Full Map's Layers panel. The data-folder path is intentionally not exposed in the everyday UI; advanced users can still edit the local JSON directly.
 
 `config/settings.json`, `config/custom_markers.json`, and the complete `logs/` directory are ignored by Git. This prevents the selected OCR capture rectangle, personal layer preferences, parsed-coordinate history, and saved play locations from being committed accidentally. A fresh checkout generates default settings on first launch.
 
@@ -313,25 +327,36 @@ Rotating debug logs are written to `logs/companion.log` (maximum approximately 1
 
 ## Tests
 
-Install the development requirements and run:
+Install the development requirements and run on either platform:
 
 ```powershell
 py -m pip install -r requirements-dev.txt
 py -m pytest -q
 ```
 
+On Linux, use `python -m pip` and `python -m pytest` instead. GitHub Actions runs the same test suite on both Windows and Ubuntu.
+
 The tests cover strict coordinate parsing, clipboard filtering, OCR validation and confirmation, coordinate transform round trips, nearest-POI selection, waypoint interaction and route rendering, font presets, settings recovery, hotkey parsing, and off-screen rendering of both map windows. `tools/render_ui_preview.py` renders the main window, square and circular Mini Maps, a zone-palette check, and Mini Map/Map & Tracking settings previews in `logs/` for visual QA; set `QT_QPA_PLATFORM=windows` for normal Windows font rendering.
 
 ## Build an executable locally (optional)
 
-First verify that the source version runs. Then install the documented development dependencies and build an ordinary one-folder application locally:
+First verify that the source version runs. Then install the documented development dependencies and build an ordinary one-folder application locally.
+
+Windows:
 
 ```powershell
 py -m pip install -r requirements-dev.txt
 py tools\build_exe.py
 ```
 
-The build helper invokes PyInstaller with `--windowed`, `--contents-directory .`, the local `data` and `map` folders, and the readable Windows OCR helper script. It deliberately omits `config` so a developer's personal settings, capture rectangle, and markers cannot enter the bundle. It also gives PyInstaller a clean native DLL search path so unrelated developer tools cannot leak incompatible DLLs into the build. The result is `dist\TheIsleCompanion\TheIsleCompanion.exe`. Keep the entire folder together; runtime settings and logs are generated beside the executable. This command builds from inspected local source and does not download or execute an unknown application binary.
+Linux:
+
+```bash
+python -m pip install -r requirements-dev.txt
+python tools/build_exe.py
+```
+
+The build helper uses the correct PyInstaller data-path syntax for the current platform and includes the Windows OCR bridge only on Windows. It deliberately omits `config` so a developer's personal settings, capture rectangle, and markers cannot enter the bundle. The result is `dist\TheIsleCompanion\TheIsleCompanion.exe` on Windows and `dist/TheIsleCompanion/TheIsleCompanion` on Linux. Keep the entire folder together; runtime settings and logs are generated beside the application.
 
 PyInstaller is optional and is not in `requirements.txt`, so it is not needed for normal source operation. The project intentionally does not build or distribute a precompiled executable by default.
 
@@ -369,20 +394,17 @@ config/custom_markers.json     Generated saved markers (Git-ignored)
 logs/                          Generated local logs and QA previews (Git-ignored)
 tests/                         Unit and Qt smoke tests
 run.bat                        No-installer Windows launcher
+run.sh                         Simple Linux launcher
+.github/workflows/tests.yml    Windows and Ubuntu test matrix
 ```
 
 ## Dependency policy
 
 Normal operation depends only on Python and PySide6. The application does not obfuscate its source, download or execute remote binaries, or contain an update checker. Any future network-based update feature should be a separate, opt-in component that is disabled by default; none exists in this version.
 
-## Preparing a GitHub commit
-
-Before committing, stop the application so it cannot append to the log during the check. Git ignores runtime settings, saved markers, all logs and previews, Python caches, test caches, PyInstaller output, executable/spec files, editor metadata, environment files, and the private-use raster inputs. Review exactly what Git would add with:
 
 ```powershell
 git status --short
 git add --dry-run --all
 git status --short --ignored
 ```
-
-Do not force-add ignored files unless you have inspected them and intentionally accepted their privacy or redistribution implications. This repository does not choose a software license on the author's behalf; add the license you want before making a public release.

@@ -1,6 +1,6 @@
 """The Isle Companion entry point.
 
-Security boundary: coordinates come only from ordinary Windows clipboard text
+Security boundary: coordinates come only from ordinary desktop clipboard text
 or an optional user-selected rectangle captured through normal screen pixels.
 This application never opens or inspects The Isle, Steam, Easy Anti-Cheat,
 game memory, game files, renderer state, or network traffic, and never sends
@@ -10,6 +10,7 @@ input to the game.
 from __future__ import annotations
 
 import logging
+import os
 import sys
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
@@ -65,11 +66,23 @@ def create_app_icon() -> QIcon:
 
 
 class ApplicationController:
-    def __init__(self, app: QApplication, project_root: Path) -> None:
+    def __init__(
+        self,
+        app: QApplication,
+        project_root: Path,
+        *,
+        windows_features: bool | None = None,
+    ) -> None:
         self.app = app
         self.project_root = project_root
+        self.windows_features = (
+            os.name == "nt" if windows_features is None else bool(windows_features)
+        )
         self.settings_store = SettingsStore(project_root / "config" / "settings.json")
         settings = self.settings_store.load()
+        if not self.windows_features and settings["automatic_tracking_enabled"]:
+            settings["automatic_tracking_enabled"] = False
+            self.settings_store.save()
         calibration = load_calibration(project_root / "map" / "calibration.json")
         data_folder = Path(str(settings["data_folder"]))
         if not data_folder.is_absolute():
@@ -86,6 +99,7 @@ class ApplicationController:
             calibration,
             self.repository,
             self.state,
+            windows_features=self.windows_features,
         )
         self.mini_map = MiniMapWindow(
             project_root / "map" / "gateway.webp",
@@ -104,36 +118,42 @@ class ApplicationController:
         self.clipboard_monitor = ClipboardCoordinateMonitor(app.clipboard())
         self.clipboard_monitor.position_copied.connect(self._handle_clipboard_position)
 
-        self.automatic_tracker = AutomaticCoordinateTracker(
-            WindowsOcrEngine(project_root / "core" / "windows_ocr.ps1"),
-            parent=self.app,
-        )
-        self.automatic_tracker.position_detected.connect(self._handle_automatic_position)
-        self.automatic_tracker.status_changed.connect(
-            lambda status: self.main_window.set_automatic_tracking_status(
-                self.automatic_tracker.enabled,
-                status,
+        self.automatic_tracker: AutomaticCoordinateTracker | None = None
+        if self.windows_features:
+            self.automatic_tracker = AutomaticCoordinateTracker(
+                WindowsOcrEngine(project_root / "core" / "windows_ocr.ps1"),
+                parent=self.app,
             )
-        )
-        self.automatic_tracker.unavailable.connect(
-            self._automatic_tracking_unavailable
-        )
+            self.automatic_tracker.position_detected.connect(
+                self._handle_automatic_position
+            )
+            self.automatic_tracker.status_changed.connect(
+                lambda status: self.main_window.set_automatic_tracking_status(
+                    bool(self.automatic_tracker and self.automatic_tracker.enabled),
+                    status,
+                )
+            )
+            self.automatic_tracker.unavailable.connect(
+                self._automatic_tracking_unavailable
+            )
 
         self.tray_icon: QSystemTrayIcon | None = None
         self._configure_tray()
-        self.overlay_interaction_monitor = ToggleInputMonitor(
-            str(self.state.settings["overlay_interaction_hold_key"]),
-            parent=self.app,
-        )
-        self.overlay_interaction_monitor.toggled_changed.connect(
-            self.mini_map.set_interaction_enabled
-        )
-        self.overlay_interaction_monitor.binding_error.connect(
-            lambda reason: self.main_window.statusBar().showMessage(
-                f"Mini Map interaction binding unavailable: {reason}", 5000
+        self.overlay_interaction_monitor: ToggleInputMonitor | None = None
+        if self.windows_features:
+            self.overlay_interaction_monitor = ToggleInputMonitor(
+                str(self.state.settings["overlay_interaction_hold_key"]),
+                parent=self.app,
             )
-        )
-        self.overlay_interaction_monitor.start()
+            self.overlay_interaction_monitor.toggled_changed.connect(
+                self.mini_map.set_interaction_enabled
+            )
+            self.overlay_interaction_monitor.binding_error.connect(
+                lambda reason: self.main_window.statusBar().showMessage(
+                    f"Mini Map interaction binding unavailable: {reason}", 5000
+                )
+            )
+            self.overlay_interaction_monitor.start()
         self.hotkey_manager: GlobalHotkeyManager | None = None
         self.restart_hotkeys()
 
@@ -153,8 +173,15 @@ class ApplicationController:
         )
 
     def set_automatic_tracking(self, enabled: bool) -> None:
+        tracker = self.automatic_tracker
+        if tracker is None:
+            if enabled:
+                self._automatic_tracking_unavailable(
+                    "on-device OCR tracking is available only on Windows"
+                )
+            return
         if not enabled:
-            self.automatic_tracker.stop()
+            tracker.stop()
             self.main_window.set_automatic_tracking_status(
                 False,
                 "Automatic tracking: off",
@@ -167,7 +194,7 @@ class ApplicationController:
             self._automatic_tracking_unavailable("capture area is not configured")
             return
         try:
-            self.automatic_tracker.start(
+            tracker.start(
                 region,
                 interval_ms=int(
                     self.state.settings["automatic_tracking_interval_ms"]
@@ -208,13 +235,16 @@ class ApplicationController:
         self.main_window.tray_available = True
 
     def restart_hotkeys(self) -> None:
-        if hasattr(self, "overlay_interaction_monitor"):
+        if self.overlay_interaction_monitor is not None:
             self.overlay_interaction_monitor.set_binding(
                 str(self.state.settings["overlay_interaction_hold_key"])
             )
         if self.hotkey_manager is not None:
             self.hotkey_manager.stop()
             self.hotkey_manager.deleteLater()
+        if not self.windows_features:
+            self.hotkey_manager = None
+            return
         self.hotkey_manager = GlobalHotkeyManager(self.state.settings["hotkeys"])
         self.hotkey_manager.activated.connect(self._handle_hotkey)
         self.hotkey_manager.registration_failed.connect(
@@ -247,13 +277,20 @@ class ApplicationController:
         self.set_automatic_tracking(
             bool(self.state.settings["automatic_tracking_enabled"])
         )
+        if not self.windows_features:
+            self.main_window.statusBar().showMessage(
+                "Linux mode: clipboard tracking ready · OCR and global shortcuts are Windows-only",
+                7000,
+            )
 
     def shutdown(self) -> None:
         LOGGER.info("Application shutdown")
         if self.hotkey_manager is not None:
             self.hotkey_manager.stop()
-        self.overlay_interaction_monitor.stop()
-        self.automatic_tracker.close()
+        if self.overlay_interaction_monitor is not None:
+            self.overlay_interaction_monitor.stop()
+        if self.automatic_tracker is not None:
+            self.automatic_tracker.close()
         if self.tray_icon is not None:
             self.tray_icon.hide()
         self.app.quit()
