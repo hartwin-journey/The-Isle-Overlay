@@ -194,7 +194,9 @@ class OcrSetupDialog(QDialog):
         explanation = QLabel(
             "Open The Isle's Tab menu, then select only the visible coordinate line. "
             "The companion captures these screen pixels normally and processes them "
-            "locally; it never accesses or sends input to the game."
+            "locally; it never accesses or sends input to the game. The default Mini Map "
+            "editing toggle is M4 (mouse button 4); use it to zoom, pan, and toggle "
+            "player follow, or change it later in Settings."
         )
         explanation.setWordWrap(True)
         explanation.setObjectName("sectionNote")

@@ -49,6 +49,8 @@ def _virtual_key_for_name(key_name: str) -> int:
         return ord(key_name)
     if key_name.startswith("F") and key_name[1:].isdigit() and 1 <= int(key_name[1:]) <= 24:
         return 0x70 + int(key_name[1:]) - 1
+    if key_name in {"M4", "XBUTTON1", "M5", "XBUTTON2"}:
+        return HOLD_KEY_CODES[key_name]
     try:
         return SPECIAL_KEYS[key_name]
     except KeyError as exc:

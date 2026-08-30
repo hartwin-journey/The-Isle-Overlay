@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from PySide6.QtCore import Qt, Slot
+from PySide6.QtGui import QKeyEvent, QMouseEvent
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -18,8 +19,8 @@ from PySide6.QtWidgets import (
     QGroupBox,
     QHBoxLayout,
     QLabel,
-    QLineEdit,
     QMessageBox,
+    QPushButton,
     QScrollArea,
     QSlider,
     QSpinBox,
@@ -31,6 +32,105 @@ from PySide6.QtWidgets import (
 from core.coordinate_transform import MapCalibration
 from core.hotkeys import parse_hold_binding
 from core.map_fonts import MAP_LABEL_FONT_PRESETS
+
+
+_MODIFIER_NAMES = (
+    (Qt.KeyboardModifier.ControlModifier, "Ctrl"),
+    (Qt.KeyboardModifier.ShiftModifier, "Shift"),
+    (Qt.KeyboardModifier.AltModifier, "Alt"),
+    (Qt.KeyboardModifier.MetaModifier, "Win"),
+)
+
+_PURE_MODIFIER_KEYS = {
+    Qt.Key.Key_Control,
+    Qt.Key.Key_Shift,
+    Qt.Key.Key_Alt,
+    Qt.Key.Key_Meta,
+}
+
+_SPECIAL_KEY_NAMES = {
+    Qt.Key.Key_PageUp: "PageUp",
+    Qt.Key.Key_PageDown: "PageDown",
+    Qt.Key.Key_Home: "Home",
+    Qt.Key.Key_End: "End",
+    Qt.Key.Key_Insert: "Insert",
+    Qt.Key.Key_Delete: "Delete",
+    Qt.Key.Key_Space: "Space",
+}
+
+_MOUSE_BUTTON_NAMES = {
+    Qt.MouseButton.BackButton: "M4",
+    Qt.MouseButton.ForwardButton: "M5",
+}
+
+
+class HotkeyCaptureButton(QPushButton):
+    """Button that captures the next supported keyboard or mouse shortcut."""
+
+    def __init__(self, value: str, parent: QWidget | None = None) -> None:
+        super().__init__(value, parent)
+        self._value = value
+        self._capturing = False
+        self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        self.setToolTip("Click, then press a keyboard shortcut or M4/M5 mouse button")
+        self.clicked.connect(self._begin_capture)
+
+    def _begin_capture(self) -> None:
+        self._capturing = True
+        self.setFocus(Qt.FocusReason.MouseFocusReason)
+        self.setText("Press shortcut…  (Esc cancels)")
+
+    def _finish_capture(self, value: str) -> None:
+        self._capturing = False
+        self._value = value
+        self.setText(value)
+
+    def _cancel_capture(self) -> None:
+        self._capturing = False
+        self.setText(self._value)
+
+    @staticmethod
+    def _modifier_prefix(modifiers: Qt.KeyboardModifier) -> list[str]:
+        return [name for modifier, name in _MODIFIER_NAMES if modifiers & modifier]
+
+    @staticmethod
+    def _key_name(event: QKeyEvent) -> str | None:
+        key = event.key()
+        if key in _PURE_MODIFIER_KEYS:
+            return None
+        if Qt.Key.Key_A <= key <= Qt.Key.Key_Z:
+            return chr(ord("A") + key - Qt.Key.Key_A)
+        if Qt.Key.Key_0 <= key <= Qt.Key.Key_9:
+            return chr(ord("0") + key - Qt.Key.Key_0)
+        if Qt.Key.Key_F1 <= key <= Qt.Key.Key_F24:
+            return f"F{key - Qt.Key.Key_F1 + 1}"
+        return _SPECIAL_KEY_NAMES.get(Qt.Key(key))
+
+    def keyPressEvent(self, event: QKeyEvent) -> None:
+        if not self._capturing:
+            super().keyPressEvent(event)
+            return
+        if event.key() == Qt.Key.Key_Escape:
+            self._cancel_capture()
+            event.accept()
+            return
+        key_name = self._key_name(event)
+        if key_name is None:
+            event.accept()
+            return
+        self._finish_capture("+".join(self._modifier_prefix(event.modifiers()) + [key_name]))
+        event.accept()
+
+    def mousePressEvent(self, event: QMouseEvent) -> None:
+        if not self._capturing:
+            super().mousePressEvent(event)
+            return
+        button_name = _MOUSE_BUTTON_NAMES.get(event.button())
+        if button_name is None:
+            event.accept()
+            return
+        self._finish_capture("+".join(self._modifier_prefix(event.modifiers()) + [button_name]))
+        event.accept()
 
 
 class SettingsWindow(QDialog):
@@ -53,7 +153,7 @@ class SettingsWindow(QDialog):
         )
         self._checks: dict[str, QCheckBox] = {}
         self._layer_opacity_sliders: dict[str, QSlider] = {}
-        self._hotkeys: dict[str, QLineEdit] = {}
+        self._hotkeys: dict[str, HotkeyCaptureButton] = {}
         self._calibration_fields: dict[str, QDoubleSpinBox] = {}
 
         layout = QVBoxLayout(self)
@@ -98,8 +198,10 @@ class SettingsWindow(QDialog):
 
         introduction = QLabel(
             (
-                "Keep the overlay predictable during play. Press the interaction shortcut once "
-                "to edit it, then press it again to return to click-through mode."
+                "Keep the overlay predictable during play. The default Mini Map editing "
+                "toggle is M4 (mouse button 4). Press it once to zoom, pan, and toggle "
+                "player follow, then press it again to return to click-through mode. You "
+                "can change this binding in Settings > Shortcuts."
                 if self.windows_features
                 else "Use Edit Mini Map in the Full Map toolbar to switch between mouse "
                 "editing and click-through mode."
@@ -284,10 +386,9 @@ class SettingsWindow(QDialog):
         form.setHorizontalSpacing(20)
         form.setVerticalSpacing(9)
 
-        self.interaction_hold_key = QLineEdit(
+        self.interaction_hold_key = HotkeyCaptureButton(
             str(self._settings["overlay_interaction_hold_key"])
         )
-        self.interaction_hold_key.setPlaceholderText("M4")
         form.addRow("Toggle Mini Map editing", self.interaction_hold_key)
 
         names = {
@@ -302,7 +403,7 @@ class SettingsWindow(QDialog):
             "decrease_opacity": "Decrease overlay opacity",
         }
         for key, name in names.items():
-            field = QLineEdit(str(self._settings["hotkeys"].get(key, "")))
+            field = HotkeyCaptureButton(str(self._settings["hotkeys"].get(key, "")))
             self._hotkeys[key] = field
             form.addRow(name, field)
         scroll.setWidget(body)

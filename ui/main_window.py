@@ -42,6 +42,7 @@ from ui.layer_panel import LayerPanel
 from ui.map_canvas import MapCanvas
 from ui.map_fonts import build_map_label_font
 from ui.mini_map import MiniMapWindow
+from ui.how_to_use_window import HowToUseDialog
 from ui.ocr_setup_window import OcrSetupDialog
 from ui.settings_window import SettingsWindow
 
@@ -169,6 +170,7 @@ class MainWindow(QMainWindow):
         spacer = QWidget()
         spacer.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         toolbar.addWidget(spacer)
+        add_action("How to use", self.open_how_to_use)
         add_action("Settings", self.open_settings)
 
     def _build_central_widget(self) -> None:
@@ -524,6 +526,10 @@ class MainWindow(QMainWindow):
         self._update_nearest_poi()
         self._replace_layer_panel()
         self.statusBar().showMessage("Local map data reloaded", 2500)
+
+    def open_how_to_use(self) -> None:
+        dialog = HowToUseDialog(self)
+        dialog.exec()
 
     def open_settings(self) -> None:
         dialog = SettingsWindow(
