@@ -10,6 +10,9 @@ It includes a full Gateway map, a toggleable Mini Map overlay, position tracking
 
 Windows also supports optional Automatic Tracking using local OCR.
 
+## FYI! Default hotkey to make the minimap interactable is Mouse Buttoon 4 ( M4 ). This is editable in Settings.
+When the hotkey for making the minimap interactable is pressed, you can zoom, pan and change settings of the minimap, like toggling the auto-follow feature that is marked with an F in the minimap top left corner, or change between a square or circle map layout with the small icon to the right of the F.
+
 <img width="2553" height="1420" alt="The Isle Companion main map" src="https://github.com/user-attachments/assets/085b5d09-3a31-4fe7-8440-30f035580986" />
 
 <img width="1917" height="1270" alt="The Isle Companion Mini Map" src="https://github.com/user-attachments/assets/d576b604-d302-420f-963a-304a27d62991" />
