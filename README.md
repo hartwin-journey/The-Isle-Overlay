@@ -2,16 +2,17 @@
 
 The Isle Companion is a local desktop map for **The Isle: Evrima**, available for Windows and Linux.
 
-I started this as a new player who loved exploring Gateway but found it genuinely difficult to navigate, keep track of migration zones and sanctuaries, and remember where I was heading.
+I started it while learning Gateway the hard way: losing my bearings, missing migration zones, and forgetting which landmark I meant to head toward next.
 
-So I threw this together to make getting around a little easier.
-
-It includes a full Gateway map, a toggleable Mini Map overlay, position tracking, waypoints, breadcrumbs, migration zones, sanctuaries, patrol zones, water sources, updrafts, named locations, and other useful map layers.
+The app is meant to be a small second-screen companion rather than anything invasive. It includes the Gateway map, a toggleable Mini Map overlay, position tracking, waypoints, breadcrumbs, migration zones, sanctuaries, patrol zones, water sources, updrafts, named locations, and other practical layers.
 
 Windows also supports optional Automatic Tracking using local OCR.
 
-## FYI! Default hotkey to make the minimap interactable is Mouse Buttoon 4 ( M4 ). This is editable in Settings.
-When the hotkey for making the minimap interactable is pressed, you can zoom, pan and change settings of the minimap, like toggling the auto-follow feature that is marked with an F in the minimap top left corner, or change between a square or circle map layout with the small icon to the right of the F.
+## Quick note about the Mini Map
+
+By default, the Windows hotkey for making the Mini Map editable is **Mouse Button 4 (M4)**. You can change it in Settings.
+
+Press the hotkey once to edit the Mini Map: zoom, pan, toggle auto-follow with the small **F** button, or switch between the square and circle layouts. Press it again when you want the Mini Map to go back to click-through mode.
 
 <img width="2553" height="1420" alt="The Isle Companion main map" src="https://github.com/user-attachments/assets/085b5d09-3a31-4fe7-8440-30f035580986" />
 
@@ -51,14 +52,14 @@ It supports:
 * Enabled map layers
 * Nearest named POI
 * Distance and direction
-* Player centered mode
+* Player-centered mode
 * Adjustable size and opacity
 * Square or circular appearance
-* Click through mode
+* Click-through mode
 
-On Windows, the Mini Map can be switched between interactive and click through modes with a configurable input binding.
+On Windows, the Mini Map can be switched between interactive and click-through modes with a configurable input binding.
 
-On Linux, Mini Map editing is controlled from the Full Map toolbar. Click through behaviour can vary between X11 and Wayland desktop environments.
+On Linux, Mini Map editing is controlled from the Full Map toolbar. Click-through behavior can vary between X11 and Wayland desktop environments.
 
 ### Waypoints
 
@@ -74,7 +75,7 @@ Waypoints can also be saved as custom local markers.
 
 The app supports normal clipboard tracking on both Windows and Linux.
 
-Use The Isle's built in **Copy Location** function and the app will detect the copied coordinates and update your position on the Full Map and Mini Map.
+Use The Isle's built-in **Copy Location** function and the app will detect the copied coordinates and update your position on the Full Map and Mini Map.
 
 The app keeps track of:
 
@@ -96,7 +97,7 @@ Windows' local OCR reads those visible coordinates and updates your map position
 
 Simply open the Tab menu and your position can update automatically.
 
-Automatic Tracking is not available on Linux because it currently uses Windows' built in OCR service.
+Automatic Tracking is not available on Linux because it currently uses Windows' built-in OCR service.
 
 Clipboard tracking remains fully available on Linux.
 
@@ -128,7 +129,7 @@ The map, layers, settings, coordinates, markers, and tracking data remain on you
 
 The project includes the Gateway v0.21.772 basemap, matching water overlay, coordinate calibration, and offline map layer data.
 
-See [`map/SOURCE.md`](map/SOURCE.md) for map source and version information.
+See [`map/SOURCE.md`](map/SOURCE.md) for map source and version information. A few project guardrails are captured in [`docs/DECISIONS.md`](docs/DECISIONS.md).
 
 ## Platform support
 
@@ -156,13 +157,13 @@ Linux intentionally hides Windows specific features rather than replacing them w
 
 ### Linux
 
-* Modern 64 bit Linux desktop
+* Modern 64-bit Linux desktop
 * Python 3.11 or newer
 * PySide6
 
 PySide6 includes Qt, so a separate Qt SDK is not required.
 
-## Fool-proof Windows setup guide
+## Windows setup guide
 
 1. Install Python 3.11 or newer from python.org
 
@@ -273,7 +274,7 @@ sh run.sh
 
 1. Launch The Isle Companion.
 2. Open The Isle.
-3. Use the game's built in **Copy Location** function.
+3. Use the game's built-in **Copy Location** function.
 4. Your position updates on the Full Map and Mini Map.
 
 ### Automatic Tracking on Windows

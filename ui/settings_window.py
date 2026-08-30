@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 from typing import Any
 
-from PySide6.QtCore import Qt, Slot
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QKeyEvent, QMouseEvent
 from PySide6.QtWidgets import (
     QCheckBox,
@@ -61,6 +61,34 @@ _SPECIAL_KEY_NAMES = {
 _MOUSE_BUTTON_NAMES = {
     Qt.MouseButton.BackButton: "M4",
     Qt.MouseButton.ForwardButton: "M5",
+}
+
+_ZONE_OPACITY_BASELINES = {
+    "migrations": 0.42,
+    "patrol_zones": 0.33,
+    "sanctuaries": 0.60,
+}
+
+_MARKER_OPACITY_KEYS = (
+    "updrafts",
+    "locations",
+    "food",
+    "ai",
+    "salt_licks",
+    "spawns",
+    "custom_markers",
+)
+
+_SHORTCUT_LABELS = {
+    "toggle_full_map": "Show/hide Full Map",
+    "toggle_mini_map": "Show/hide Mini Map",
+    "toggle_layer_panel": "Show/hide layer panel",
+    "toggle_breadcrumbs": "Toggle breadcrumbs",
+    "clear_waypoint": "Clear active waypoint",
+    "recenter_player": "Recenter on player",
+    "toggle_player_centered": "Toggle player-centered Mini Map",
+    "increase_opacity": "Increase overlay opacity",
+    "decrease_opacity": "Decrease overlay opacity",
 }
 
 
@@ -198,13 +226,13 @@ class SettingsWindow(QDialog):
 
         introduction = QLabel(
             (
-                "Keep the overlay predictable during play. The default Mini Map editing "
-                "toggle is M4 (mouse button 4). Press it once to zoom, pan, and toggle "
-                "player follow, then press it again to return to click-through mode. You "
-                "can change this binding in Settings > Shortcuts."
+                "During play, the Mini Map starts in click-through mode so it stays out "
+                "of the way. Press M4 once when you want to resize, zoom, pan, or toggle "
+                "follow mode, then press it again to lock the overlay back down. You can "
+                "change that binding in Settings > Shortcuts."
                 if self.windows_features
-                else "Use Edit Mini Map in the Full Map toolbar to switch between mouse "
-                "editing and click-through mode."
+                else "Use Edit Mini Map in the Full Map toolbar when you want to move, "
+                "zoom, or resize the overlay; turn it off again before returning to the game."
             )
         )
         introduction.setWordWrap(True)
@@ -250,6 +278,21 @@ class SettingsWindow(QDialog):
         layout.addStretch()
         return tab
 
+    @staticmethod
+    def _average_zone_intensity(layer_opacity: dict[str, Any]) -> int:
+        """Collapse the three zone layers into one friendly slider value."""
+        total = sum(
+            float(layer_opacity.get(key, baseline)) / baseline
+            for key, baseline in _ZONE_OPACITY_BASELINES.items()
+        )
+        return round(total * (100 / len(_ZONE_OPACITY_BASELINES)))
+
+    @staticmethod
+    def _average_marker_opacity(layer_opacity: dict[str, Any]) -> int:
+        """Treat individual marker layers as one visual weight control."""
+        total = sum(float(layer_opacity.get(key, 1.0)) for key in _MARKER_OPACITY_KEYS)
+        return round(total / len(_MARKER_OPACITY_KEYS) * 100)
+
     def _opacity_control(self, value: int, key: str) -> QWidget:
         row = QWidget()
         row_layout = QHBoxLayout(row)
@@ -294,26 +337,8 @@ class SettingsWindow(QDialog):
         opacity_form.setHorizontalSpacing(18)
         opacity_form.setVerticalSpacing(12)
         layer_opacity = self._settings["layer_opacity"]
-        zone_value = round(
-            (
-                float(layer_opacity.get("migrations", 0.42)) / 0.42
-                + float(layer_opacity.get("patrol_zones", 0.33)) / 0.33
-                + float(layer_opacity.get("sanctuaries", 0.60)) / 0.60
-            )
-            * (100 / 3)
-        )
-        marker_keys = (
-            "updrafts",
-            "locations",
-            "food",
-            "ai",
-            "salt_licks",
-            "spawns",
-            "custom_markers",
-        )
-        marker_value = round(
-            sum(float(layer_opacity.get(key, 1.0)) for key in marker_keys) / len(marker_keys) * 100
-        )
+        zone_value = self._average_zone_intensity(layer_opacity)
+        marker_value = self._average_marker_opacity(layer_opacity)
         opacity_form.addRow("Zone intensity", self._opacity_control(zone_value, "zones"))
         opacity_form.addRow(
             "Water",
@@ -391,18 +416,7 @@ class SettingsWindow(QDialog):
         )
         form.addRow("Toggle Mini Map editing", self.interaction_hold_key)
 
-        names = {
-            "toggle_full_map": "Show/hide Full Map",
-            "toggle_mini_map": "Show/hide Mini Map",
-            "toggle_layer_panel": "Show/hide layer panel",
-            "toggle_breadcrumbs": "Toggle breadcrumbs",
-            "clear_waypoint": "Clear active waypoint",
-            "recenter_player": "Recenter on player",
-            "toggle_player_centered": "Toggle player-centered Mini Map",
-            "increase_opacity": "Increase overlay opacity",
-            "decrease_opacity": "Decrease overlay opacity",
-        }
-        for key, name in names.items():
+        for key, name in _SHORTCUT_LABELS.items():
             field = HotkeyCaptureButton(str(self._settings["hotkeys"].get(key, "")))
             self._hotkeys[key] = field
             form.addRow(name, field)
@@ -498,22 +512,13 @@ class SettingsWindow(QDialog):
             for key, field in self._hotkeys.items():
                 self._settings["hotkeys"][key] = field.text().strip()
         zone_intensity = self._layer_opacity_sliders["zones"].value() / 100.0
-        self._settings["layer_opacity"]["migrations"] = round(0.42 * zone_intensity, 3)
-        self._settings["layer_opacity"]["patrol_zones"] = round(0.33 * zone_intensity, 3)
-        self._settings["layer_opacity"]["sanctuaries"] = round(0.60 * zone_intensity, 3)
+        for key, baseline in _ZONE_OPACITY_BASELINES.items():
+            self._settings["layer_opacity"][key] = round(baseline * zone_intensity, 3)
         self._settings["layer_opacity"]["water"] = (
             self._layer_opacity_sliders["water"].value() / 100.0
         )
         marker_opacity = self._layer_opacity_sliders["markers"].value() / 100.0
-        for key in (
-            "updrafts",
-            "locations",
-            "food",
-            "ai",
-            "salt_licks",
-            "spawns",
-            "custom_markers",
-        ):
+        for key in _MARKER_OPACITY_KEYS:
             self._settings["layer_opacity"][key] = marker_opacity
 
         values = {key: field.value() for key, field in self._calibration_fields.items()}

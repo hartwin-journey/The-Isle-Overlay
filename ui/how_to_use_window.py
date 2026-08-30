@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (
 
 
 class HowToUseDialog(QDialog):
-    """Simple, non-technical quick-start guide."""
+    """A short, non-technical guide written for someone already in-game."""
 
     def __init__(self, parent: QWidget | None = None) -> None:
         super().__init__(parent)
@@ -64,11 +64,11 @@ class HowToUseDialog(QDialog):
         <ul>
           <li><b>Move around:</b> drag the map with your mouse.</li>
           <li><b>Zoom:</b> use the mouse wheel.</li>
-          <li><b>Layers:</b> click <b>Layers</b> to show or hide icons, zones, water, spawns, and other map info.</li>
-          <li><b>Fit:</b> zooms back out so the whole map is visible.</li>
-          <li><b>Center Player:</b> jumps the map to your latest known position.</li>
-          <li><b>Waypoint:</b> right-click the map or use the Waypoint menu to place, save, or remove a waypoint.</li>
-          <li><b>Clear Trail:</b> removes the breadcrumb trail from this session.</li>
+          <li><b>Layers:</b> open <b>Layers</b> to pick which zones, icons, water, spawns, and notes you want visible.</li>
+          <li><b>Fit:</b> zooms back out until the whole Gateway map is on screen.</li>
+          <li><b>Center Player:</b> jumps back to your latest known position.</li>
+          <li><b>Waypoint:</b> right-click the map, or use the Waypoint menu, to place, save, or remove a destination.</li>
+          <li><b>Clear Trail:</b> wipes the breadcrumb trail for the current session.</li>
         </ul>
         """
 
@@ -77,13 +77,13 @@ class HowToUseDialog(QDialog):
         return """
         <h3>Mini Map</h3>
         <ul>
-          <li>Click <b>Mini Map</b> to show or hide the overlay.</li>
-          <li>By default the Mini Map is click-through so it does not block the game.</li>
-          <li><b>Edit mode:</b> press <b>M4 / mouse button 4</b> to make the Mini Map interactable. Press it again to return to click-through mode.</li>
-          <li>While editable, use the mouse wheel to zoom and drag to pan.</li>
-          <li>Click <b>F</b> in the Mini Map to toggle auto-following your player icon.</li>
-          <li>Click the shape button beside <b>F</b> to switch between square and circle.</li>
-          <li>You can change the M4 edit shortcut in <b>Settings &gt; Shortcuts</b>.</li>
+          <li>Use <b>Mini Map</b> to show or hide the overlay.</li>
+          <li>It starts click-through by default, so stray clicks still go to the game.</li>
+          <li><b>Edit mode:</b> press <b>M4 / mouse button 4</b> to unlock the Mini Map. Press it again when you are done.</li>
+          <li>While it is unlocked, scroll to zoom and drag to pan.</li>
+          <li>Use the small <b>F</b> button to turn player-following on or off.</li>
+          <li>The shape button beside <b>F</b> switches between square and circle.</li>
+          <li>If M4 is awkward on your mouse, change it in <b>Settings &gt; Shortcuts</b>.</li>
         </ul>
         """
 
@@ -92,14 +92,14 @@ class HowToUseDialog(QDialog):
         return """
         <h3>Tracking and OCR</h3>
         <ul>
-          <li><b>Manual tracking:</b> copy coordinates from The Isle. The app reads your clipboard and updates your position.</li>
-          <li><b>Automatic Tracking:</b> Windows can read the coordinate text on screen using local OCR.</li>
+          <li><b>Manual tracking:</b> copy coordinates from The Isle and the companion updates from your clipboard.</li>
+          <li><b>Automatic Tracking:</b> on Windows, local OCR can read the coordinate text already visible on screen.</li>
           <li>Open The Isle's <b>Tab</b> menu so your coordinates are visible.</li>
-          <li>Click <b>Automatic Tracking &gt; Set up capture area…</b>.</li>
-          <li>Select only the coordinate line. Keep the box tight and avoid extra text.</li>
-          <li>Use <b>Capture and preview</b> to check that the app can read valid coordinates.</li>
+          <li>Choose <b>Automatic Tracking &gt; Set up capture area…</b>.</li>
+          <li>Box in just the coordinate line. A tight crop is easier for OCR to read.</li>
+          <li>Use <b>Capture and preview</b> before saving, especially after changing resolution or UI scale.</li>
           <li>Save the capture area, then turn <b>Automatic Tracking</b> on.</li>
-          <li>OCR is processed locally on your PC and is currently Windows-only.</li>
+          <li>OCR stays on your PC and is currently Windows-only.</li>
         </ul>
         """
 
@@ -111,7 +111,7 @@ class HowToUseDialog(QDialog):
           <li><b>Mini Map:</b> change startup behavior, always-on-top, following, shape, size, and opacity.</li>
           <li><b>Map &amp; Tracking:</b> adjust visual clarity, POI labels, and breadcrumb trail length.</li>
           <li><b>Shortcuts:</b> click a shortcut button, then press the key, mouse button, or key combination you want.</li>
-          <li><b>Advanced:</b> map calibration. Leave this alone unless you are replacing or realigning the map image.</li>
+          <li><b>Advanced:</b> map calibration. You can ignore this unless you are replacing or realigning the map image.</li>
           <li>Settings are saved locally on your computer.</li>
         </ul>
         """

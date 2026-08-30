@@ -150,7 +150,7 @@ class ApplicationController:
             )
             self.overlay_interaction_monitor.binding_error.connect(
                 lambda reason: self.main_window.statusBar().showMessage(
-                    f"Mini Map interaction binding unavailable: {reason}", 5000
+                    f"Mini Map edit shortcut is not available: {reason}", 5000
                 )
             )
             self.overlay_interaction_monitor.start()
@@ -159,7 +159,7 @@ class ApplicationController:
 
     def _handle_clipboard_position(self, position: Position) -> None:
         self.state.update_position(position)
-        self.main_window.clipboard_status.setText("Valid copied coordinates received")
+        self.main_window.clipboard_status.setText("Position updated from copied coordinates")
 
     def _handle_automatic_position(self, position: Position) -> None:
         self.state.update_position(position)
@@ -169,7 +169,7 @@ class ApplicationController:
         self.settings_store.save()
         self.main_window.set_automatic_tracking_status(
             False,
-            f"Automatic tracking unavailable: {reason}",
+            f"Automatic tracking is not available: {reason}",
         )
 
     def set_automatic_tracking(self, enabled: bool) -> None:
@@ -191,7 +191,7 @@ class ApplicationController:
             self.state.settings.get("automatic_tracking_region")
         )
         if region is None:
-            self._automatic_tracking_unavailable("capture area is not configured")
+            self._automatic_tracking_unavailable("choose a capture area first")
             return
         try:
             tracker.start(

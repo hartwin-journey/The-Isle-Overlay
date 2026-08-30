@@ -192,7 +192,7 @@ class MainWindow(QMainWindow):
         nearest_bar.setObjectName("nearestPoiBar")
         nearest_layout = QHBoxLayout(nearest_bar)
         nearest_layout.setContentsMargins(12, 6, 12, 6)
-        self.nearest_poi_label = QLabel("Nearest POI: waiting for copied coordinates")
+        self.nearest_poi_label = QLabel("Nearest POI: copy your coordinates to get started")
         self.nearest_poi_label.setObjectName("nearestPoiLabel")
         self.nearest_poi_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         nearest_layout.addWidget(self.nearest_poi_label)
@@ -241,7 +241,7 @@ class MainWindow(QMainWindow):
 
     @Slot(object, object)
     def _on_position_changed(self, current: Position, previous: Position | None) -> None:
-        self.clipboard_status.setText("Valid coordinate update received")
+        self.clipboard_status.setText("Position updated from copied coordinates")
         self.coordinate_label.setText(f"X {current.x:,.3f}    Y {current.y:,.3f}    Z {current.z:,.3f}")
         local_time = current.timestamp.astimezone()
         self.update_time.setText(f"Last update: {local_time:%H:%M:%S}")
@@ -273,7 +273,7 @@ class MainWindow(QMainWindow):
     def _update_nearest_poi(self) -> None:
         current = self.state.current_position
         if current is None:
-            text = "Nearest POI: waiting for copied coordinates"
+            text = "Nearest POI: copy your coordinates to get started"
         else:
             nearest = nearest_named_poi(
                 current,
@@ -325,7 +325,7 @@ class MainWindow(QMainWindow):
     def save_waypoint(self) -> None:
         waypoint = self.state.active_waypoint
         if waypoint is None:
-            QMessageBox.information(self, "No waypoint", "Click the map to place a waypoint first.")
+            QMessageBox.information(self, "No waypoint yet", "Right-click the map to place a waypoint first.")
             return
         name, accepted = QInputDialog.getText(self, "Save waypoint", "Marker name:", text=waypoint.name)
         if not accepted or not name.strip():
@@ -460,7 +460,7 @@ class MainWindow(QMainWindow):
         self.automatic_tracking_action.blockSignals(False)
         self.automatic_tracking_action.setToolTip(status)
         self._refresh_automatic_tracking_control()
-        if enabled or status.startswith("Automatic tracking unavailable"):
+        if enabled or status.startswith("Automatic tracking unavailable") or status.startswith("Automatic tracking is not available"):
             self.clipboard_status.setText(status)
 
     def toggle_layer_panel(self) -> None:
