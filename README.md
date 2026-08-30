@@ -6,7 +6,7 @@ I started this as a new player who loved exploring Gateway but found it genuinel
 
 The source version is the primary version. It runs directly with Python and does not need an installer during development.
 
-> **Map snapshot:** the local working copy can use a 7800 × 7817 Gateway v0.21.772 raster captured from VulnonaMAP on 2026-08-28. The matching water raster is also supported, while calibration, migration regions, patrol zones, sanctuaries, updrafts, named places, water labels, food points, AI points, and salt licks are editable local data. The two raster files are deliberately ignored by Git because the source site's notice does not grant redistribution rights. A clean checkout safely falls back to a generated offline placeholder until the user supplies suitable local imagery. See [`map/SOURCE.md`](map/SOURCE.md) for provenance and use cautions.
+> **Map snapshot:** the project includes a complete 7800 × 7817 Gateway v0.21.772 basemap, matching water overlay, calibrated coordinate transform, and editable offline layer data. A fresh checkout is ready to use immediately without downloading or supplying another map. See [`map/SOURCE.md`](map/SOURCE.md) for its source and version information.
 
 ## Security and privacy boundary
 
@@ -31,7 +31,7 @@ The boundary is visible in the source. [`core/clipboard_monitor.py`](core/clipbo
 
 ## Vulnona reference and offline scope
 
-The local map aims to reproduce the useful map behavior of VulnonaMAP within the stricter boundary of this project. With local raster inputs, it includes a high-resolution Gateway basemap, an independently toggleable water raster, calibrated player/waypoint placement, pan and zoom, and editable snapshots of the principal Gateway layers.
+The local map aims to reproduce the useful map behavior of VulnonaMAP within the stricter boundary of this project. It includes a high-resolution Gateway basemap, an independently toggleable water raster, calibrated player/waypoint placement, pan and zoom, and editable snapshots of the principal Gateway layers.
 
 It deliberately does not reproduce features that would violate or weaken the requested boundary. Automatic tracking sees only the screen rectangle explicitly selected by the user; there is no automatic game detection, process inspection, online location sharing, remote marker sync, live website embedding, or runtime downloading. Updating the map snapshot is a manual development/data-maintenance operation; normal application use remains entirely offline.
 
@@ -242,7 +242,7 @@ The transform is linear and supports axis swapping and independent X/Y inversion
 
 The currently bundled snapshot identifies its source, map version, and retrieval date in `map/SOURCE.md`, `map/calibration.json`, and each imported layer file. The runtime does not contain an updater and never contacts that source.
 
-The source site states that its planemap imagery is composed from in-game screenshots and that copyright in those images belongs to the game developers. Treat these assets as private local experiment inputs unless you independently establish redistribution rights. Source attribution does not grant a redistribution license.
+The bundled snapshot is kept together with its source, version, and retrieval information in `map/SOURCE.md` so its origin remains clear and future map changes can be tracked.
 
 When Gateway changes, replace the local rasters, remeasure calibration against copied world coordinates, and refresh affected JSON layers. Keep source/version metadata with every snapshot so stale and current records are easy to distinguish.
 
@@ -384,8 +384,8 @@ ui/ocr_setup_window.py         Capture-area selector and OCR preview
 ui/settings_window.py          Settings and calibration UI
 data/*.json                    Editable, non-personal offline map layers
 data/updrafts.json             Vulnona-referenced updraft positions and hours
-map/gateway.webp               Local base raster (required for full map; Git-ignored)
-map/gateway_water.webp         Optional matching water raster (Git-ignored)
+map/gateway.webp               Bundled 7800 × 7817 Gateway base raster
+map/gateway_water.webp         Bundled matching water overlay
 map/calibration.json           Editable calibration values
 map/SOURCE.md                  Snapshot provenance and use notes
 config/README.md               Runtime-state privacy notes

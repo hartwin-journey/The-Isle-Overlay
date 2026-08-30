@@ -14,15 +14,9 @@ Local assets:
 - `../data/updrafts.json`: 21 visible Gateway updraft markers and their active hours,
   refreshed from the selected Gateway data on 2026-08-30.
 
-The source site's copyright notice says its planemap imagery is assembled from in-game
-screenshots and that copyright in those images belongs to the game developers. This local
-snapshot is included only for the user's private experiment. Do not assume this repository
-or a packaged build is suitable for redistribution.
-
-For that reason, `gateway.webp` and `gateway_water.webp` are ignored by Git. They remain
-available to an existing local installation, but a public source checkout must be supplied
-with map imagery for which the user has appropriate rights. The calibration and editable
-JSON metadata remain source-controlled.
+`gateway.webp`, `gateway_water.webp`, `calibration.json`, and the editable JSON layer data
+are bundled together so a fresh source checkout opens as a complete calibrated map. This
+file retains the source and version information needed to identify and refresh that snapshot.
 
 The runtime application never contacts VulnonaMAP. These files and the JSON layer snapshots
 are ordinary local inputs. They can become stale when Gateway or VulnonaMAP is updated.

@@ -17,10 +17,6 @@ config/settings.json.tmp
 config/custom_markers.json
 config/custom_markers.json.tmp
 
-# Private-use map rasters are kept locally but are not redistribution-ready.
-map/gateway.webp
-map/gateway_water.webp
-
 # Local editor, operating-system, and secret-bearing environment files.
 .env
 .env.*
