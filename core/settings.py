@@ -46,6 +46,7 @@ DEFAULT_SETTINGS: dict[str, Any] = {
         "salt_licks": 1.0,
         "spawns": 1.0,
         "custom_markers": 1.0,
+        "external": 1.0,
     },
     "data_folder": "data",
     "layer_panel_visible": True,
@@ -63,6 +64,20 @@ DEFAULT_SETTINGS: dict[str, Any] = {
         "salt_licks": True,
         "spawns": False,
         "custom_markers": True,
+        "external": True,
+    },
+    "integration": {
+        "enabled": False,
+        "service_name": "",
+        "websocket_url": "",
+        "room": "default",
+        "display_name": "Player",
+        "access_token": "",
+        "receive_points": False,
+        "share_waypoint": False,
+        "share_position": False,
+        "position_interval_ms": 1000,
+        "position_max_age_seconds": 30,
     },
     "individual_migrations": {},
     "individual_patrol_zones": {},
@@ -201,6 +216,34 @@ class SettingsStore:
         self.values["breadcrumb_max_points"] = min(
             10_000, max(2, int(self.values["breadcrumb_max_points"]))
         )
+        integration = self.values.get("integration")
+        if not isinstance(integration, dict):
+            integration = copy.deepcopy(DEFAULT_SETTINGS["integration"])
+            self.values["integration"] = integration
+        integration_defaults = DEFAULT_SETTINGS["integration"]
+        for key in ("enabled", "receive_points", "share_waypoint", "share_position"):
+            integration[key] = bool(integration.get(key, integration_defaults[key]))
+        for key, limit in (
+            ("service_name", 128),
+            ("websocket_url", 2048),
+            ("room", 64),
+            ("display_name", 256),
+            ("access_token", 4096),
+        ):
+            value = integration.get(key, integration_defaults[key])
+            integration[key] = str(value)[:limit]
+        integration["room"] = integration["room"].strip() or "default"
+        integration["display_name"] = integration["display_name"].strip() or "Player"
+        try:
+            position_interval = int(integration.get("position_interval_ms", 1000))
+        except (TypeError, ValueError):
+            position_interval = 1000
+        integration["position_interval_ms"] = min(10_000, max(500, position_interval))
+        try:
+            position_max_age = int(integration.get("position_max_age_seconds", 30))
+        except (TypeError, ValueError):
+            position_max_age = 30
+        integration["position_max_age_seconds"] = min(300, max(5, position_max_age))
         opacity = self.values.setdefault("layer_opacity", {})
         defaults = DEFAULT_SETTINGS["layer_opacity"]
         for layer_name, default in defaults.items():

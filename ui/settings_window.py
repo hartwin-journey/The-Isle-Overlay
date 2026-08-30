@@ -31,6 +31,11 @@ from PySide6.QtWidgets import (
 from core.coordinate_transform import MapCalibration
 from core.hotkeys import parse_hold_binding
 from core.map_fonts import MAP_LABEL_FONT_PRESETS
+from integrations.contracts import (
+    IntegrationConfigurationError,
+    validate_room,
+    validate_websocket_url,
+)
 
 
 class SettingsWindow(QDialog):
@@ -65,13 +70,14 @@ class SettingsWindow(QDialog):
         tabs.addTab(self._build_map_tab(), "Map & Tracking")
         if self.windows_features:
             tabs.addTab(self._build_hotkeys_tab(), "Shortcuts")
+        tabs.addTab(self._build_integrations_tab(), "Integrations")
         tabs.addTab(self._build_calibration_tab(), "Advanced")
         layout.addWidget(tabs)
 
         note_text = (
-            "OFFLINE  •  CLIPBOARD OR SELECTED SCREEN PIXELS  •  NO TELEMETRY"
+            "LOCAL BY DEFAULT  •  CLIPBOARD OR SELECTED SCREEN PIXELS  •  EXTERNAL CONNECTIONS REQUIRE OPT IN"
             if self.windows_features
-            else "OFFLINE  •  CLIPBOARD ONLY  •  NO TELEMETRY"
+            else "LOCAL BY DEFAULT  •  CLIPBOARD ONLY  •  EXTERNAL CONNECTIONS REQUIRE OPT IN"
         )
         note = QLabel(note_text)
         note.setObjectName("privacyNote")
@@ -309,6 +315,92 @@ class SettingsWindow(QDialog):
         layout.addWidget(scroll)
         return tab
 
+    def _build_integrations_tab(self) -> QWidget:
+        tab = QScrollArea()
+        tab.setWidgetResizable(True)
+        body = QWidget()
+        layout = QVBoxLayout(body)
+        layout.setContentsMargins(18, 18, 18, 18)
+        layout.setSpacing(14)
+
+        introduction = QLabel(
+            "Connect to a compatible community service or friend-group relay. "
+            "The companion remains fully local while this connection is disabled."
+        )
+        introduction.setWordWrap(True)
+        introduction.setObjectName("sectionNote")
+        layout.addWidget(introduction)
+
+        integration = self._settings.get("integration", {})
+        connection_group = QGroupBox("Connection")
+        connection_form = QFormLayout(connection_group)
+        self.integration_enabled = QCheckBox("Enable the configured external connection")
+        self.integration_enabled.setChecked(bool(integration.get("enabled", False)))
+        connection_form.addRow(self.integration_enabled)
+
+        self.integration_service_name = QLineEdit(str(integration.get("service_name", "")))
+        self.integration_service_name.setPlaceholderText("My community server")
+        connection_form.addRow("Service name", self.integration_service_name)
+
+        self.integration_url = QLineEdit(str(integration.get("websocket_url", "")))
+        self.integration_url.setPlaceholderText("wss://example.com/companion")
+        connection_form.addRow("WebSocket URL", self.integration_url)
+
+        self.integration_room = QLineEdit(str(integration.get("room", "default")))
+        self.integration_room.setPlaceholderText("my-pack")
+        connection_form.addRow("Room", self.integration_room)
+
+        self.integration_display_name = QLineEdit(
+            str(integration.get("display_name", "Player"))
+        )
+        self.integration_display_name.setPlaceholderText("Player")
+        connection_form.addRow("Display name", self.integration_display_name)
+
+        self.integration_token = QLineEdit(str(integration.get("access_token", "")))
+        self.integration_token.setEchoMode(QLineEdit.EchoMode.Password)
+        self.integration_token.setPlaceholderText("Optional bearer token")
+        connection_form.addRow("Access token", self.integration_token)
+        token_note = QLabel(
+            "The token is stored in the local ignored settings file. Do not reuse an important password."
+        )
+        token_note.setWordWrap(True)
+        token_note.setObjectName("fieldHint")
+        connection_form.addRow("", token_note)
+        layout.addWidget(connection_group)
+
+        permissions_group = QGroupBox("Permissions for this service")
+        permissions_layout = QVBoxLayout(permissions_group)
+        self.integration_receive_points = QCheckBox(
+            "Show external players, waypoints, and markers"
+        )
+        self.integration_receive_points.setChecked(
+            bool(integration.get("receive_points", False))
+        )
+        self.integration_share_waypoint = QCheckBox("Share my active waypoint")
+        self.integration_share_waypoint.setChecked(
+            bool(integration.get("share_waypoint", False))
+        )
+        self.integration_share_position = QCheckBox(
+            "Share my precise current position while connected"
+        )
+        self.integration_share_position.setChecked(
+            bool(integration.get("share_position", False))
+        )
+        permissions_layout.addWidget(self.integration_receive_points)
+        permissions_layout.addWidget(self.integration_share_waypoint)
+        permissions_layout.addWidget(self.integration_share_position)
+        position_warning = QLabel(
+            "Position sharing sends only validated X/Y/Z coordinates and their observation time. "
+            "It never sends clipboard text, OCR images, breadcrumbs, or local saved markers."
+        )
+        position_warning.setWordWrap(True)
+        position_warning.setObjectName("fieldHint")
+        permissions_layout.addWidget(position_warning)
+        layout.addWidget(permissions_group)
+        layout.addStretch()
+        tab.setWidget(body)
+        return tab
+
     def _calibration_spin(self, value: float) -> QDoubleSpinBox:
         control = QDoubleSpinBox()
         control.setRange(-1_000_000_000.0, 1_000_000_000.0)
@@ -396,6 +488,28 @@ class SettingsWindow(QDialog):
             self._settings["overlay_interaction_hold_key"] = hold_binding
             for key, field in self._hotkeys.items():
                 self._settings["hotkeys"][key] = field.text().strip()
+        integration = self._settings.setdefault("integration", {})
+        integration["enabled"] = self.integration_enabled.isChecked()
+        integration["service_name"] = self.integration_service_name.text().strip()
+        integration["websocket_url"] = self.integration_url.text().strip()
+        integration["room"] = self.integration_room.text().strip()
+        integration["display_name"] = (
+            self.integration_display_name.text().strip() or "Player"
+        )
+        integration["access_token"] = self.integration_token.text()
+        integration["receive_points"] = self.integration_receive_points.isChecked()
+        integration["share_waypoint"] = self.integration_share_waypoint.isChecked()
+        integration["share_position"] = self.integration_share_position.isChecked()
+        if integration["enabled"]:
+            try:
+                integration["websocket_url"] = validate_websocket_url(
+                    integration["websocket_url"]
+                )
+                integration["room"] = validate_room(integration["room"])
+            except IntegrationConfigurationError as exc:
+                QMessageBox.warning(self, "Invalid integration settings", str(exc))
+                self.integration_url.setFocus(Qt.FocusReason.OtherFocusReason)
+                return
         zone_intensity = self._layer_opacity_sliders["zones"].value() / 100.0
         self._settings["layer_opacity"]["migrations"] = round(0.42 * zone_intensity, 3)
         self._settings["layer_opacity"]["patrol_zones"] = round(0.33 * zone_intensity, 3)

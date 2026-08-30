@@ -1,0 +1,14 @@
+{
+  "format_version": 1,
+  "game": "the-isle-evrima",
+  "id": "gateway",
+  "display_name": "Gateway",
+  "map_version": "0.21.772",
+  "coordinate_space": "the-isle-world-v1",
+  "units": "game-world-units",
+  "axes": {
+    "x": "game world X",
+    "y": "game world Y",
+    "z": "altitude"
+  }
+}

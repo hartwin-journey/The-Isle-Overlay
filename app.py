@@ -27,9 +27,12 @@ from core.data_loader import LayerRepository
 from core.hotkeys import GlobalHotkeyManager
 from core.local_ocr import OcrUnavailableError, WindowsOcrEngine
 from core.models import Position
+from core.overlay_store import OverlayStore
 from core.overlay_interaction import ToggleInputMonitor
 from core.screen_capture import CaptureRegion, ScreenCaptureError
 from core.settings import SettingsStore
+from integrations.contracts import load_map_identity
+from integrations.manager import IntegrationManager
 from ui.main_window import MainWindow
 from ui.mini_map import MiniMapWindow
 from ui.styles import DARK_STYLESHEET
@@ -92,6 +95,8 @@ class ApplicationController:
             custom_markers_path=project_root / "config" / "custom_markers.json",
         )
         self.state = AppState(settings)
+        self.overlay_store = OverlayStore(self.app)
+        self.map_identity = load_map_identity(project_root / "map" / "manifest.json")
 
         self.main_window = MainWindow(
             project_root,
@@ -99,6 +104,7 @@ class ApplicationController:
             calibration,
             self.repository,
             self.state,
+            self.overlay_store,
             windows_features=self.windows_features,
         )
         self.mini_map = MiniMapWindow(
@@ -106,6 +112,7 @@ class ApplicationController:
             calibration,
             self.repository,
             self.state,
+            self.overlay_store,
         )
         self.main_window.attach_mini_map(self.mini_map)
         self.main_window.hotkeys_changed.connect(self.restart_hotkeys)
@@ -113,6 +120,19 @@ class ApplicationController:
             self.set_automatic_tracking
         )
         self.main_window.exit_requested.connect(self.shutdown)
+        self.main_window.integration_settings_changed.connect(
+            self._apply_integration_settings
+        )
+
+        self.integration_manager = IntegrationManager(
+            self.state,
+            self.overlay_store,
+            self.map_identity,
+            parent=self.app,
+        )
+        self.integration_manager.status_changed.connect(
+            self.main_window.set_integration_status
+        )
 
         # Manual tracking remains available independently of optional OCR.
         self.clipboard_monitor = ClipboardCoordinateMonitor(app.clipboard())
@@ -234,6 +254,9 @@ class ApplicationController:
         self.tray_icon = tray
         self.main_window.tray_available = True
 
+    def _apply_integration_settings(self) -> None:
+        self.integration_manager.apply_settings()
+
     def restart_hotkeys(self) -> None:
         if self.overlay_interaction_monitor is not None:
             self.overlay_interaction_monitor.set_binding(
@@ -277,6 +300,7 @@ class ApplicationController:
         self.set_automatic_tracking(
             bool(self.state.settings["automatic_tracking_enabled"])
         )
+        self.integration_manager.apply_settings()
         if not self.windows_features:
             self.main_window.statusBar().showMessage(
                 "Linux mode: clipboard tracking ready · OCR and global shortcuts are Windows-only",
@@ -291,6 +315,7 @@ class ApplicationController:
             self.overlay_interaction_monitor.stop()
         if self.automatic_tracker is not None:
             self.automatic_tracker.close()
+        self.integration_manager.close()
         if self.tray_icon is not None:
             self.tray_icon.hide()
         self.app.quit()

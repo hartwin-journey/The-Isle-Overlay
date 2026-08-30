@@ -31,6 +31,7 @@ LAYER_LABELS = {
     "salt_licks": "Salt licks",
     "spawns": "Spawn areas",
     "custom_markers": "Custom markers",
+    "external": "External integrations",
 }
 
 LAYER_SECTIONS = (
@@ -49,6 +50,7 @@ LAYER_SECTIONS = (
             "custom_markers",
         ),
     ),
+    ("Integrations", ("external",)),
 )
 
 

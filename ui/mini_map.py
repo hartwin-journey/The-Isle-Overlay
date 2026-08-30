@@ -17,6 +17,7 @@ from PySide6.QtWidgets import (
 from core.app_state import AppState
 from core.coordinate_transform import MapCalibration
 from core.data_loader import LayerRepository
+from core.overlay_store import OverlayStore
 from core.overlay_interaction import apply_windows_overlay_input_style
 from ui.map_canvas import MapCanvas
 from ui.map_fonts import build_map_label_font
@@ -193,6 +194,7 @@ class MiniMapWindow(QWidget):
         calibration: MapCalibration,
         repository: LayerRepository,
         state: AppState,
+        overlay_store: OverlayStore | None = None,
     ) -> None:
         super().__init__()
         self.state = state
@@ -212,6 +214,7 @@ class MiniMapWindow(QWidget):
             calibration,
             repository,
             state,
+            overlay_store,
             compact=True,
         )
         self.map_canvas.setParent(self)

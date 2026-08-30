@@ -10,6 +10,8 @@ It includes a full Gateway map, a toggleable Mini Map overlay, position tracking
 
 Windows also supports optional Automatic Tracking using local OCR.
 
+Experimental external integrations can optionally exchange live positions, active waypoints, and temporary map points with compatible community services or a private friend-group relay. They are disabled by default and use separate per-connection permissions.
+
 <img width="2553" height="1420" alt="The Isle Companion main map" src="https://github.com/user-attachments/assets/085b5d09-3a31-4fe7-8440-30f035580986" />
 
 <img width="1917" height="1270" alt="The Isle Companion Mini Map" src="https://github.com/user-attachments/assets/d576b604-d302-420f-963a-304a27d62991" />
@@ -81,6 +83,21 @@ The app keeps track of:
 * Heading
 * Breadcrumb trail
 
+### Optional external integrations
+
+The companion can connect to a compatible WebSocket service without changing how local tracking works.
+
+The first integration version supports:
+
+* Temporary friend or group-member positions
+* Temporary external markers and shared waypoints
+* Optional publication of your active waypoint
+* Separately opt-in publication of your precise current position
+
+External points stay in memory and disappear on disconnect. They are not added to local saved markers, and remote data cannot replace your local player position.
+
+See [External integration setup](docs/integrations.md) for friend-group and server-owner instructions, or the [protocol v1 specification](docs/integration-protocol-v1.md) to add support to another service.
+
 ### Automatic Tracking
 
 **Windows only**
@@ -119,7 +136,7 @@ No Steam or Discord account is required.
 
 ## Offline use
 
-Normal application use is local.
+Normal application use is local. External network access occurs only after an integration profile is explicitly enabled.
 
 The map, layers, settings, coordinates, markers, and tracking data remain on your computer.
 
@@ -275,7 +292,7 @@ This includes things such as:
 * Tracking preferences
 * Windows OCR capture area
 
-Personal settings, saved markers, and logs are excluded from Git.
+Personal settings, optional integration credentials, saved markers, and logs are excluded from Git.
 
 ## Building locally
 
@@ -317,7 +334,7 @@ The project currently targets **Gateway v0.21.772**.
 
 Map data such as migrations, sanctuaries, patrol zones, POIs, and updrafts is stored locally and can be updated as Gateway changes.
 
-The runtime does not contact VulnonaMAP or another external map service.
+The runtime does not contact VulnonaMAP. It contacts an external service only when the user explicitly configures and enables an integration profile.
 
 ## Contributing
 

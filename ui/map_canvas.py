@@ -35,6 +35,7 @@ from PySide6.QtWidgets import (
 from core.app_state import AppState
 from core.coordinate_transform import MapCalibration
 from core.data_loader import LayerRepository
+from core.overlay_store import OverlayStore
 from ui.map_fonts import build_map_label_font
 
 LOGGER = logging.getLogger(__name__)
@@ -74,6 +75,7 @@ class MapCanvas(QGraphicsView):
         calibration: MapCalibration,
         repository: LayerRepository,
         state: AppState,
+        overlay_store: OverlayStore | None = None,
         *,
         compact: bool = False,
     ) -> None:
@@ -82,10 +84,12 @@ class MapCanvas(QGraphicsView):
         self.calibration = calibration
         self.repository = repository
         self.state = state
+        self.overlay_store = overlay_store
         self.compact = compact
         self._press_position: QPoint | None = None
         self._groups: dict[str, QGraphicsItemGroup] = {}
         self._poi_labels: list[QGraphicsSimpleTextItem] = []
+        self._external_labels: list[QGraphicsSimpleTextItem] = []
 
         self.setScene(QGraphicsScene(self))
         self.setRenderHints(
@@ -103,6 +107,7 @@ class MapCanvas(QGraphicsView):
         self._load_background()
         self._create_groups()
         self.render_static_layers()
+        self.render_external_overlays()
         self.render_breadcrumbs()
         self.render_positions()
         self.render_waypoint()
@@ -112,6 +117,8 @@ class MapCanvas(QGraphicsView):
         state.waypoint_changed.connect(self.render_waypoint)
         state.layers_changed.connect(self.refresh_visibility)
         state.settings_changed.connect(self.on_settings_changed)
+        if overlay_store is not None:
+            overlay_store.changed.connect(self.render_external_overlays)
 
     def _load_background(self) -> None:
         cache_key = str(self.map_path.resolve())
@@ -161,6 +168,7 @@ class MapCanvas(QGraphicsView):
             "salt_licks",
             "spawns",
             "custom_markers",
+            "external",
             "breadcrumbs",
             "waypoint_route",
             "player",
@@ -180,6 +188,7 @@ class MapCanvas(QGraphicsView):
                     "salt_licks": 15,
                     "spawns": 16,
                     "custom_markers": 17,
+                    "external": 27,
                     "breadcrumbs": 20,
                     "waypoint_route": 25,
                     "player": 30,
@@ -461,6 +470,75 @@ class MapCanvas(QGraphicsView):
                 group.addToGroup(label)
                 self._poi_labels.append(label)
 
+    def render_external_overlays(self) -> None:
+        self._clear_group("external")
+        self._external_labels.clear()
+        if self.overlay_store is None:
+            self.refresh_visibility()
+            return
+        group = self._groups["external"]
+        default_colors = {
+            "player": "#A78BFA",
+            "waypoint": "#FB7185",
+            "marker": "#FBBF24",
+        }
+        for feature in self.overlay_store.features:
+            pixel_x, pixel_y = self.calibration.world_to_pixel(feature.x, feature.y)
+            color = QColor(feature.color or default_colors.get(feature.kind, "#A78BFA"))
+            if feature.kind == "waypoint":
+                size = 11 if not self.compact else 9
+                marker: QGraphicsItem = QGraphicsPolygonItem(
+                    QPolygonF(
+                        [
+                            QPointF(0, -size),
+                            QPointF(size * 0.75, 0),
+                            QPointF(0, size),
+                            QPointF(-size * 0.75, 0),
+                        ]
+                    )
+                )
+                marker.setBrush(QBrush(color))  # type: ignore[attr-defined]
+            else:
+                radius = 7 if not self.compact else 6
+                marker = QGraphicsEllipseItem(-radius, -radius, radius * 2, radius * 2)
+                marker.setBrush(QBrush(color))
+            marker.setPos(pixel_x, pixel_y)
+            marker_pen = QPen(QColor("#FFFFFF"), 2)
+            marker_pen.setCosmetic(True)
+            marker.setPen(marker_pen)  # type: ignore[attr-defined]
+            marker.setFlag(
+                QGraphicsItem.GraphicsItemFlag.ItemIgnoresTransformations,
+                True,
+            )
+            tooltip = feature.name
+            if feature.description:
+                tooltip += f"\n{feature.description}"
+            marker.setToolTip(tooltip)
+            group.addToGroup(marker)
+
+            label = QGraphicsSimpleTextItem(feature.name)
+            label.setBrush(QBrush(QColor("#F7F3FF")))
+            label_outline = QPen(QColor(4, 10, 14, 235), 1.15)
+            label_outline.setCosmetic(True)
+            label.setPen(label_outline)
+            font_key = "poi_label_font_size_mini" if self.compact else "poi_label_font_size_full"
+            label.setFont(
+                build_map_label_font(
+                    self.state.settings,
+                    max(8, int(self.state.settings[font_key]) - 1),
+                )
+            )
+            label.setFlag(
+                QGraphicsItem.GraphicsItemFlag.ItemIgnoresTransformations,
+                True,
+            )
+            label.setPos(pixel_x + 10, pixel_y - 9)
+            label.setToolTip(tooltip)
+            group.addToGroup(label)
+            self._external_labels.append(label)
+        self.refresh_visibility()
+        self._update_detail_visibility()
+
     def render_breadcrumbs(self) -> None:
         self._clear_group("breadcrumbs")
         points = list(self.state.breadcrumbs)
@@ -647,7 +725,7 @@ class MapCanvas(QGraphicsView):
 
         threshold = 0.20 if not self.compact else 0.35
         labels_visible = abs(self.transform().m11()) >= threshold
-        for label in self._poi_labels:
+        for label in (*self._poi_labels, *self._external_labels):
             label.setVisible(labels_visible)
 
     def refresh_visibility(self) -> None:
@@ -663,6 +741,7 @@ class MapCanvas(QGraphicsView):
 
     def on_settings_changed(self) -> None:
         self.render_static_layers()
+        self.render_external_overlays()
         self.render_breadcrumbs()
         self.render_waypoint()
         self.refresh_visibility()
@@ -687,6 +766,7 @@ class MapCanvas(QGraphicsView):
     def set_calibration(self, calibration: MapCalibration) -> None:
         self.calibration = calibration
         self.render_static_layers()
+        self.render_external_overlays()
         self.render_breadcrumbs()
         self.render_positions()
         self.render_waypoint()

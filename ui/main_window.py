@@ -29,6 +29,7 @@ from core.app_state import AppState
 from core.coordinate_transform import MapCalibration, save_calibration
 from core.data_loader import LayerRepository
 from core.models import Position, Waypoint
+from core.overlay_store import OverlayStore
 from core.navigation import (
     cardinal_direction,
     format_distance,
@@ -49,6 +50,7 @@ from ui.settings_window import SettingsWindow
 class MainWindow(QMainWindow):
     hotkeys_changed = Signal()
     automatic_tracking_changed = Signal(bool)
+    integration_settings_changed = Signal()
     exit_requested = Signal()
 
     def __init__(
@@ -58,6 +60,7 @@ class MainWindow(QMainWindow):
         calibration: MapCalibration,
         repository: LayerRepository,
         state: AppState,
+        overlay_store: OverlayStore | None = None,
         *,
         windows_features: bool | None = None,
     ) -> None:
@@ -68,6 +71,7 @@ class MainWindow(QMainWindow):
         self.calibration = calibration
         self.repository = repository
         self.state = state
+        self.overlay_store = overlay_store
         self.windows_features = (
             os.name == "nt" if windows_features is None else bool(windows_features)
         )
@@ -113,6 +117,16 @@ class MainWindow(QMainWindow):
 
         add_action("Layers", self.toggle_layer_panel)
         add_action("Mini Map", self.toggle_mini_map)
+        self.integration_action = QAction("External Connection", self)
+        self.integration_action.setCheckable(True)
+        self.integration_action.setChecked(
+            bool(self.state.settings.get("integration", {}).get("enabled", False))
+        )
+        self.integration_action.setToolTip(
+            "Connect or disconnect the optional service configured in Settings"
+        )
+        self.integration_action.triggered.connect(self._integration_toggled)
+        toolbar.addAction(self.integration_action)
         self.mini_map_edit_action = QAction("Edit Mini Map", self)
         self.mini_map_edit_action.setCheckable(True)
         self.mini_map_edit_action.setToolTip(
@@ -181,6 +195,7 @@ class MainWindow(QMainWindow):
             self.calibration,
             self.repository,
             self.state,
+            self.overlay_store,
         )
         self.map_canvas.waypoint_requested.connect(self._place_waypoint)
         self.map_canvas.waypoint_clear_requested.connect(self.clear_waypoint)
@@ -233,8 +248,10 @@ class MainWindow(QMainWindow):
 
     def _build_status_bar(self) -> None:
         self.clipboard_status = QLabel("Waiting for copied coordinates")
+        self.integration_status = QLabel("External integrations: off")
         self.update_time = QLabel("Last update: —")
         self.statusBar().addWidget(self.clipboard_status, 1)
+        self.statusBar().addPermanentWidget(self.integration_status)
         self.statusBar().addPermanentWidget(self.update_time)
 
     @Slot(object, object)
@@ -461,6 +478,19 @@ class MainWindow(QMainWindow):
         if enabled or status.startswith("Automatic tracking unavailable"):
             self.clipboard_status.setText(status)
 
+    @Slot(bool)
+    def _integration_toggled(self, enabled: bool) -> None:
+        integration = self.state.settings.setdefault("integration", {})
+        integration["enabled"] = bool(enabled)
+        self.settings_store.save()
+        self.integration_settings_changed.emit()
+
+    @Slot(str)
+    def set_integration_status(self, status: str) -> None:
+        self.integration_status.setText(status)
+        self.integration_status.setToolTip(status)
+        self.integration_action.setToolTip(status)
+
     def toggle_layer_panel(self) -> None:
         self.layer_dock.setVisible(not self.layer_dock.isVisible())
 
@@ -557,6 +587,12 @@ class MainWindow(QMainWindow):
         self.state.settings_changed.emit()
         self._replace_layer_panel()
         self.hotkeys_changed.emit()
+        self.integration_action.blockSignals(True)
+        self.integration_action.setChecked(
+            bool(self.state.settings.get("integration", {}).get("enabled", False))
+        )
+        self.integration_action.blockSignals(False)
+        self.integration_settings_changed.emit()
         self.automatic_tracking_action.blockSignals(True)
         self.automatic_tracking_action.setChecked(
             bool(self.state.settings["automatic_tracking_enabled"])
