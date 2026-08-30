@@ -159,6 +159,45 @@ Linux intentionally hides Windows specific features rather than replacing them w
 
 PySide6 includes Qt, so a separate Qt SDK is not required.
 
+## Fool-proof Windows setup guide
+
+1. Install Python 3.11 or newer from python.org
+
+During setup, check **Add Python to PATH**.
+
+2. Download this project from GitHub using **Code > Download ZIP**.
+
+3. Extract the ZIP.
+
+4. Open the extracted folder.
+
+5. Click the folder address bar, type:
+
+```text
+cmd
+```
+
+and press Enter.
+
+6. Run:
+
+```text
+python -m pip install -r requirements.txt
+```
+
+If that does not work, try:
+
+```text
+py -m pip install -r requirements.txt
+```
+
+7. Close the window.
+
+8. Double click `run.bat`.
+
+After the first setup, just use `run.bat` to start the app.
+
+
 ## Installation
 
 Clone the repository:
