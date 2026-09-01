@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
     QDialog,
     QGraphicsItem,
     QGraphicsSimpleTextItem,
+    QGraphicsView,
     QGroupBox,
     QLabel,
     QTabWidget,
@@ -104,6 +105,10 @@ def test_full_and_mini_map_render_state(tmp_path):
     assert mini_map.width() == settings["overlay_size"]
     assert mini_map.height() == settings["overlay_size"] + MINI_MAP_FOOTER_HEIGHT
     assert mini_map.map_canvas.size().width() == settings["overlay_size"]
+    assert (
+        mini_map.map_canvas.viewportUpdateMode()
+        == QGraphicsView.ViewportUpdateMode.FullViewportUpdate
+    )
     assert not mini_map.nearest_poi_label.isHidden()
 
     preset_expectations = {
@@ -331,7 +336,12 @@ def test_linux_ui_hides_windows_features_and_can_edit_mini_map(tmp_path):
     )
     tabs = dialog.findChild(QTabWidget)
     assert tabs is not None
-    assert "Shortcuts" not in [tabs.tabText(index) for index in range(tabs.count())]
+    assert "Shortcuts" in [tabs.tabText(index) for index in range(tabs.count())]
+    assert dialog.interaction_hold_key.text() == "M4"
+    assert dialog._hotkeys == {}
+    dialog.interaction_hold_key._finish_capture("Ctrl+Shift+I")
+    dialog._accept_values()
+    assert dialog.settings["overlay_interaction_hold_key"] == "Ctrl+Shift+I"
     assert any(
         "CLIPBOARD ONLY" in label.text()
         for label in dialog.findChildren(QLabel)

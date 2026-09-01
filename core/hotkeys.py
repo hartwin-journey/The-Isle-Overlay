@@ -80,6 +80,28 @@ def parse_hotkey(value: str) -> tuple[int, int]:
     return modifiers, virtual_key
 
 
+def parse_binding_names(value: str) -> tuple[str, ...]:
+    """Return canonical names for a physical interaction binding."""
+
+    aliases = {"CONTROL": "CTRL", "WINDOWS": "WIN", "XBUTTON1": "M4", "XBUTTON2": "M5"}
+    parts = [part.strip().upper() for part in value.split("+") if part.strip()]
+    if not parts:
+        raise ValueError("hold binding has no key")
+    names: list[str] = []
+    primary_keys = 0
+    modifiers = {"CTRL", "SHIFT", "ALT", "WIN"}
+    for part in parts:
+        name = aliases.get(part, part)
+        if name not in modifiers:
+            _virtual_key_for_name(name)
+            primary_keys += 1
+        if name not in names:
+            names.append(name)
+    if primary_keys != 1:
+        raise ValueError("hold binding must contain exactly one non-modifier key")
+    return tuple(names)
+
+
 def parse_hold_binding(value: str) -> tuple[int, ...]:
     """Parse a physical interaction binding without registering or consuming it.
 
@@ -87,24 +109,11 @@ def parse_hold_binding(value: str) -> tuple[int, ...]:
     the parsed keys as a press-to-toggle binding rather than a hold binding.
     """
 
-    parts = [part.strip().upper() for part in value.split("+") if part.strip()]
-    if not parts:
-        raise ValueError("hold binding has no key")
-    keys: list[int] = []
-    primary_keys = 0
-    for part in parts:
-        if part in HOLD_KEY_CODES:
-            virtual_key = HOLD_KEY_CODES[part]
-            if part not in {"CTRL", "CONTROL", "SHIFT", "ALT", "WIN", "WINDOWS"}:
-                primary_keys += 1
-        else:
-            virtual_key = _virtual_key_for_name(part)
-            primary_keys += 1
-        if virtual_key not in keys:
-            keys.append(virtual_key)
-    if primary_keys != 1:
-        raise ValueError("hold binding must contain exactly one non-modifier key")
-    return tuple(keys)
+    names = parse_binding_names(value)
+    return tuple(
+        HOLD_KEY_CODES[name] if name in HOLD_KEY_CODES else _virtual_key_for_name(name)
+        for name in names
+    )
 
 
 class GlobalHotkeyManager(QThread):

@@ -1,3 +1,6 @@
+from types import SimpleNamespace
+
+from core.linux_overlay_interaction import LinuxToggleInputMonitor
 from core.overlay_interaction import (
     ToggleInputMonitor,
     WS_EX_LAYERED,
@@ -38,3 +41,21 @@ def test_toggle_monitor_emits_once_per_press_edge():
 
     assert events == [True, False]
     assert monitor.active is False
+
+
+def test_linux_toggle_monitor_observes_binding_without_grabbing():
+    events: list[bool] = []
+    monitor = LinuxToggleInputMonitor("Ctrl+M4")
+    monitor.toggled_changed.connect(events.append)
+    ctrl = SimpleNamespace(name="ctrl_l", char=None)
+    side_button = SimpleNamespace(name="x1")
+
+    monitor._on_key_press(ctrl)
+    monitor._on_click(0, 0, side_button, True)
+    monitor._on_click(0, 0, side_button, True)
+    monitor._on_click(0, 0, side_button, False)
+    monitor._on_click(0, 0, side_button, True)
+
+    assert events == [True, False]
+    monitor.sync_active(True)
+    assert monitor.active is True

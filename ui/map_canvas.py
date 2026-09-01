@@ -94,6 +94,15 @@ class MapCanvas(QGraphicsView):
             | QPainter.RenderHint.TextAntialiasing
         )
         self.setDragMode(QGraphicsView.DragMode.ScrollHandDrag)
+        if self.compact:
+            # The Mini Map draws its edit controls above this viewport. Partial
+            # scroll updates can copy those pixels into the map on some Linux
+            # backing stores, leaving a ghost/duplicate control strip after
+            # follow mode recenters the scene. Repaint the compact viewport in
+            # full so overlaid widgets never become part of its scroll buffer.
+            self.setViewportUpdateMode(
+                QGraphicsView.ViewportUpdateMode.FullViewportUpdate
+            )
         self.setTransformationAnchor(QGraphicsView.ViewportAnchor.AnchorUnderMouse)
         self.setResizeAnchor(QGraphicsView.ViewportAnchor.AnchorViewCenter)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
@@ -678,6 +687,10 @@ class MapCanvas(QGraphicsView):
         if position is None:
             return
         self.centerOn(QPointF(*self.calibration.world_to_pixel(position.x, position.y)))
+        if self.compact:
+            # Queue a clean frame after QGraphicsView has adjusted its scroll
+            # position; this also covers Linux compositors that defer the move.
+            self.viewport().update()
 
     def reset_view(self) -> None:
         self.resetTransform()

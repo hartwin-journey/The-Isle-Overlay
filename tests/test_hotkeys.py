@@ -4,6 +4,7 @@ from core.hotkeys import (
     MOD_CONTROL,
     MOD_NOREPEAT,
     MOD_SHIFT,
+    parse_binding_names,
     parse_hold_binding,
     parse_hotkey,
 )
@@ -26,6 +27,7 @@ def test_mouse_and_keyboard_interaction_bindings():
     assert parse_hold_binding("M4") == (0x05,)
     assert parse_hold_binding("M5") == (0x06,)
     assert parse_hold_binding("Ctrl+Shift+I") == (0x11, 0x10, ord("I"))
+    assert parse_binding_names("Control+XButton1") == ("CTRL", "M4")
 
 
 @pytest.mark.parametrize("value", ["Ctrl+Shift", "Ctrl+A+B", "Ctrl+MagicKey"])

@@ -80,6 +80,7 @@ class HowToUseDialog(QDialog):
           <li>Use <b>Mini Map</b> to show or hide the overlay.</li>
           <li>It starts click-through by default, so stray clicks still go to the game.</li>
           <li><b>Edit mode:</b> press <b>M4 / mouse button 4</b> to unlock the Mini Map. Press it again when you are done.</li>
+          <li>On Linux desktops that block global input observation, use <b>Edit Mini Map</b> in the Full Map toolbar instead.</li>
           <li>While it is unlocked, scroll to zoom and drag to pan.</li>
           <li>Use the small <b>F</b> button to turn player-following on or off.</li>
           <li>The shape button beside <b>F</b> switches between square and circle.</li>

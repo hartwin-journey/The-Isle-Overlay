@@ -10,7 +10,7 @@ Windows also supports optional Automatic Tracking using local OCR.
 
 ## Quick note about the Mini Map
 
-By default, the Windows hotkey for making the Mini Map editable is **Mouse Button 4 (M4)**. You can change it in Settings.
+By default, the hotkey for making the Mini Map editable is **Mouse Button 4 (M4)**. You can change it in Settings.
 
 Press the hotkey once to edit the Mini Map: zoom, pan, toggle auto-follow with the small **F** button, or switch between the square and circle layouts. Press it again when you want the Mini Map to go back to click-through mode.
 
@@ -57,9 +57,9 @@ It supports:
 * Square or circular appearance
 * Click-through mode
 
-On Windows, the Mini Map can be switched between interactive and click-through modes with a configurable input binding.
+On Windows and Linux, the Mini Map can be switched between interactive and click-through modes with a configurable input binding.
 
-On Linux, Mini Map editing is controlled from the Full Map toolbar. Click-through behavior can vary between X11 and Wayland desktop environments.
+On Linux, the binding works on X11 and XWayland without consuming the input. Native Wayland desktops may block global input observation; the **Edit Mini Map** button in the Full Map toolbar remains available as a fallback.
 
 ### Waypoints
 
@@ -143,9 +143,9 @@ See [`map/SOURCE.md`](map/SOURCE.md) for map source and version information. A f
 | Map layers                  |    ✅    |   ✅   |
 | Automatic OCR tracking      |    ✅    |   ❌   |
 | Global shortcuts            |    ✅    |   ❌   |
-| Mini Map interaction hotkey |    ✅    |   ❌   |
+| Mini Map interaction hotkey |    ✅    | X11/XWayland |
 
-Linux intentionally hides Windows specific features rather than replacing them with intrusive or desktop specific alternatives.
+Linux keeps the general Windows shortcut set hidden, while exposing the non-consuming Mini Map interaction binding and a toolbar fallback for native Wayland desktops.
 
 ## Requirements
 
@@ -304,7 +304,7 @@ Windows supports configurable global shortcuts.
 
 Shortcuts can be changed in Settings.
 
-Linux does not currently expose global shortcuts.
+Linux does not currently expose the general global shortcut set. The Mini Map editing binding is available separately on X11/XWayland and can be changed in Settings.
 
 ## Local settings
 

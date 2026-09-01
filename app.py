@@ -25,6 +25,7 @@ from core.clipboard_monitor import ClipboardCoordinateMonitor
 from core.coordinate_transform import load_calibration
 from core.data_loader import LayerRepository
 from core.hotkeys import GlobalHotkeyManager
+from core.linux_overlay_interaction import LinuxToggleInputMonitor
 from core.local_ocr import OcrUnavailableError, WindowsOcrEngine
 from core.models import Position
 from core.overlay_interaction import ToggleInputMonitor
@@ -139,12 +140,22 @@ class ApplicationController:
 
         self.tray_icon: QSystemTrayIcon | None = None
         self._configure_tray()
-        self.overlay_interaction_monitor: ToggleInputMonitor | None = None
+        self.overlay_interaction_monitor: (
+            ToggleInputMonitor | LinuxToggleInputMonitor | None
+        ) = None
         if self.windows_features:
             self.overlay_interaction_monitor = ToggleInputMonitor(
                 str(self.state.settings["overlay_interaction_hold_key"]),
                 parent=self.app,
             )
+        elif os.name != "nt":
+            linux_monitor = LinuxToggleInputMonitor(
+                str(self.state.settings["overlay_interaction_hold_key"]),
+                parent=self.app,
+            )
+            self.overlay_interaction_monitor = linux_monitor
+            self.mini_map.interaction_changed.connect(linux_monitor.sync_active)
+        if self.overlay_interaction_monitor is not None:
             self.overlay_interaction_monitor.toggled_changed.connect(
                 self.mini_map.set_interaction_enabled
             )
@@ -278,8 +289,16 @@ class ApplicationController:
             bool(self.state.settings["automatic_tracking_enabled"])
         )
         if not self.windows_features:
+            shortcut_status = (
+                "Mini Map edit shortcut ready"
+                if isinstance(
+                    self.overlay_interaction_monitor, LinuxToggleInputMonitor
+                )
+                and self.overlay_interaction_monitor.available
+                else "Mini Map editing available from the toolbar"
+            )
             self.main_window.statusBar().showMessage(
-                "Linux mode: clipboard tracking ready · OCR and global shortcuts are Windows-only",
+                f"Linux mode: clipboard tracking ready · {shortcut_status} · OCR is Windows-only",
                 7000,
             )
 

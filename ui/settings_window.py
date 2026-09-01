@@ -191,8 +191,7 @@ class SettingsWindow(QDialog):
         tabs.setDocumentMode(True)
         tabs.addTab(self._build_general_tab(), "Mini Map")
         tabs.addTab(self._build_map_tab(), "Map & Tracking")
-        if self.windows_features:
-            tabs.addTab(self._build_hotkeys_tab(), "Shortcuts")
+        tabs.addTab(self._build_hotkeys_tab(), "Shortcuts")
         tabs.addTab(self._build_calibration_tab(), "Advanced")
         layout.addWidget(tabs)
 
@@ -231,8 +230,9 @@ class SettingsWindow(QDialog):
                 "follow mode, then press it again to lock the overlay back down. You can "
                 "change that binding in Settings > Shortcuts."
                 if self.windows_features
-                else "Use Edit Mini Map in the Full Map toolbar when you want to move, "
-                "zoom, or resize the overlay; turn it off again before returning to the game."
+                else "Use your Mini Map editing shortcut when you want to move, zoom, or "
+                "resize the overlay, then press it again to restore click-through mode. The "
+                "Edit Mini Map toolbar button remains available as a fallback."
             )
         )
         introduction.setWordWrap(True)
@@ -398,8 +398,14 @@ class SettingsWindow(QDialog):
         layout.setContentsMargins(18, 18, 18, 18)
         layout.setSpacing(12)
         label = QLabel(
-            "Shortcuts are listened for at normal Windows user level. The companion never "
-            "suppresses, injects, or forwards them to the game."
+            (
+                "Shortcuts are listened for at normal Windows user level. The companion never "
+                "suppresses, injects, or forwards them to the game."
+                if self.windows_features
+                else "The Mini Map editing shortcut is observed without consuming it, so the "
+                "same input still reaches the game. On desktops that block global input "
+                "observation, use Edit Mini Map in the Full Map toolbar."
+            )
         )
         label.setWordWrap(True)
         label.setObjectName("sectionNote")
@@ -416,10 +422,11 @@ class SettingsWindow(QDialog):
         )
         form.addRow("Toggle Mini Map editing", self.interaction_hold_key)
 
-        for key, name in _SHORTCUT_LABELS.items():
-            field = HotkeyCaptureButton(str(self._settings["hotkeys"].get(key, "")))
-            self._hotkeys[key] = field
-            form.addRow(name, field)
+        if self.windows_features:
+            for key, name in _SHORTCUT_LABELS.items():
+                field = HotkeyCaptureButton(str(self._settings["hotkeys"].get(key, "")))
+                self._hotkeys[key] = field
+                form.addRow(name, field)
         scroll.setWidget(body)
         layout.addWidget(scroll)
         return tab
@@ -500,15 +507,15 @@ class SettingsWindow(QDialog):
         self._settings["layers"]["breadcrumbs"] = bool(
             self._settings["breadcrumbs_enabled"]
         )
+        hold_binding = self.interaction_hold_key.text().strip()
+        try:
+            parse_hold_binding(hold_binding)
+        except ValueError as exc:
+            QMessageBox.warning(self, "Invalid interaction binding", str(exc))
+            self.interaction_hold_key.setFocus(Qt.FocusReason.OtherFocusReason)
+            return
+        self._settings["overlay_interaction_hold_key"] = hold_binding
         if self.windows_features:
-            hold_binding = self.interaction_hold_key.text().strip()
-            try:
-                parse_hold_binding(hold_binding)
-            except ValueError as exc:
-                QMessageBox.warning(self, "Invalid interaction binding", str(exc))
-                self.interaction_hold_key.setFocus(Qt.FocusReason.OtherFocusReason)
-                return
-            self._settings["overlay_interaction_hold_key"] = hold_binding
             for key, field in self._hotkeys.items():
                 self._settings["hotkeys"][key] = field.text().strip()
         zone_intensity = self._layer_opacity_sliders["zones"].value() / 100.0

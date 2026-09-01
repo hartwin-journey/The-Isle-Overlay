@@ -7,6 +7,7 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 from PySide6.QtWidgets import QApplication, QToolBar
 
 from app import ApplicationController
+from core.linux_overlay_interaction import LinuxToggleInputMonitor
 from core.settings import DEFAULT_SETTINGS
 
 
@@ -19,7 +20,13 @@ def test_controller_starts_without_windows_only_services(tmp_path):
     )
 
     assert controller.automatic_tracker is None
-    assert controller.overlay_interaction_monitor is None
+    if os.name == "nt":
+        # windows_features=False simulates Linux UI without changing the host OS.
+        assert controller.overlay_interaction_monitor is None
+    else:
+        assert isinstance(
+            controller.overlay_interaction_monitor, LinuxToggleInputMonitor
+        )
     assert controller.hotkey_manager is None
     assert controller.state.settings["automatic_tracking_enabled"] is False
     toolbar = controller.main_window.findChild(QToolBar, "mainToolbar")

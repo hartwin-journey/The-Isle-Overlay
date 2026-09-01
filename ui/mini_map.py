@@ -34,7 +34,10 @@ class MiniMapControlStrip(QWidget):
     def __init__(self, parent: QWidget) -> None:
         super().__init__(parent)
         self._drag_start: QPoint | None = None
+        self._system_move_active = False
         self.setFixedHeight(30)
+        self.setCursor(Qt.CursorShape.OpenHandCursor)
+        self.setToolTip("Drag MOVE to reposition the Mini Map")
         self.setStyleSheet(
             """
             MiniMapControlStrip {
@@ -103,12 +106,30 @@ class MiniMapControlStrip(QWidget):
 
     def cancel_drag(self) -> None:
         self._drag_start = None
+        self._system_move_active = False
+        self.setCursor(Qt.CursorShape.OpenHandCursor)
 
     def mousePressEvent(self, event: QMouseEvent) -> None:
         if event.button() == Qt.MouseButton.LeftButton:
+            self.setCursor(Qt.CursorShape.ClosedHandCursor)
             self._drag_start = (
                 event.globalPosition().toPoint() - self.window().frameGeometry().topLeft()
             )
+
+            # Wayland intentionally rejects programmatic top-level window moves.
+            # Asking the compositor to begin an interactive move is the portable
+            # path there and also gives X11 window managers their normal snapping
+            # and multi-monitor behavior. Keep the manual move as a fallback for
+            # platforms/plugins that do not implement startSystemMove().
+            if os.name != "nt":
+                handle = self.window().windowHandle()
+                self._system_move_active = bool(
+                    handle is not None and handle.startSystemMove()
+                )
+            else:
+                self._system_move_active = False
+            if self._system_move_active:
+                self._drag_start = None
             event.accept()
             return
         super().mousePressEvent(event)
@@ -118,10 +139,17 @@ class MiniMapControlStrip(QWidget):
             self.window().move(event.globalPosition().toPoint() - self._drag_start)
             event.accept()
             return
+        if self._system_move_active:
+            event.accept()
+            return
         super().mouseMoveEvent(event)
 
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:
-        self._drag_start = None
+        was_dragging = self._drag_start is not None or self._system_move_active
+        self.cancel_drag()
+        if was_dragging and event.button() == Qt.MouseButton.LeftButton:
+            event.accept()
+            return
         super().mouseReleaseEvent(event)
 
 
