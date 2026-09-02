@@ -1,0 +1,2686 @@
+{
+  "format_version": 1,
+  "source": {
+    "name": "VulnonaMAP",
+    "url": "https://vulnona.com/game/map/",
+    "map": "Gateway",
+    "map_version": "0.21.772",
+    "retrieved": "2026-08-28"
+  },
+  "note": "Editable offline point snapshot. Coordinates use compact codes multiplied by 1,000; map data may change.",
+  "items": [
+    {
+      "name": "Gastrolith 1",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-446,462",
+      "position": [
+        -446000,
+        462000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 2",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-444,415",
+      "position": [
+        -444000,
+        415000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 3",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-432,430",
+      "position": [
+        -432000,
+        430000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 4",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-424,317",
+      "position": [
+        -424000,
+        317000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 5",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-392,319",
+      "position": [
+        -392000,
+        319000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 6",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-387,194",
+      "position": [
+        -387000,
+        194000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 7",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-385,328",
+      "position": [
+        -385000,
+        328000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 8",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-372,229",
+      "position": [
+        -372000,
+        229000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 9",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-362,347",
+      "position": [
+        -362000,
+        347000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 10",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-350,356",
+      "position": [
+        -350000,
+        356000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 11",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-344,364",
+      "position": [
+        -344000,
+        364000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 12",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-333,295",
+      "position": [
+        -333000,
+        295000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 13",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-331,268",
+      "position": [
+        -331000,
+        268000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 14",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-327,373",
+      "position": [
+        -327000,
+        373000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 15",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-318,248",
+      "position": [
+        -318000,
+        248000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 16",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-316,110",
+      "position": [
+        -316000,
+        110000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 17",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-316,312",
+      "position": [
+        -316000,
+        312000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 18",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-315,389",
+      "position": [
+        -315000,
+        389000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 19",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-314,208",
+      "position": [
+        -314000,
+        208000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 20",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-308,203",
+      "position": [
+        -308000,
+        203000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 21",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-303,227",
+      "position": [
+        -303000,
+        227000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 22",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-302,474",
+      "position": [
+        -302000,
+        474000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 23",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-295,187",
+      "position": [
+        -295000,
+        187000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 24",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-290,490",
+      "position": [
+        -290000,
+        490000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 25",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-289,84",
+      "position": [
+        -289000,
+        84000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 26",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-289,288",
+      "position": [
+        -289000,
+        288000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 27",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-288,61",
+      "position": [
+        -288000,
+        61000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 28",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-288,201",
+      "position": [
+        -288000,
+        201000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 29",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-287,209",
+      "position": [
+        -287000,
+        209000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 30",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-281,492",
+      "position": [
+        -281000,
+        492000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 31",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-280,185",
+      "position": [
+        -280000,
+        185000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 32",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-279,190",
+      "position": [
+        -279000,
+        190000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 33",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-276,193",
+      "position": [
+        -276000,
+        193000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 34",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-265,210",
+      "position": [
+        -265000,
+        210000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 35",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-252,-116",
+      "position": [
+        -252000,
+        -116000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 36",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-252,290",
+      "position": [
+        -252000,
+        290000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 37",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-249,544",
+      "position": [
+        -249000,
+        544000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 38",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-248,212",
+      "position": [
+        -248000,
+        212000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 39",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-241,116",
+      "position": [
+        -241000,
+        116000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 40",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-238,494",
+      "position": [
+        -238000,
+        494000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 41",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-236,315",
+      "position": [
+        -236000,
+        315000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 42",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-234,54",
+      "position": [
+        -234000,
+        54000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 43",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-229,14",
+      "position": [
+        -229000,
+        14000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 44",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-227,222",
+      "position": [
+        -227000,
+        222000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 45",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-225,131",
+      "position": [
+        -225000,
+        131000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 46",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-225,306",
+      "position": [
+        -225000,
+        306000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 47",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-224,-14",
+      "position": [
+        -224000,
+        -14000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 48",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-220,540",
+      "position": [
+        -220000,
+        540000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 49",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-209,531",
+      "position": [
+        -209000,
+        531000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 50",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-208,-12",
+      "position": [
+        -208000,
+        -12000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 51",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-205,265",
+      "position": [
+        -205000,
+        265000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 52",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-201,-6",
+      "position": [
+        -201000,
+        -6000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 53",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-199,509",
+      "position": [
+        -199000,
+        509000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 54",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-195,450",
+      "position": [
+        -195000,
+        450000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 55",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-184,330",
+      "position": [
+        -184000,
+        330000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 56",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-172,192",
+      "position": [
+        -172000,
+        192000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 57",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-172,427",
+      "position": [
+        -172000,
+        427000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 58",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-170,258",
+      "position": [
+        -170000,
+        258000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 59",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-170,340",
+      "position": [
+        -170000,
+        340000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 60",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-168,178",
+      "position": [
+        -168000,
+        178000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 61",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-161,359",
+      "position": [
+        -161000,
+        359000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 62",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-156,-39",
+      "position": [
+        -156000,
+        -39000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 63",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-156,281",
+      "position": [
+        -156000,
+        281000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 64",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-155,-56",
+      "position": [
+        -155000,
+        -56000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 65",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-154,531",
+      "position": [
+        -154000,
+        531000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 66",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-153,295",
+      "position": [
+        -153000,
+        295000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 67",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-153,329",
+      "position": [
+        -153000,
+        329000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 68",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-150,448",
+      "position": [
+        -150000,
+        448000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 69",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-149,-66",
+      "position": [
+        -149000,
+        -66000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 70",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-149,274",
+      "position": [
+        -149000,
+        274000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 71",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-149,467",
+      "position": [
+        -149000,
+        467000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 72",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-148,-25",
+      "position": [
+        -148000,
+        -25000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 73",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-146,-14",
+      "position": [
+        -146000,
+        -14000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 74",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-146,522",
+      "position": [
+        -146000,
+        522000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 75",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-142,-10",
+      "position": [
+        -142000,
+        -10000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 76",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-141,-169",
+      "position": [
+        -141000,
+        -169000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 77",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-138,-8",
+      "position": [
+        -138000,
+        -8000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 78",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-127,-188",
+      "position": [
+        -127000,
+        -188000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 79",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-124,-12",
+      "position": [
+        -124000,
+        -12000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 80",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-124,4",
+      "position": [
+        -124000,
+        4000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 81",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-122,316",
+      "position": [
+        -122000,
+        316000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 82",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-120,-46",
+      "position": [
+        -120000,
+        -46000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 83",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-118,-189",
+      "position": [
+        -118000,
+        -189000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 84",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-114,-60",
+      "position": [
+        -114000,
+        -60000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 85",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-113,-70",
+      "position": [
+        -113000,
+        -70000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 86",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-112,-27",
+      "position": [
+        -112000,
+        -27000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 87",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-108,0",
+      "position": [
+        -108000,
+        0
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 88",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-107,-229",
+      "position": [
+        -107000,
+        -229000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 89",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-106,-258",
+      "position": [
+        -106000,
+        -258000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 90",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-106,511",
+      "position": [
+        -106000,
+        511000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 91",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-103,271",
+      "position": [
+        -103000,
+        271000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 92",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-102,310",
+      "position": [
+        -102000,
+        310000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 93",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-96,209",
+      "position": [
+        -96000,
+        209000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 94",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-96,218",
+      "position": [
+        -96000,
+        218000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 95",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-93,-3",
+      "position": [
+        -93000,
+        -3000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 96",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-92,249",
+      "position": [
+        -92000,
+        249000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 97",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-90,261",
+      "position": [
+        -90000,
+        261000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 98",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-85,261",
+      "position": [
+        -85000,
+        261000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 99",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-75,-14",
+      "position": [
+        -75000,
+        -14000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 100",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-74,505",
+      "position": [
+        -74000,
+        505000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 101",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-73,-139",
+      "position": [
+        -73000,
+        -139000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 102",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-71,434",
+      "position": [
+        -71000,
+        434000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 103",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-69,2",
+      "position": [
+        -69000,
+        2000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 104",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-64,-167",
+      "position": [
+        -64000,
+        -167000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 105",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-62,219",
+      "position": [
+        -62000,
+        219000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 106",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-62,440",
+      "position": [
+        -62000,
+        440000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 107",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-61,173",
+      "position": [
+        -61000,
+        173000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 108",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-59,191",
+      "position": [
+        -59000,
+        191000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 109",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-58,-98",
+      "position": [
+        -58000,
+        -98000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 110",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-55,-93",
+      "position": [
+        -55000,
+        -93000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 111",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-53,513",
+      "position": [
+        -53000,
+        513000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 112",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-51,-159",
+      "position": [
+        -51000,
+        -159000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 113",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-51,434",
+      "position": [
+        -51000,
+        434000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 114",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-48,198",
+      "position": [
+        -48000,
+        198000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 115",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-48,454",
+      "position": [
+        -48000,
+        454000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 116",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-47,224",
+      "position": [
+        -47000,
+        224000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 117",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-36,430",
+      "position": [
+        -36000,
+        430000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 118",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-31,215",
+      "position": [
+        -31000,
+        215000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 119",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-28,492",
+      "position": [
+        -28000,
+        492000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 120",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-27,226",
+      "position": [
+        -27000,
+        226000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 121",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-27,295",
+      "position": [
+        -27000,
+        295000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 122",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-24,137",
+      "position": [
+        -24000,
+        137000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 123",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-23,147",
+      "position": [
+        -23000,
+        147000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 124",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-22,525",
+      "position": [
+        -22000,
+        525000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 125",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-21,232",
+      "position": [
+        -21000,
+        232000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 126",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-19,241",
+      "position": [
+        -19000,
+        241000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 127",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-13,341",
+      "position": [
+        -13000,
+        341000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 128",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-12,152",
+      "position": [
+        -12000,
+        152000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 129",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-9,-361",
+      "position": [
+        -9000,
+        -361000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 130",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-8,195",
+      "position": [
+        -8000,
+        195000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 131",
+      "category": "Gastrolith",
+      "source_id": "Gastro/-8,226",
+      "position": [
+        -8000,
+        226000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 132",
+      "category": "Gastrolith",
+      "source_id": "Gastro/0,344",
+      "position": [
+        0,
+        344000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 133",
+      "category": "Gastrolith",
+      "source_id": "Gastro/1,428",
+      "position": [
+        1000,
+        428000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 134",
+      "category": "Gastrolith",
+      "source_id": "Gastro/3,-361",
+      "position": [
+        3000,
+        -361000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 135",
+      "category": "Gastrolith",
+      "source_id": "Gastro/5,135",
+      "position": [
+        5000,
+        135000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 136",
+      "category": "Gastrolith",
+      "source_id": "Gastro/7,416",
+      "position": [
+        7000,
+        416000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 137",
+      "category": "Gastrolith",
+      "source_id": "Gastro/8,215",
+      "position": [
+        8000,
+        215000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 138",
+      "category": "Gastrolith",
+      "source_id": "Gastro/9,-283",
+      "position": [
+        9000,
+        -283000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 139",
+      "category": "Gastrolith",
+      "source_id": "Gastro/10,208",
+      "position": [
+        10000,
+        208000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 140",
+      "category": "Gastrolith",
+      "source_id": "Gastro/11,-270",
+      "position": [
+        11000,
+        -270000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 141",
+      "category": "Gastrolith",
+      "source_id": "Gastro/12,183",
+      "position": [
+        12000,
+        183000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 142",
+      "category": "Gastrolith",
+      "source_id": "Gastro/13,275",
+      "position": [
+        13000,
+        275000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 143",
+      "category": "Gastrolith",
+      "source_id": "Gastro/22,-390",
+      "position": [
+        22000,
+        -390000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 144",
+      "category": "Gastrolith",
+      "source_id": "Gastro/38,-57",
+      "position": [
+        38000,
+        -57000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 145",
+      "category": "Gastrolith",
+      "source_id": "Gastro/40,137",
+      "position": [
+        40000,
+        137000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 146",
+      "category": "Gastrolith",
+      "source_id": "Gastro/42,-66",
+      "position": [
+        42000,
+        -66000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 147",
+      "category": "Gastrolith",
+      "source_id": "Gastro/49,340",
+      "position": [
+        49000,
+        340000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 148",
+      "category": "Gastrolith",
+      "source_id": "Gastro/57,145",
+      "position": [
+        57000,
+        145000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 149",
+      "category": "Gastrolith",
+      "source_id": "Gastro/65,17",
+      "position": [
+        65000,
+        17000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 150",
+      "category": "Gastrolith",
+      "source_id": "Gastro/68,222",
+      "position": [
+        68000,
+        222000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 151",
+      "category": "Gastrolith",
+      "source_id": "Gastro/70,230",
+      "position": [
+        70000,
+        230000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 152",
+      "category": "Gastrolith",
+      "source_id": "Gastro/72,154",
+      "position": [
+        72000,
+        154000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 153",
+      "category": "Gastrolith",
+      "source_id": "Gastro/79,322",
+      "position": [
+        79000,
+        322000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 154",
+      "category": "Gastrolith",
+      "source_id": "Gastro/80,147",
+      "position": [
+        80000,
+        147000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 155",
+      "category": "Gastrolith",
+      "source_id": "Gastro/81,225",
+      "position": [
+        81000,
+        225000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 156",
+      "category": "Gastrolith",
+      "source_id": "Gastro/83,184",
+      "position": [
+        83000,
+        184000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 157",
+      "category": "Gastrolith",
+      "source_id": "Gastro/86,310",
+      "position": [
+        86000,
+        310000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 158",
+      "category": "Gastrolith",
+      "source_id": "Gastro/88,296",
+      "position": [
+        88000,
+        296000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 159",
+      "category": "Gastrolith",
+      "source_id": "Gastro/92,-281",
+      "position": [
+        92000,
+        -281000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 160",
+      "category": "Gastrolith",
+      "source_id": "Gastro/97,162",
+      "position": [
+        97000,
+        162000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 161",
+      "category": "Gastrolith",
+      "source_id": "Gastro/101,219",
+      "position": [
+        101000,
+        219000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 162",
+      "category": "Gastrolith",
+      "source_id": "Gastro/101,251",
+      "position": [
+        101000,
+        251000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 163",
+      "category": "Gastrolith",
+      "source_id": "Gastro/107,201",
+      "position": [
+        107000,
+        201000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 164",
+      "category": "Gastrolith",
+      "source_id": "Gastro/115,-279",
+      "position": [
+        115000,
+        -279000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 165",
+      "category": "Gastrolith",
+      "source_id": "Gastro/117,-287",
+      "position": [
+        117000,
+        -287000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 166",
+      "category": "Gastrolith",
+      "source_id": "Gastro/122,237",
+      "position": [
+        122000,
+        237000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 167",
+      "category": "Gastrolith",
+      "source_id": "Gastro/131,-105",
+      "position": [
+        131000,
+        -105000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 168",
+      "category": "Gastrolith",
+      "source_id": "Gastro/153,205",
+      "position": [
+        153000,
+        205000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 169",
+      "category": "Gastrolith",
+      "source_id": "Gastro/155,-321",
+      "position": [
+        155000,
+        -321000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 170",
+      "category": "Gastrolith",
+      "source_id": "Gastro/164,-386",
+      "position": [
+        164000,
+        -386000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 171",
+      "category": "Gastrolith",
+      "source_id": "Gastro/165,-124",
+      "position": [
+        165000,
+        -124000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 172",
+      "category": "Gastrolith",
+      "source_id": "Gastro/168,-368",
+      "position": [
+        168000,
+        -368000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 173",
+      "category": "Gastrolith",
+      "source_id": "Gastro/168,-333",
+      "position": [
+        168000,
+        -333000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 174",
+      "category": "Gastrolith",
+      "source_id": "Gastro/171,-321",
+      "position": [
+        171000,
+        -321000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 175",
+      "category": "Gastrolith",
+      "source_id": "Gastro/175,167",
+      "position": [
+        175000,
+        167000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 176",
+      "category": "Gastrolith",
+      "source_id": "Gastro/176,-393",
+      "position": [
+        176000,
+        -393000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 177",
+      "category": "Gastrolith",
+      "source_id": "Gastro/177,-203",
+      "position": [
+        177000,
+        -203000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 178",
+      "category": "Gastrolith",
+      "source_id": "Gastro/180,-393",
+      "position": [
+        180000,
+        -393000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 179",
+      "category": "Gastrolith",
+      "source_id": "Gastro/182,-393",
+      "position": [
+        182000,
+        -393000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 180",
+      "category": "Gastrolith",
+      "source_id": "Gastro/182,-272",
+      "position": [
+        182000,
+        -272000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 181",
+      "category": "Gastrolith",
+      "source_id": "Gastro/184,85",
+      "position": [
+        184000,
+        85000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 182",
+      "category": "Gastrolith",
+      "source_id": "Gastro/184,127",
+      "position": [
+        184000,
+        127000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 183",
+      "category": "Gastrolith",
+      "source_id": "Gastro/194,-185",
+      "position": [
+        194000,
+        -185000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 184",
+      "category": "Gastrolith",
+      "source_id": "Gastro/198,53",
+      "position": [
+        198000,
+        53000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 185",
+      "category": "Gastrolith",
+      "source_id": "Gastro/198,131",
+      "position": [
+        198000,
+        131000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 186",
+      "category": "Gastrolith",
+      "source_id": "Gastro/199,-126",
+      "position": [
+        199000,
+        -126000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 187",
+      "category": "Gastrolith",
+      "source_id": "Gastro/200,-116",
+      "position": [
+        200000,
+        -116000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 188",
+      "category": "Gastrolith",
+      "source_id": "Gastro/215,-259",
+      "position": [
+        215000,
+        -259000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 189",
+      "category": "Gastrolith",
+      "source_id": "Gastro/216,57",
+      "position": [
+        216000,
+        57000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 190",
+      "category": "Gastrolith",
+      "source_id": "Gastro/216,72",
+      "position": [
+        216000,
+        72000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 191",
+      "category": "Gastrolith",
+      "source_id": "Gastro/221,-396",
+      "position": [
+        221000,
+        -396000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 192",
+      "category": "Gastrolith",
+      "source_id": "Gastro/223,-288",
+      "position": [
+        223000,
+        -288000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 193",
+      "category": "Gastrolith",
+      "source_id": "Gastro/224,-390",
+      "position": [
+        224000,
+        -390000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 194",
+      "category": "Gastrolith",
+      "source_id": "Gastro/224,-163",
+      "position": [
+        224000,
+        -163000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 195",
+      "category": "Gastrolith",
+      "source_id": "Gastro/225,-175",
+      "position": [
+        225000,
+        -175000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 196",
+      "category": "Gastrolith",
+      "source_id": "Gastro/232,-172",
+      "position": [
+        232000,
+        -172000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 197",
+      "category": "Gastrolith",
+      "source_id": "Gastro/236,60",
+      "position": [
+        236000,
+        60000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 198",
+      "category": "Gastrolith",
+      "source_id": "Gastro/239,-397",
+      "position": [
+        239000,
+        -397000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 199",
+      "category": "Gastrolith",
+      "source_id": "Gastro/251,-183",
+      "position": [
+        251000,
+        -183000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 200",
+      "category": "Gastrolith",
+      "source_id": "Gastro/253,116",
+      "position": [
+        253000,
+        116000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 201",
+      "category": "Gastrolith",
+      "source_id": "Gastro/254,-156",
+      "position": [
+        254000,
+        -156000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 202",
+      "category": "Gastrolith",
+      "source_id": "Gastro/255,-395",
+      "position": [
+        255000,
+        -395000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 203",
+      "category": "Gastrolith",
+      "source_id": "Gastro/257,56",
+      "position": [
+        257000,
+        56000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 204",
+      "category": "Gastrolith",
+      "source_id": "Gastro/262,-187",
+      "position": [
+        262000,
+        -187000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 205",
+      "category": "Gastrolith",
+      "source_id": "Gastro/267,-400",
+      "position": [
+        267000,
+        -400000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 206",
+      "category": "Gastrolith",
+      "source_id": "Gastro/272,-65",
+      "position": [
+        272000,
+        -65000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 207",
+      "category": "Gastrolith",
+      "source_id": "Gastro/278,-65",
+      "position": [
+        278000,
+        -65000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 208",
+      "category": "Gastrolith",
+      "source_id": "Gastro/279,104",
+      "position": [
+        279000,
+        104000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 209",
+      "category": "Gastrolith",
+      "source_id": "Gastro/285,30",
+      "position": [
+        285000,
+        30000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 210",
+      "category": "Gastrolith",
+      "source_id": "Gastro/288,76",
+      "position": [
+        288000,
+        76000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 211",
+      "category": "Gastrolith",
+      "source_id": "Gastro/293,-400",
+      "position": [
+        293000,
+        -400000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 212",
+      "category": "Gastrolith",
+      "source_id": "Gastro/300,116",
+      "position": [
+        300000,
+        116000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 213",
+      "category": "Gastrolith",
+      "source_id": "Gastro/301,41",
+      "position": [
+        301000,
+        41000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 214",
+      "category": "Gastrolith",
+      "source_id": "Gastro/307,-139",
+      "position": [
+        307000,
+        -139000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 215",
+      "category": "Gastrolith",
+      "source_id": "Gastro/317,-114",
+      "position": [
+        317000,
+        -114000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 216",
+      "category": "Gastrolith",
+      "source_id": "Gastro/327,-30",
+      "position": [
+        327000,
+        -30000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 217",
+      "category": "Gastrolith",
+      "source_id": "Gastro/329,-92",
+      "position": [
+        329000,
+        -92000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 218",
+      "category": "Gastrolith",
+      "source_id": "Gastro/329,-31",
+      "position": [
+        329000,
+        -31000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 219",
+      "category": "Gastrolith",
+      "source_id": "Gastro/335,-146",
+      "position": [
+        335000,
+        -146000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 220",
+      "category": "Gastrolith",
+      "source_id": "Gastro/336,-81",
+      "position": [
+        336000,
+        -81000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 221",
+      "category": "Gastrolith",
+      "source_id": "Gastro/337,-146",
+      "position": [
+        337000,
+        -146000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 222",
+      "category": "Gastrolith",
+      "source_id": "Gastro/338,-46",
+      "position": [
+        338000,
+        -46000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 223",
+      "category": "Gastrolith",
+      "source_id": "Gastro/343,170",
+      "position": [
+        343000,
+        170000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 224",
+      "category": "Gastrolith",
+      "source_id": "Gastro/347,-363",
+      "position": [
+        347000,
+        -363000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 225",
+      "category": "Gastrolith",
+      "source_id": "Gastro/348,-369",
+      "position": [
+        348000,
+        -369000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 226",
+      "category": "Gastrolith",
+      "source_id": "Gastro/348,177",
+      "position": [
+        348000,
+        177000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 227",
+      "category": "Gastrolith",
+      "source_id": "Gastro/349,175",
+      "position": [
+        349000,
+        175000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 228",
+      "category": "Gastrolith",
+      "source_id": "Gastro/350,-178",
+      "position": [
+        350000,
+        -178000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 229",
+      "category": "Gastrolith",
+      "source_id": "Gastro/350,166",
+      "position": [
+        350000,
+        166000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 230",
+      "category": "Gastrolith",
+      "source_id": "Gastro/356,172",
+      "position": [
+        356000,
+        172000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 231",
+      "category": "Gastrolith",
+      "source_id": "Gastro/364,-330",
+      "position": [
+        364000,
+        -330000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 232",
+      "category": "Gastrolith",
+      "source_id": "Gastro/367,-187",
+      "position": [
+        367000,
+        -187000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 233",
+      "category": "Gastrolith",
+      "source_id": "Gastro/369,-200",
+      "position": [
+        369000,
+        -200000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 234",
+      "category": "Gastrolith",
+      "source_id": "Gastro/369,70",
+      "position": [
+        369000,
+        70000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 235",
+      "category": "Gastrolith",
+      "source_id": "Gastro/370,111",
+      "position": [
+        370000,
+        111000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 236",
+      "category": "Gastrolith",
+      "source_id": "Gastro/371,-285",
+      "position": [
+        371000,
+        -285000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 237",
+      "category": "Gastrolith",
+      "source_id": "Gastro/374,29",
+      "position": [
+        374000,
+        29000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 238",
+      "category": "Gastrolith",
+      "source_id": "Gastro/375,30",
+      "position": [
+        375000,
+        30000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 239",
+      "category": "Gastrolith",
+      "source_id": "Gastro/384,-221",
+      "position": [
+        384000,
+        -221000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 240",
+      "category": "Gastrolith",
+      "source_id": "Gastro/385,-56",
+      "position": [
+        385000,
+        -56000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 241",
+      "category": "Gastrolith",
+      "source_id": "Gastro/394,87",
+      "position": [
+        394000,
+        87000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 242",
+      "category": "Gastrolith",
+      "source_id": "Gastro/396,-252",
+      "position": [
+        396000,
+        -252000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    },
+    {
+      "name": "Gastrolith 243",
+      "category": "Gastrolith",
+      "source_id": "Gastro/416,-230",
+      "position": [
+        416000,
+        -230000
+      ],
+      "description": "AI location from the local Gateway reference snapshot.",
+      "show_label": false
+    }
+  ]
+}

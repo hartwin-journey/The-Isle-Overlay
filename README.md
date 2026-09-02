@@ -34,6 +34,7 @@ Available layers include:
 * Named locations
 * Food locations
 * AI locations
+* Gastroliths
 * Salt licks
 * Spawn areas
 * Custom markers

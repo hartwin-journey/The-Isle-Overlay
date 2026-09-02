@@ -33,6 +33,7 @@ NAMED_POI_LAYERS = (
     "locations",
     "food",
     "ai",
+    "gastrolith",
     "salt_licks",
     "spawns",
     "custom_markers",

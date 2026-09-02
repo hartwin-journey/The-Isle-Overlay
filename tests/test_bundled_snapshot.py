@@ -61,7 +61,8 @@ def test_gateway_snapshot_layer_counts():
         "water.json": 27,
         "locations.json": 74,
         "food.json": 266,
-        "ai.json": 750,
+        "ai.json": 507,
+        "gastrolith.json": 243,
         "salt_licks.json": 24,
     }
     for filename, count in expected.items():

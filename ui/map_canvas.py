@@ -46,6 +46,7 @@ LAYER_COLORS = {
     "locations": "#e5e7eb",
     "food": "#8dd66b",
     "ai": "#d991f0",
+    "gastrolith": "#a89cb0",
     "salt_licks": "#e7c574",
     "spawns": "#ff9f68",
     "custom_markers": "#ffd166",
@@ -168,6 +169,7 @@ class MapCanvas(QGraphicsView):
             "locations",
             "food",
             "ai",
+            "gastrolith",
             "salt_licks",
             "spawns",
             "custom_markers",
@@ -187,6 +189,7 @@ class MapCanvas(QGraphicsView):
                     "locations": 12,
                     "food": 13,
                     "ai": 14,
+                    "gastrolith": 18,
                     "salt_licks": 15,
                     "spawns": 16,
                     "custom_markers": 17,
@@ -215,6 +218,7 @@ class MapCanvas(QGraphicsView):
             "locations",
             "food",
             "ai",
+            "gastrolith",
             "salt_licks",
             "spawns",
             "custom_markers",
@@ -462,7 +466,7 @@ class MapCanvas(QGraphicsView):
             except (KeyError, TypeError, ValueError, IndexError):
                 continue
             marker: QGraphicsItem | None = None
-            if name == "ai":
+            if name in ("ai", "gastrolith"):
                 icon_size = 24 if not self.compact else 18
                 icon = self._load_ai_icon(str(point.get("category", "")), icon_size)
                 if icon is not None:
