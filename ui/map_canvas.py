@@ -58,6 +58,7 @@ LAYER_COLORS = {
 CATEGORY_ICON_FOLDERS = {
     "ai": "ai",
     "gastrolith": "gastroliths",
+    "food": "food",
 }
 
 # Palette sampled from the corresponding Gateway layers on VulnonaMAP.
