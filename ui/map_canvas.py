@@ -53,8 +53,8 @@ LAYER_COLORS = {
 }
 
 # Layers whose markers are drawn as per-category PNG icons, mapped to their
-# folder under ui/icons/. Any category without a matching PNG falls back to the
-# layer's colored dot.
+# folder under assets/icons/. Any category without a matching PNG falls back to
+# the layer's colored dot.
 CATEGORY_ICON_FOLDERS = {
     "ai": "ai",
     "gastrolith": "gastroliths",
@@ -446,8 +446,8 @@ class MapCanvas(QGraphicsView):
         """Locate a per-layer icon folder in source and frozen builds."""
 
         if getattr(sys, "frozen", False):
-            return self.map_path.parent.parent / "ui" / "icons" / subfolder
-        return Path(__file__).resolve().parent / "icons" / subfolder
+            return self.map_path.parent.parent / "assets" / "icons" / subfolder
+        return Path(__file__).resolve().parent.parent / "assets" / "icons" / subfolder
 
     def _load_category_icon(
         self, subfolder: str, category: str, size: int
@@ -509,7 +509,7 @@ class MapCanvas(QGraphicsView):
                     marker = pixmap_item
             if marker is None:
                 # Fallback: the original colored dot (any layer, or an AI
-                # category without a matching PNG in ui/icons/ai).
+                # category without a matching PNG in assets/icons/).
                 radius = 7 if not self.compact else 6
                 marker = QGraphicsEllipseItem(
                     pixel_x - radius, pixel_y - radius, radius * 2, radius * 2
