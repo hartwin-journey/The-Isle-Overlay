@@ -65,7 +65,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.project_root = project_root
         self.settings_store = settings_store
-        self.calibration_path = project_root / "map" / "calibration.json"
+        self.calibration_path = project_root / "assets" / "map" / "calibration.json"
         self.calibration = calibration
         self.repository = repository
         self.state = state
@@ -179,7 +179,7 @@ class MainWindow(QMainWindow):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
         self.map_canvas = MapCanvas(
-            self.project_root / "map" / "gateway.webp",
+            self.project_root / "assets" / "map" / "gateway.webp",
             self.calibration,
             self.repository,
             self.state,

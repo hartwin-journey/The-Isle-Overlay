@@ -84,7 +84,7 @@ class ApplicationController:
         if not self.windows_features and settings["automatic_tracking_enabled"]:
             settings["automatic_tracking_enabled"] = False
             self.settings_store.save()
-        calibration = load_calibration(project_root / "map" / "calibration.json")
+        calibration = load_calibration(project_root / "assets" / "map" / "calibration.json")
         data_folder = Path(str(settings["data_folder"]))
         if not data_folder.is_absolute():
             data_folder = project_root / data_folder
@@ -103,7 +103,7 @@ class ApplicationController:
             windows_features=self.windows_features,
         )
         self.mini_map = MiniMapWindow(
-            project_root / "map" / "gateway.webp",
+            project_root / "assets" / "map" / "gateway.webp",
             calibration,
             self.repository,
             self.state,

@@ -130,7 +130,7 @@ The map, layers, settings, coordinates, markers, and tracking data remain on you
 
 The project includes the Gateway v0.21.772 basemap, matching water overlay, coordinate calibration, and offline map layer data.
 
-See [`map/SOURCE.md`](map/SOURCE.md) for map source and version information. A few project guardrails are captured in [`docs/DECISIONS.md`](docs/DECISIONS.md).
+See [`assets/map/SOURCE.md`](assets/map/SOURCE.md) for map source and version information. A few project guardrails are captured in [`docs/DECISIONS.md`](docs/DECISIONS.md).
 
 ## Platform support
 

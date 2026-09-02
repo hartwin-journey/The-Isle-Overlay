@@ -170,7 +170,7 @@ class MapCanvas(QGraphicsView):
         painter.drawText(
             pixmap.rect(),
             Qt.AlignmentFlag.AlignCenter,
-            "OFFLINE MAP PLACEHOLDER\n\nReplace map/gateway.webp\nand adjust map/calibration.json",
+            "OFFLINE MAP PLACEHOLDER\n\nReplace assets/map/gateway.webp\nand adjust assets/map/calibration.json",
         )
         painter.end()
         return pixmap
@@ -446,7 +446,9 @@ class MapCanvas(QGraphicsView):
         """Locate a per-layer icon folder in source and frozen builds."""
 
         if getattr(sys, "frozen", False):
-            return self.map_path.parent.parent / "assets" / "icons" / subfolder
+            # map_path is <root>/assets/map/gateway.webp, so its grandparent is
+            # the bundled assets/ folder that also holds the icons.
+            return self.map_path.parent.parent / "icons" / subfolder
         return Path(__file__).resolve().parent.parent / "assets" / "icons" / subfolder
 
     def _load_category_icon(
