@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import math
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -421,6 +422,35 @@ class MapCanvas(QGraphicsView):
             item.setToolTip(f"{name}\n{sanctuary.get('description', '')}".strip())
             group.addToGroup(item)
 
+    def _ai_icons_dir(self) -> Path:
+        """Locate the per-category AI icon folder in source and frozen builds."""
+
+        if getattr(sys, "frozen", False):
+            return self.map_path.parent.parent / "ui" / "icons" / "ai"
+        return Path(__file__).resolve().parent / "icons" / "ai"
+
+    def _load_ai_icon(self, category: str, size: int) -> QPixmap | None:
+        """Return a cached, scaled PNG for an AI category, or None to fall back."""
+
+        slug = category.strip().lower().replace(" ", "_")
+        if not slug:
+            return None
+        cache_key = f"ai_icon::{slug}::{size}"
+        cached = PIXMAP_CACHE.get(cache_key)
+        if cached is not None:
+            return cached if not cached.isNull() else None
+        path = self._ai_icons_dir() / f"{slug}.png"
+        pixmap = QPixmap(str(path)) if path.is_file() else QPixmap()
+        if not pixmap.isNull():
+            pixmap = pixmap.scaled(
+                size,
+                size,
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation,
+            )
+        PIXMAP_CACHE[cache_key] = pixmap
+        return pixmap if not pixmap.isNull() else None
+
     def _render_point_layer(self, name: str, color_name: str) -> None:
         group = self._groups[name]
         color = QColor(color_name)
@@ -431,10 +461,32 @@ class MapCanvas(QGraphicsView):
                 pixel_x, pixel_y = self.calibration.world_to_pixel(world_x, world_y)
             except (KeyError, TypeError, ValueError, IndexError):
                 continue
-            radius = 7 if not self.compact else 6
-            marker = QGraphicsEllipseItem(pixel_x - radius, pixel_y - radius, radius * 2, radius * 2)
-            marker.setBrush(QBrush(color))
-            marker.setPen(QPen(QColor("#071115"), 2))
+            marker: QGraphicsItem | None = None
+            if name == "ai":
+                icon_size = 24 if not self.compact else 18
+                icon = self._load_ai_icon(str(point.get("category", "")), icon_size)
+                if icon is not None:
+                    pixmap_item = QGraphicsPixmapItem(icon)
+                    pixmap_item.setOffset(-icon.width() / 2, -icon.height() / 2)
+                    pixmap_item.setPos(pixel_x, pixel_y)
+                    pixmap_item.setTransformationMode(
+                        Qt.TransformationMode.SmoothTransformation
+                    )
+                    # Keep icons a constant on-screen size at any map zoom.
+                    pixmap_item.setFlag(
+                        QGraphicsItem.GraphicsItemFlag.ItemIgnoresTransformations,
+                        True,
+                    )
+                    marker = pixmap_item
+            if marker is None:
+                # Fallback: the original colored dot (any layer, or an AI
+                # category without a matching PNG in ui/icons/ai).
+                radius = 7 if not self.compact else 6
+                marker = QGraphicsEllipseItem(
+                    pixel_x - radius, pixel_y - radius, radius * 2, radius * 2
+                )
+                marker.setBrush(QBrush(color))
+                marker.setPen(QPen(QColor("#071115"), 2))
             marker.setToolTip(
                 f"{point.get('name', name.replace('_', ' ').title())}\n{point.get('description', '')}".strip()
             )
