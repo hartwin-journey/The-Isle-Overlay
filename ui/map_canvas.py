@@ -59,6 +59,13 @@ CATEGORY_ICON_FOLDERS = {
     "ai": "ai",
     "gastrolith": "gastroliths",
     "food": "food",
+    "salt_licks": "salt_licks",
+}
+
+# Icon slug to use when an item in an icon layer has no ``category`` of its own,
+# so a single-type layer (e.g. salt licks) can share one PNG.
+LAYER_ICON_DEFAULTS = {
+    "salt_licks": "salt_lick",
 }
 
 # Palette sampled from the corresponding Gateway layers on VulnonaMAP.
@@ -479,9 +486,12 @@ class MapCanvas(QGraphicsView):
             marker: QGraphicsItem | None = None
             if name in CATEGORY_ICON_FOLDERS:
                 icon_size = 24 if not self.compact else 18
+                category = str(point.get("category", "")) or LAYER_ICON_DEFAULTS.get(
+                    name, ""
+                )
                 icon = self._load_category_icon(
                     CATEGORY_ICON_FOLDERS[name],
-                    str(point.get("category", "")),
+                    category,
                     icon_size,
                 )
                 if icon is not None:
