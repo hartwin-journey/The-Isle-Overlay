@@ -52,6 +52,14 @@ LAYER_COLORS = {
     "custom_markers": "#ffd166",
 }
 
+# Layers whose markers are drawn as per-category PNG icons, mapped to their
+# folder under ui/icons/. Any category without a matching PNG falls back to the
+# layer's colored dot.
+CATEGORY_ICON_FOLDERS = {
+    "ai": "ai",
+    "gastrolith": "gastroliths",
+}
+
 # Palette sampled from the corresponding Gateway layers on VulnonaMAP.
 VULNONA_MIGRATION_FILL = "#00CC77"
 VULNONA_MIGRATION_OUTLINE = "#000000"
@@ -426,24 +434,26 @@ class MapCanvas(QGraphicsView):
             item.setToolTip(f"{name}\n{sanctuary.get('description', '')}".strip())
             group.addToGroup(item)
 
-    def _ai_icons_dir(self) -> Path:
-        """Locate the per-category AI icon folder in source and frozen builds."""
+    def _icons_dir(self, subfolder: str) -> Path:
+        """Locate a per-layer icon folder in source and frozen builds."""
 
         if getattr(sys, "frozen", False):
-            return self.map_path.parent.parent / "ui" / "icons" / "ai"
-        return Path(__file__).resolve().parent / "icons" / "ai"
+            return self.map_path.parent.parent / "ui" / "icons" / subfolder
+        return Path(__file__).resolve().parent / "icons" / subfolder
 
-    def _load_ai_icon(self, category: str, size: int) -> QPixmap | None:
-        """Return a cached, scaled PNG for an AI category, or None to fall back."""
+    def _load_category_icon(
+        self, subfolder: str, category: str, size: int
+    ) -> QPixmap | None:
+        """Return a cached, scaled category PNG, or None to fall back to a dot."""
 
         slug = category.strip().lower().replace(" ", "_")
         if not slug:
             return None
-        cache_key = f"ai_icon::{slug}::{size}"
+        cache_key = f"cat_icon::{subfolder}::{slug}::{size}"
         cached = PIXMAP_CACHE.get(cache_key)
         if cached is not None:
             return cached if not cached.isNull() else None
-        path = self._ai_icons_dir() / f"{slug}.png"
+        path = self._icons_dir(subfolder) / f"{slug}.png"
         pixmap = QPixmap(str(path)) if path.is_file() else QPixmap()
         if not pixmap.isNull():
             pixmap = pixmap.scaled(
@@ -466,9 +476,13 @@ class MapCanvas(QGraphicsView):
             except (KeyError, TypeError, ValueError, IndexError):
                 continue
             marker: QGraphicsItem | None = None
-            if name in ("ai", "gastrolith"):
+            if name in CATEGORY_ICON_FOLDERS:
                 icon_size = 24 if not self.compact else 18
-                icon = self._load_ai_icon(str(point.get("category", "")), icon_size)
+                icon = self._load_category_icon(
+                    CATEGORY_ICON_FOLDERS[name],
+                    str(point.get("category", "")),
+                    icon_size,
+                )
                 if icon is not None:
                     pixmap_item = QGraphicsPixmapItem(icon)
                     pixmap_item.setOffset(-icon.width() / 2, -icon.height() / 2)

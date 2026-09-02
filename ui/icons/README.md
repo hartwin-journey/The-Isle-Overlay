@@ -1,12 +1,14 @@
 # AI category icons
 
-PNG markers drawn for entries in [`data/ai.json`](../../../data/ai.json), one per `category`. The map renderers ([`ui/map_canvas.py`](../../map_canvas.py)) looks up a file here by slugifying the category: lower-cased, spaces replaced with underscores, `.png` appended.
+PNG markers drawn for entries in [`data/ai.json`](../../data/ai.json), one per `category`. The map renderers ([`ui/map_canvas.py`](../map_canvas.py)) looks up a file here by slugifying the category: lower-cased, spaces replaced with underscores, `.png` appended.
 
-Square PNGs with transparency work best; They are scaled to 24px on the Full Map and 18px on the Mini Map, keeping a constant on-screen size at any zoom.
+PNGs with transparency work best; They are scaled to 24px on the Full Map and 18px on the Mini Map, keeping a constant on-screen size at any zoom.
 
 If a category has no matching PNG here, that marker automatically falls back to the original colored dot, so icons can be added one at a time.
 
 Icons are taken from the `Flat Circular Flat` pack from [https://www.flaticon.com/free-icon/](https://www.flaticon.com/free-icon/). Source Attribution is mentioned below.
+
+### Icons for AI
 
 | `category` in ai.json | file name            | Source                                                                                                                                      |
 |-----------------------|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
@@ -23,3 +25,9 @@ Icons are taken from the `Flat Circular Flat` pack from [https://www.flaticon.co
 | Rabbit                | `rabbit.png`         | <a href="https://www.flaticon.com/free-icons/rabbit" title="rabbit icons">Rabbit icons created by Magnific - Flaticon</a>                   |
 | Taco                  | `taco.png`           | <a href="https://www.flaticon.com/free-icons/paleontology" title="Paleontology icons">Paleontology icons created by Magnific - Flaticon</a> |
 | Turtle                | `turtle.png`         | <a href="https://www.flaticon.com/free-icons/turtle" title="turtle icons">Turtle icons created by Magnific - Flaticon</a>                   |
+
+### Icons for gastroliths
+
+| File name            | Source                                                                                                                                      |
+| ---------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| `gastrolith.png`     | <a href="https://www.flaticon.com/free-icons/rocks" title="rocks icons">Rocks icons created by Magnific - Flaticon</a>                      |
