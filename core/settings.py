@@ -5,6 +5,7 @@ from __future__ import annotations
 import copy
 import json
 import logging
+import math
 from pathlib import Path
 from typing import Any
 
@@ -120,6 +121,33 @@ def _deep_merge(defaults: dict[str, Any], loaded: dict[str, Any]) -> dict[str, A
     return result
 
 
+def _repair_types(values: dict[str, Any], defaults: dict[str, Any]) -> None:
+    """Repair individual invalid fields without discarding valid preferences."""
+
+    for key, default in defaults.items():
+        value = values.get(key, default)
+        if isinstance(default, dict):
+            if not isinstance(value, dict):
+                value = copy.deepcopy(default)
+            if default:
+                _repair_types(value, default)
+            else:
+                value = {name: visible for name, visible in value.items() if isinstance(visible, bool)}
+        elif isinstance(default, bool):
+            value = bool(value) if isinstance(value, (bool, int)) and value in (0, 1) else default
+        elif isinstance(default, (int, float)):
+            try:
+                number = float(value)
+                if isinstance(value, bool) or not math.isfinite(number):
+                    raise ValueError("Expected a finite number")
+                value = int(number) if isinstance(default, int) else number
+            except (TypeError, ValueError, OverflowError):
+                value = default
+        elif isinstance(default, str) and (not isinstance(value, str) or not value.strip()):
+            value = default
+        values[key] = value
+
+
 class SettingsStore:
     """Owns settings stored only on the local machine."""
 
@@ -148,6 +176,7 @@ class SettingsStore:
         return self.values
 
     def _validate(self) -> None:
+        _repair_types(self.values, DEFAULT_SETTINGS)
         self.values["overlay_opacity"] = min(1.0, max(0.2, float(self.values["overlay_opacity"])))
         self.values["overlay_size"] = min(1200, max(180, int(self.values["overlay_size"])))
         if self.values.get("overlay_shape") not in {"square", "circle"}:

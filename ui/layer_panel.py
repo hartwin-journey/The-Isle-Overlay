@@ -78,12 +78,14 @@ class LayerPanel(QWidget):
         body_layout.setContentsMargins(0, 4, 0, 4)
         body_layout.setSpacing(10)
 
+        self.layer_checkboxes: dict[str, QCheckBox] = {}
         for section_name, layer_names in LAYER_SECTIONS:
             group = QGroupBox(section_name)
             group_layout = QVBoxLayout(group)
             group_layout.setSpacing(3)
             for key in layer_names:
                 checkbox = QCheckBox(LAYER_LABELS[key])
+                self.layer_checkboxes[key] = checkbox
                 checkbox.setChecked(bool(state.settings["layers"].get(key, True)))
                 checkbox.toggled.connect(
                     lambda checked, name=key: self._toggle_layer(name, checked)
@@ -164,6 +166,14 @@ class LayerPanel(QWidget):
         body_layout.addStretch()
         scroll.setWidget(body)
         layout.addWidget(scroll)
+        state.layers_changed.connect(self._sync_layer_controls)
+        state.settings_changed.connect(self._sync_layer_controls)
+
+    def _sync_layer_controls(self) -> None:
+        for key, checkbox in self.layer_checkboxes.items():
+            checkbox.blockSignals(True)
+            checkbox.setChecked(bool(self.state.settings["layers"].get(key, True)))
+            checkbox.blockSignals(False)
 
     def _toggle_zone_filters(self, expanded: bool) -> None:
         self.zone_filter_toggle.setArrowType(

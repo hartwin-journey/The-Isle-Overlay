@@ -154,8 +154,10 @@ class ApplicationController:
                 parent=self.app,
             )
             self.overlay_interaction_monitor = linux_monitor
-            self.mini_map.interaction_changed.connect(linux_monitor.sync_active)
         if self.overlay_interaction_monitor is not None:
+            self.mini_map.interaction_changed.connect(
+                self.overlay_interaction_monitor.sync_active
+            )
             self.overlay_interaction_monitor.toggled_changed.connect(
                 self.mini_map.set_interaction_enabled
             )
@@ -174,6 +176,7 @@ class ApplicationController:
 
     def _handle_automatic_position(self, position: Position) -> None:
         self.state.update_position(position)
+        self.main_window.clipboard_status.setText("Position updated from Automatic Tracking")
 
     def _automatic_tracking_unavailable(self, reason: str) -> None:
         self.state.settings["automatic_tracking_enabled"] = False
@@ -225,9 +228,9 @@ class ApplicationController:
         tray = QSystemTrayIcon(create_app_icon(), self.app)
         tray.setToolTip("The Isle Companion")
         menu = QMenu()
-        show_full = QAction("Show Full Map", menu)
+        show_full = QAction("Show / hide Full Map", menu)
         show_full.triggered.connect(self.main_window.toggle_full_map)
-        show_mini = QAction("Show Mini Map", menu)
+        show_mini = QAction("Show / hide Mini Map", menu)
         show_mini.triggered.connect(self.main_window.toggle_mini_map)
         quit_action = QAction("Exit", menu)
         quit_action.triggered.connect(self.shutdown)

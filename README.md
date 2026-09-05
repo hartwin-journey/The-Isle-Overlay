@@ -14,6 +14,8 @@ By default, the hotkey for making the Mini Map editable is **Mouse Button 4 (M4)
 
 Press the hotkey once to edit the Mini Map: zoom, pan, toggle auto-follow with the small **F** button, or switch between the square and circle layouts. Press it again when you want the Mini Map to go back to click-through mode.
 
+You can also use **Edit Mini Map** in the Full Map toolbar on either platform if the shortcut is unavailable.
+
 <img width="2553" height="1420" alt="The Isle Companion main map" src="https://github.com/user-attachments/assets/085b5d09-3a31-4fe7-8440-30f035580986" />
 
 <img width="1917" height="1270" alt="The Isle Companion Mini Map" src="https://github.com/user-attachments/assets/d576b604-d302-420f-963a-304a27d62991" />
@@ -361,6 +363,16 @@ The project currently targets **Gateway v0.21.772**.
 Map data such as migrations, sanctuaries, patrol zones, POIs, and updrafts is stored locally and can be updated as Gateway changes.
 
 The runtime does not contact VulnonaMAP or another external map service.
+
+## Development checks
+
+Install `requirements-dev.txt`, then run:
+
+```bash
+python -m pytest -q
+```
+
+The suite includes offscreen Qt interaction tests and regression checks for settings recovery, layer visibility, Mini Map edit synchronization, and zoom limits. Offscreen tests do not replace checking native desktop behavior; see [`docs/QA.md`](docs/QA.md) for a manual release checklist.
 
 ## Contributing
 

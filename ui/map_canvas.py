@@ -705,11 +705,16 @@ class MapCanvas(QGraphicsView):
         self.render_waypoint()
 
     def wheelEvent(self, event: QWheelEvent) -> None:
-        factor = 1.2 if event.angleDelta().y() > 0 else 1 / 1.2
+        delta = event.angleDelta().y() or event.pixelDelta().y()
+        if not delta:
+            event.ignore()
+            return
+        factor = 1.2 if delta > 0 else 1 / 1.2
         current_scale = self.transform().m11()
-        if (factor > 1 and current_scale < 20.0) or (factor < 1 and current_scale > 0.05):
-            self.scale(factor, factor)
-            self._update_detail_visibility()
+        target_scale = min(20.0, max(0.05, current_scale * factor))
+        self.scale(target_scale / current_scale, target_scale / current_scale)
+        self._update_detail_visibility()
+        event.accept()
 
     def cancel_mouse_interaction(self) -> None:
         """Reset local drag bookkeeping when the overlay becomes click-through."""
