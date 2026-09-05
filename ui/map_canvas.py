@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import math
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -45,9 +46,26 @@ LAYER_COLORS = {
     "locations": "#e5e7eb",
     "food": "#8dd66b",
     "ai": "#d991f0",
+    "gastrolith": "#a89cb0",
     "salt_licks": "#e7c574",
     "spawns": "#ff9f68",
     "custom_markers": "#ffd166",
+}
+
+# Layers whose markers are drawn as per-category PNG icons, mapped to their
+# folder under assets/icons/. Any category without a matching PNG falls back to
+# the layer's colored dot.
+CATEGORY_ICON_FOLDERS = {
+    "ai": "ai",
+    "gastrolith": "gastroliths",
+    "food": "food",
+    "salt_licks": "salt_licks",
+}
+
+# Icon slug to use when an item in an icon layer has no ``category`` of its own,
+# so a single-type layer (e.g. salt licks) can share one PNG.
+LAYER_ICON_DEFAULTS = {
+    "salt_licks": "salt_lick",
 }
 
 # Palette sampled from the corresponding Gateway layers on VulnonaMAP.
@@ -152,7 +170,7 @@ class MapCanvas(QGraphicsView):
         painter.drawText(
             pixmap.rect(),
             Qt.AlignmentFlag.AlignCenter,
-            "OFFLINE MAP PLACEHOLDER\n\nReplace map/gateway.webp\nand adjust map/calibration.json",
+            "OFFLINE MAP PLACEHOLDER\n\nReplace assets/map/gateway.webp\nand adjust assets/map/calibration.json",
         )
         painter.end()
         return pixmap
@@ -167,6 +185,7 @@ class MapCanvas(QGraphicsView):
             "locations",
             "food",
             "ai",
+            "gastrolith",
             "salt_licks",
             "spawns",
             "custom_markers",
@@ -186,6 +205,7 @@ class MapCanvas(QGraphicsView):
                     "locations": 12,
                     "food": 13,
                     "ai": 14,
+                    "gastrolith": 18,
                     "salt_licks": 15,
                     "spawns": 16,
                     "custom_markers": 17,
@@ -214,6 +234,7 @@ class MapCanvas(QGraphicsView):
             "locations",
             "food",
             "ai",
+            "gastrolith",
             "salt_licks",
             "spawns",
             "custom_markers",
@@ -421,6 +442,39 @@ class MapCanvas(QGraphicsView):
             item.setToolTip(f"{name}\n{sanctuary.get('description', '')}".strip())
             group.addToGroup(item)
 
+    def _icons_dir(self, subfolder: str) -> Path:
+        """Locate a per-layer icon folder in source and frozen builds."""
+
+        if getattr(sys, "frozen", False):
+            # map_path is <root>/assets/map/gateway.webp, so its grandparent is
+            # the bundled assets/ folder that also holds the icons.
+            return self.map_path.parent.parent / "icons" / subfolder
+        return Path(__file__).resolve().parent.parent / "assets" / "icons" / subfolder
+
+    def _load_category_icon(
+        self, subfolder: str, category: str, size: int
+    ) -> QPixmap | None:
+        """Return a cached, scaled category PNG, or None to fall back to a dot."""
+
+        slug = category.strip().lower().replace(" ", "_")
+        if not slug:
+            return None
+        cache_key = f"cat_icon::{subfolder}::{slug}::{size}"
+        cached = PIXMAP_CACHE.get(cache_key)
+        if cached is not None:
+            return cached if not cached.isNull() else None
+        path = self._icons_dir(subfolder) / f"{slug}.png"
+        pixmap = QPixmap(str(path)) if path.is_file() else QPixmap()
+        if not pixmap.isNull():
+            pixmap = pixmap.scaled(
+                size,
+                size,
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation,
+            )
+        PIXMAP_CACHE[cache_key] = pixmap
+        return pixmap if not pixmap.isNull() else None
+
     def _render_point_layer(self, name: str, color_name: str) -> None:
         group = self._groups[name]
         color = QColor(color_name)
@@ -431,10 +485,39 @@ class MapCanvas(QGraphicsView):
                 pixel_x, pixel_y = self.calibration.world_to_pixel(world_x, world_y)
             except (KeyError, TypeError, ValueError, IndexError):
                 continue
-            radius = 7 if not self.compact else 6
-            marker = QGraphicsEllipseItem(pixel_x - radius, pixel_y - radius, radius * 2, radius * 2)
-            marker.setBrush(QBrush(color))
-            marker.setPen(QPen(QColor("#071115"), 2))
+            marker: QGraphicsItem | None = None
+            if name in CATEGORY_ICON_FOLDERS:
+                icon_size = 24 if not self.compact else 18
+                category = str(point.get("category", "")) or LAYER_ICON_DEFAULTS.get(
+                    name, ""
+                )
+                icon = self._load_category_icon(
+                    CATEGORY_ICON_FOLDERS[name],
+                    category,
+                    icon_size,
+                )
+                if icon is not None:
+                    pixmap_item = QGraphicsPixmapItem(icon)
+                    pixmap_item.setOffset(-icon.width() / 2, -icon.height() / 2)
+                    pixmap_item.setPos(pixel_x, pixel_y)
+                    pixmap_item.setTransformationMode(
+                        Qt.TransformationMode.SmoothTransformation
+                    )
+                    # Keep icons a constant on-screen size at any map zoom.
+                    pixmap_item.setFlag(
+                        QGraphicsItem.GraphicsItemFlag.ItemIgnoresTransformations,
+                        True,
+                    )
+                    marker = pixmap_item
+            if marker is None:
+                # Fallback: the original colored dot (any layer, or an AI
+                # category without a matching PNG in assets/icons/).
+                radius = 7 if not self.compact else 6
+                marker = QGraphicsEllipseItem(
+                    pixel_x - radius, pixel_y - radius, radius * 2, radius * 2
+                )
+                marker.setBrush(QBrush(color))
+                marker.setPen(QPen(QColor("#071115"), 2))
             marker.setToolTip(
                 f"{point.get('name', name.replace('_', ' ').title())}\n{point.get('description', '')}".strip()
             )

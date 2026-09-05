@@ -15,8 +15,8 @@ def _items(filename: str) -> list[dict[str, object]]:
 
 
 def test_gateway_rasters_are_bundled_matching_full_resolution_images():
-    base_path = PROJECT_ROOT / "map" / "gateway.webp"
-    water_path = PROJECT_ROOT / "map" / "gateway_water.webp"
+    base_path = PROJECT_ROOT / "assets" / "map" / "gateway.webp"
+    water_path = PROJECT_ROOT / "assets" / "map" / "gateway_water.webp"
     base = QImageReader(str(base_path))
     water = QImageReader(str(water_path))
     assert base.canRead()
@@ -32,7 +32,7 @@ def test_gateway_rasters_are_bundled_matching_full_resolution_images():
 
 
 def test_gateway_calibration_is_bundled_for_the_exact_raster():
-    calibration_path = PROJECT_ROOT / "map" / "calibration.json"
+    calibration_path = PROJECT_ROOT / "assets" / "map" / "calibration.json"
     calibration = json.loads(calibration_path.read_text(encoding="utf-8"))
     assert calibration["world_bounds"] == {
         "min_x": -607000.0,
@@ -61,7 +61,8 @@ def test_gateway_snapshot_layer_counts():
         "water.json": 27,
         "locations.json": 74,
         "food.json": 266,
-        "ai.json": 750,
+        "ai.json": 507,
+        "gastrolith.json": 243,
         "salt_licks.json": 24,
     }
     for filename, count in expected.items():
