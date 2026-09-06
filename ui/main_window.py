@@ -122,8 +122,7 @@ class MainWindow(QMainWindow):
         self.mini_map_edit_action.triggered.connect(
             self._set_mini_map_interaction
         )
-        if not self.windows_features:
-            toolbar.addAction(self.mini_map_edit_action)
+        toolbar.addAction(self.mini_map_edit_action)
         self.automatic_tracking_action = QAction("Automatic Tracking", self)
         self.automatic_tracking_action.setCheckable(True)
         self.automatic_tracking_action.setChecked(
@@ -160,10 +159,13 @@ class MainWindow(QMainWindow):
         waypoint_button.setText("Waypoint")
         waypoint_button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
         waypoint_menu = QMenu(waypoint_button)
-        save_waypoint = waypoint_menu.addAction("Save active waypoint")
-        save_waypoint.triggered.connect(self.save_waypoint)
-        remove_waypoint = waypoint_menu.addAction("Remove active waypoint")
-        remove_waypoint.triggered.connect(self.clear_waypoint)
+        self.save_waypoint_action = waypoint_menu.addAction("Save active waypoint…")
+        self.save_waypoint_action.triggered.connect(self.save_waypoint)
+        self.remove_waypoint_action = waypoint_menu.addAction("Remove active waypoint")
+        self.remove_waypoint_action.triggered.connect(self.clear_waypoint)
+        self.save_waypoint_action.setEnabled(self.state.active_waypoint is not None)
+        self.remove_waypoint_action.setEnabled(self.state.active_waypoint is not None)
+        waypoint_button.setToolTip("Click the map to place a waypoint; click its marker to clear it")
         waypoint_button.setMenu(waypoint_menu)
         toolbar.addWidget(waypoint_button)
 
@@ -195,6 +197,7 @@ class MainWindow(QMainWindow):
         self.nearest_poi_label = QLabel("Nearest POI: copy your coordinates to get started")
         self.nearest_poi_label.setObjectName("nearestPoiLabel")
         self.nearest_poi_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.nearest_poi_label.setWordWrap(True)
         nearest_layout.addWidget(self.nearest_poi_label)
         layout.addWidget(nearest_bar)
 
@@ -207,6 +210,7 @@ class MainWindow(QMainWindow):
         self.heading_label = QLabel("Heading: —")
         self.distance_label = QLabel("Waypoint: —")
         for label in (self.coordinate_label, self.previous_label, self.heading_label, self.distance_label):
+            label.setWordWrap(True)
             label.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
             info_layout.addWidget(label)
         layout.addWidget(info_bar)
@@ -241,7 +245,7 @@ class MainWindow(QMainWindow):
 
     @Slot(object, object)
     def _on_position_changed(self, current: Position, previous: Position | None) -> None:
-        self.clipboard_status.setText("Position updated from copied coordinates")
+        self.clipboard_status.setText("Position updated")
         self.coordinate_label.setText(f"X {current.x:,.3f}    Y {current.y:,.3f}    Z {current.z:,.3f}")
         local_time = current.timestamp.astimezone()
         self.update_time.setText(f"Last update: {local_time:%H:%M:%S}")
@@ -305,6 +309,8 @@ class MainWindow(QMainWindow):
     def _update_navigation_labels(self) -> None:
         current = self.state.current_position
         waypoint = self.state.active_waypoint
+        self.save_waypoint_action.setEnabled(waypoint is not None)
+        self.remove_waypoint_action.setEnabled(waypoint is not None)
         if current is None or waypoint is None:
             self.distance_label.setText("Waypoint: —")
             return
@@ -325,7 +331,7 @@ class MainWindow(QMainWindow):
     def save_waypoint(self) -> None:
         waypoint = self.state.active_waypoint
         if waypoint is None:
-            QMessageBox.information(self, "No waypoint yet", "Right-click the map to place a waypoint first.")
+            QMessageBox.information(self, "No waypoint yet", "Click the map to place a waypoint first.")
             return
         name, accepted = QInputDialog.getText(self, "Save waypoint", "Marker name:", text=waypoint.name)
         if not accepted or not name.strip():
@@ -462,12 +468,16 @@ class MainWindow(QMainWindow):
         self._refresh_automatic_tracking_control()
         if enabled or status.startswith("Automatic tracking unavailable") or status.startswith("Automatic tracking is not available"):
             self.clipboard_status.setText(status)
+        else:
+            self.clipboard_status.setText("Clipboard tracking ready · copy coordinates in game")
 
     def toggle_layer_panel(self) -> None:
-        self.layer_dock.setVisible(not self.layer_dock.isVisible())
+        self.layer_dock.setVisible(self.layer_dock.isHidden())
 
     def _layer_visibility_changed(self, visible: bool) -> None:
-        self.state.settings["layer_panel_visible"] = visible
+        # Parent-window hiding also emits visibilityChanged(False). Preserve
+        # the user's explicit dock preference when minimizing/hiding the map.
+        self.state.settings["layer_panel_visible"] = not self.layer_dock.isHidden()
         self.settings_store.save()
 
     def toggle_mini_map(self) -> None:

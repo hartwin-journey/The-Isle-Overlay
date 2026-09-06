@@ -149,6 +149,11 @@ class ToggleInputMonitor(QObject):
             self._active = False
             self._emit_state(False)
 
+    def sync_active(self, active: bool) -> None:
+        """Keep the next shortcut toggle aligned with toolbar changes."""
+
+        self._active = bool(active)
+
     def _read_combination(self) -> bool:
         return bool(self._keys) and all(self._state_reader(key) for key in self._keys)
 

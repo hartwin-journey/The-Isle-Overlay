@@ -28,6 +28,14 @@ QPushButton, QToolButton {
 }
 QPushButton:hover, QToolButton:hover { background: #243843; border-color: #568092; }
 QPushButton:pressed, QToolButton:pressed { background: #147d98; }
+QPushButton:focus, QToolButton:focus { border-color: #6cdef1; }
+QPushButton:disabled, QToolButton:disabled { color: #718a96; background: #14212a; border-color: #293c47; }
+QCheckBox:focus { outline: 1px solid #6cdef1; }
+QMenu { background: #16242d; border: 1px solid #334955; padding: 4px; }
+QMenu::item { padding: 7px 24px; border-radius: 4px; }
+QMenu::item:selected { background: #12677d; color: #eefbfe; }
+QMenu::item:disabled { color: #718a96; }
+QMenu::separator { height: 1px; background: #334955; margin: 4px 8px; }
 QPushButton:checked, QToolButton:checked { background: #12677d; border-color: #2bb9d6; }
 QPushButton#secondaryButton { background: transparent; color: #9bb0bc; }
 QToolBar QToolButton { padding: 6px 10px; }
