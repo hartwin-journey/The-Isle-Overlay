@@ -45,7 +45,9 @@ def build_arguments(platform_name: str | None = None) -> list[str]:
         "--add-data",
         f"data{data_separator}data",
         "--add-data",
-        f"map{data_separator}map",
+        f"assets/map{data_separator}assets/map",
+        "--add-data",
+        f"assets/icons{data_separator}assets/icons",
     ]
     if platform_name == "nt":
         arguments.extend(

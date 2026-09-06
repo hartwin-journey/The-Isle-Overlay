@@ -18,6 +18,7 @@ LAYER_FILES = {
     "locations": "locations.json",
     "food": "food.json",
     "ai": "ai.json",
+    "gastrolith": "gastrolith.json",
     "salt_licks": "salt_licks.json",
     "spawns": "spawns.json",
     "custom_markers": "custom_markers.json",

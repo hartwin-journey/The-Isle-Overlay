@@ -74,6 +74,7 @@ _MARKER_OPACITY_KEYS = (
     "locations",
     "food",
     "ai",
+    "gastrolith",
     "salt_licks",
     "spawns",
     "custom_markers",

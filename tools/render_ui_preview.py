@@ -34,12 +34,12 @@ def main() -> int:
     settings = copy.deepcopy(DEFAULT_SETTINGS)
     store = SettingsStore(PROJECT_ROOT / "config" / "settings.json")
     store.values = settings
-    calibration = load_calibration(PROJECT_ROOT / "map" / "calibration.json")
+    calibration = load_calibration(PROJECT_ROOT / "assets" / "map" / "calibration.json")
     repository = LayerRepository(PROJECT_ROOT / "data")
     state = AppState(settings)
     window = MainWindow(PROJECT_ROOT, store, calibration, repository, state)
     mini_map = MiniMapWindow(
-        PROJECT_ROOT / "map" / "gateway.webp",
+        PROJECT_ROOT / "assets" / "map" / "gateway.webp",
         calibration,
         repository,
         state,

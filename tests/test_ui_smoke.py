@@ -44,12 +44,12 @@ def test_full_and_mini_map_render_state(tmp_path):
     settings["layer_opacity"]["locations"] = 0.42
     store = SettingsStore(tmp_path / "settings.json")
     store.values = settings
-    calibration = load_calibration(root / "map" / "calibration.json")
+    calibration = load_calibration(root / "assets" / "map" / "calibration.json")
     repository = LayerRepository(root / "data")
     state = AppState(settings)
 
     full_map = MainWindow(root, store, calibration, repository, state)
-    mini_map = MiniMapWindow(root / "map" / "gateway.webp", calibration, repository, state)
+    mini_map = MiniMapWindow(root / "assets" / "map" / "gateway.webp", calibration, repository, state)
     full_map.attach_mini_map(mini_map)
     state.update_position(Position(1000, 2000, 300, datetime.now(timezone.utc)))
     state.update_position(Position(2000, 3500, 305, datetime.now(timezone.utc)))
@@ -212,7 +212,7 @@ def test_clicking_active_waypoint_clears_it_and_route_tracks_player(tmp_path):
     settings = copy.deepcopy(DEFAULT_SETTINGS)
     store = SettingsStore(tmp_path / "settings.json")
     store.values = settings
-    calibration = load_calibration(root / "map" / "calibration.json")
+    calibration = load_calibration(root / "assets" / "map" / "calibration.json")
     repository = LayerRepository(root / "data")
     state = AppState(settings)
     window = MainWindow(root, store, calibration, repository, state)
@@ -270,7 +270,7 @@ def test_polished_settings_hide_local_data_and_consolidate_zone_intensity():
     app = QApplication.instance() or QApplication([])
     root = Path(__file__).resolve().parents[1]
     settings = copy.deepcopy(DEFAULT_SETTINGS)
-    calibration = load_calibration(root / "map" / "calibration.json")
+    calibration = load_calibration(root / "assets" / "map" / "calibration.json")
     dialog = SettingsWindow(settings, calibration, root)
 
     group_titles = {group.title() for group in dialog.findChildren(QGroupBox)}
@@ -296,7 +296,7 @@ def test_linux_ui_hides_windows_features_and_can_edit_mini_map(tmp_path):
     settings = copy.deepcopy(DEFAULT_SETTINGS)
     store = SettingsStore(tmp_path / "settings.json")
     store.values = settings
-    calibration = load_calibration(root / "map" / "calibration.json")
+    calibration = load_calibration(root / "assets" / "map" / "calibration.json")
     repository = LayerRepository(root / "data")
     state = AppState(settings)
     window = MainWindow(
@@ -308,7 +308,7 @@ def test_linux_ui_hides_windows_features_and_can_edit_mini_map(tmp_path):
         windows_features=False,
     )
     mini_map = MiniMapWindow(
-        root / "map" / "gateway.webp",
+        root / "assets" / "map" / "gateway.webp",
         calibration,
         repository,
         state,
@@ -361,7 +361,7 @@ def test_automatic_tracking_setup_is_modeless_and_owned_by_toolbar(tmp_path):
     settings = copy.deepcopy(DEFAULT_SETTINGS)
     store = SettingsStore(tmp_path / "settings.json")
     store.values = settings
-    calibration = load_calibration(root / "map" / "calibration.json")
+    calibration = load_calibration(root / "assets" / "map" / "calibration.json")
     repository = LayerRepository(root / "data")
     state = AppState(settings)
     window = MainWindow(root, store, calibration, repository, state)

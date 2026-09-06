@@ -7,7 +7,7 @@
     "map_version": "0.21.772",
     "retrieved": "2026-08-28"
   },
-  "note": "Named water label centers. The detailed shoreline and water geometry is the independent map/gateway_water.webp raster layer.",
+  "note": "Named water label centers. The detailed shoreline and water geometry is the independent assets/map/gateway_water.webp raster layer.",
   "items": [
     {
       "name": "Cascades",
