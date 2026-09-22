@@ -1,0 +1,44 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "The Isle Companion: Run from source",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/app.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "env": {
+        "PYTHONDONTWRITEBYTECODE": "1"
+      }
+    },
+    {
+      "name": "The Isle Companion: Run tests",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "pytest",
+      "args": [
+        "-q",
+        "-p",
+        "no:cacheprovider"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "env": {
+        "QT_QPA_PLATFORM": "offscreen",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      }
+    },
+    {
+      "name": "The Isle Companion: Build package",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/tools/build_exe.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "env": {
+        "PYTHONDONTWRITEBYTECODE": "1"
+      }
+    }
+  ]
+}

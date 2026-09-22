@@ -150,6 +150,12 @@ See [`assets/map/SOURCE.md`](assets/map/SOURCE.md) for map source and version in
 
 Linux keeps the general Windows shortcut set hidden, while exposing the non-consuming Mini Map interaction binding and a toolbar fallback for native Wayland desktops.
 
+## Downloads
+
+Published releases include ready-to-run **Windows x64** and **Linux x64** packages. Download the archive for your platform from the repository's **Releases** page, extract it, and run `TheIsleCompanion` (`TheIsleCompanion.exe` on Windows). No Python installation or developer dependencies are required.
+
+Maintainers can run **Build and release** from the Actions tab on any branch to produce downloadable workflow artifacts. To publish those packages, enable **Create or update a GitHub Release**, provide a new tag such as `v1.0.0`, and run the workflow. Pushing a `v*` tag also builds and publishes a release automatically.
+
 ## Requirements
 
 ### Windows
@@ -329,11 +335,22 @@ Running from source is the primary way to use the project.
 
 A local PyInstaller build can also be created.
 
+### VS Code
+
+After selecting a Python interpreter with the project dependencies installed, open **Run and Debug** and choose one of the included profiles:
+
+* **The Isle Companion: Run from source** launches the app with the debugger attached.
+* **The Isle Companion: Run tests** runs the offscreen test suite.
+* **The Isle Companion: Build package** creates the platform-native PyInstaller bundle.
+
+The shared [`.vscode/launch.json`](.vscode/launch.json) is tracked; other personal VS Code settings remain ignored.
+
 ### Windows
 
 ```powershell
 py -m pip install -r requirements-dev.txt
 py tools\build_exe.py
+.\dist\TheIsleCompanion\TheIsleCompanion.exe
 ```
 
 Output:
@@ -347,6 +364,7 @@ dist\TheIsleCompanion\TheIsleCompanion.exe
 ```bash
 python -m pip install -r requirements-dev.txt
 python tools/build_exe.py
+./dist/TheIsleCompanion/TheIsleCompanion
 ```
 
 Output:
@@ -373,7 +391,13 @@ Install `requirements-dev.txt`, then run:
 python -m pytest -q
 ```
 
-The suite includes offscreen Qt interaction tests and regression checks for settings recovery, layer visibility, Mini Map edit synchronization, and zoom limits. Offscreen tests do not replace checking native desktop behavior; see [`docs/QA.md`](docs/QA.md) for a manual release checklist.
+CI also prints missing-line coverage for `core` and the PyInstaller build configuration. Run the same report locally with:
+
+```bash
+python -m pytest -q -p no:cacheprovider --cov=core --cov=tools.build_exe --cov-report=term-missing:skip-covered --cov-fail-under=60
+```
+
+The suite includes offscreen Qt interaction tests and regression checks for settings recovery, layer visibility, Mini Map edit synchronization, local OCR protocol handling, packaging, and zoom limits. Offscreen tests do not replace checking native desktop behavior; see [`docs/QA.md`](docs/QA.md) for a manual release checklist.
 
 ## Contributing
 

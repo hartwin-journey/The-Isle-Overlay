@@ -1,0 +1,91 @@
+name: Build and release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      release:
+        description: Create or update a GitHub Release with the built packages
+        required: true
+        default: false
+        type: boolean
+      tag:
+        description: Release tag to create or update (required when releasing)
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build ${{ matrix.label }} package
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            label: Windows x64
+            artifact_name: TheIsleCompanion-windows-x64
+            archive_name: TheIsleCompanion-windows-x64.zip
+          - os: ubuntu-latest
+            label: Linux x64
+            artifact_name: TheIsleCompanion-linux-x64
+            archive_name: TheIsleCompanion-linux-x64.tar.gz
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install build dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Build application bundle
+        run: python tools/build_exe.py
+      - name: Create Windows archive
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: Compress-Archive -Path dist/TheIsleCompanion -DestinationPath dist/${{ matrix.archive_name }}
+      - name: Create Linux archive
+        if: runner.os == 'Linux'
+        run: tar -C dist -czf dist/${{ matrix.archive_name }} TheIsleCompanion
+      - name: Upload packaged application
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: dist/${{ matrix.archive_name }}
+          if-no-files-found: error
+          retention-days: 14
+
+  release:
+    name: Publish GitHub Release
+    needs: build
+    if: github.ref_type == 'tag' || inputs.release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download packaged applications
+        uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          pattern: TheIsleCompanion-*
+          merge-multiple: true
+      - name: Create or update release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_type == 'tag' && github.ref_name || inputs.tag }}
+          TARGET: ${{ github.sha }}
+        run: |
+          if [ -z "$TAG" ]; then
+            echo "A release tag is required when running this workflow manually."
+            exit 1
+          fi
+          if gh release view "$TAG"; then
+            gh release upload "$TAG" release-assets/* --clobber
+          else
+            gh release create "$TAG" release-assets/* --target "$TARGET" --title "$TAG" --generate-notes
+          fi

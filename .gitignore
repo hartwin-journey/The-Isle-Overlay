@@ -10,6 +10,10 @@ dist/
 *.spec
 *.exe
 
+# Locally assembled release archives mirror the GitHub Actions packages.
+TheIsleCompanion-*.zip
+TheIsleCompanion-*.tar.gz
+
 # Runtime state can contain coordinates, OCR capture geometry, and saved markers.
 logs/
 config/settings.json
@@ -21,7 +25,8 @@ config/custom_markers.json.tmp
 .env
 .env.*
 !.env.example
-.vscode/
+.vscode/*
+!.vscode/launch.json
 .idea/
 .DS_Store
 Thumbs.db
