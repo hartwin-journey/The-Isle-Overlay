@@ -4,7 +4,8 @@ import pytest
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from PySide6.QtGui import QGuiApplication, QImage, QPixmap
+from PySide6.QtCore import QRect
+from PySide6.QtGui import QImage
 
 from core.screen_capture import CaptureRegion, ScreenCaptureError, ScreenCaptureService
 
@@ -28,12 +29,37 @@ def test_screen_capture_validation_rejects_invalid_or_off_screen_region(monkeypa
 
 
 def test_ocr_png_preprocessing_encodes_and_enlarges_an_in_memory_image():
-    QGuiApplication.instance() or QGuiApplication([])
     image = QImage(40, 20, QImage.Format.Format_RGB32)
     image.fill(0)
 
-    payload = ScreenCaptureService.png_bytes_for_ocr(QPixmap.fromImage(image))
+    class FakePixmap:
+        def toImage(self):
+            return image
+
+    payload = ScreenCaptureService.png_bytes_for_ocr(FakePixmap())
     prepared = QImage.fromData(payload, "PNG")
 
     assert payload.startswith(b"\x89PNG")
     assert (prepared.width(), prepared.height()) == (120, 60)
+
+
+def test_capture_uses_coordinates_relative_to_the_containing_screen(monkeypatch):
+    class FakeScreen:
+        def __init__(self):
+            self.request = None
+
+        def geometry(self):
+            return QRect(-100, 40, 800, 600)
+
+        def grabWindow(self, *request):
+            self.request = request
+            return type("FakePixmap", (), {"isNull": lambda self: False})()
+
+    screen = FakeScreen()
+    service = ScreenCaptureService()
+    monkeypatch.setattr(service, "screen_for_region", lambda region: screen)
+
+    pixmap = service.capture(CaptureRegion(-50, 100, 32, 16))
+
+    assert not pixmap.isNull()
+    assert screen.request == (0, 50, 60, 32, 16)

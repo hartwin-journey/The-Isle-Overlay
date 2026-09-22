@@ -30,6 +30,23 @@ class _FakeProcess:
         return None
 
 
+class _StartedFakeProcess(_FakeProcess):
+    def __init__(self) -> None:
+        super().__init__()
+        self.stdout = ["READY\n"]
+        self.wait_calls = 0
+
+    def wait(self, timeout: float) -> int:
+        self.wait_calls += 1
+        return 0
+
+    def terminate(self) -> None:
+        return None
+
+    def kill(self) -> None:
+        return None
+
+
 def _engine(tmp_path) -> WindowsOcrEngine:
     script = tmp_path / "windows_ocr.ps1"
     script.write_text("# test helper", encoding="utf-8")
@@ -84,3 +101,17 @@ def test_ocr_engine_rejects_empty_image_and_unsupported_startup(tmp_path, monkey
     monkeypatch.setattr(engine, "support_status", lambda: (False, "not available"))
     with pytest.raises(OcrUnavailableError, match="not available"):
         engine._ensure_process()
+
+
+def test_ocr_engine_starts_local_helper_and_closes_it_cleanly(tmp_path, monkeypatch):
+    engine = _engine(tmp_path)
+    process = _StartedFakeProcess()
+    monkeypatch.setattr(engine, "support_status", lambda: (True, "available"))
+    monkeypatch.setattr(local_ocr.subprocess, "Popen", lambda *args, **kwargs: process)
+
+    engine._ensure_process()
+
+    assert engine._process is process
+    engine.close()
+    assert engine._process is None
+    assert process.wait_calls == 1
