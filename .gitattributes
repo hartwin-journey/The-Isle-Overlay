@@ -1,1 +1,2 @@
 *.webp binary
+assets/map/calibration.json text eol=crlf
