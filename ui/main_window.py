@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from datetime import timezone
-import os
 from pathlib import Path
 
 from PySide6.QtCore import QTimer, Qt, Signal, Slot
@@ -69,9 +68,9 @@ class MainWindow(QMainWindow):
         self.calibration = calibration
         self.repository = repository
         self.state = state
-        self.windows_features = (
-            os.name == "nt" if windows_features is None else bool(windows_features)
-        )
+        # ApplicationController supplies the native capability. A directly
+        # constructed window remains feature-complete for cross-platform UI use.
+        self.windows_features = True if windows_features is None else bool(windows_features)
         self.tray_available = False
         self.mini_map: MiniMapWindow | None = None
         self._ocr_setup_dialog: OcrSetupDialog | None = None

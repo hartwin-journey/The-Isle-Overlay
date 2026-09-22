@@ -1,4 +1,10 @@
+import os
+
 import pytest
+
+os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+
+from PySide6.QtWidgets import QApplication
 
 from core.automatic_tracking import (
     AutomaticCoordinateTracker,
@@ -6,7 +12,7 @@ from core.automatic_tracking import (
     parse_coordinates_from_ocr,
 )
 from core.coordinate_parser import CoordinateParseError, ParsedCoordinates
-from core.screen_capture import CaptureRegion
+from core.screen_capture import CaptureRegion, ScreenCaptureError
 
 
 class FakeOcrEngine:
@@ -18,6 +24,23 @@ class FakeOcrEngine:
 
     def close(self):
         return None
+
+
+class FakeCaptureService:
+    def __init__(self, failure: Exception | None = None):
+        self.validated = []
+        self.failure = failure
+
+    def validate_region(self, region):
+        self.validated.append(region)
+
+    def capture(self, region):
+        if self.failure:
+            raise self.failure
+        return object()
+
+    def png_bytes_for_ocr(self, pixmap):
+        return b"png"
 
 
 def test_ocr_text_uses_existing_strict_parser_and_harmless_normalization():
@@ -116,3 +139,35 @@ def test_capture_region_mapping_requires_a_usable_size():
     )
     assert CaptureRegion.from_mapping({"x": 0, "y": 0, "width": 0, "height": 0}) is None
     assert CaptureRegion.from_mapping({"x": 0, "y": 0, "width": "bad", "height": 20}) is None
+
+
+def test_tracker_start_stop_validates_region_and_reports_state():
+    QApplication.instance() or QApplication([])
+    capture = FakeCaptureService()
+    tracker = AutomaticCoordinateTracker(FakeOcrEngine(), capture)  # type: ignore[arg-type]
+    statuses = []
+    tracker.status_changed.connect(statuses.append)
+    region = CaptureRegion(10, 20, 320, 64)
+
+    tracker.start(region, interval_ms=1, confirmation_reads=1)
+
+    assert capture.validated == [region]
+    assert tracker.enabled
+    assert statuses == ["Automatic tracking: scanning selected screen area"]
+    tracker.stop()
+    assert not tracker.enabled
+    assert statuses[-1] == "Automatic tracking: off"
+
+
+def test_tracker_reports_screen_capture_failures_without_starting_ocr_worker():
+    QApplication.instance() or QApplication([])
+    capture = FakeCaptureService(ScreenCaptureError("capture unavailable"))
+    tracker = AutomaticCoordinateTracker(FakeOcrEngine(), capture)  # type: ignore[arg-type]
+    statuses = []
+    tracker.status_changed.connect(statuses.append)
+
+    tracker.start(CaptureRegion(10, 20, 320, 64))
+    tracker._poll()
+
+    assert statuses[-1] == "Automatic tracking: capture unavailable"
+    tracker.stop()

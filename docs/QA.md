@@ -26,5 +26,6 @@ Automated tests use offscreen Qt. Before a release, run these checks on real Win
 - Confirm saved settings and custom markers survive a restart.
 - Check behavior when config/data folders are read-only or files are malformed. Type recovery is tested, but write failures still need native/manual review.
 - Build with `tools/build_exe.py` and launch the packaged app on a clean machine.
+- Verify the Windows `.zip` and Linux `.tar.gz` release archives extract to a folder containing the runnable application and its `assets` and `data` folders.
 
 Keep game integration external: clipboard and user-selected screen pixels only. No process inspection, injected overlays, or game input automation.
