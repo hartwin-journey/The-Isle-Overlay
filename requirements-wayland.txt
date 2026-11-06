@@ -1,0 +1,9 @@
+# Optional: lets the Mini Map float above the game on every workspace on
+# Wayland desktops with layer-shell support (KDE Plasma, Hyprland, Sway, niri,
+# river, COSMIC). Without it the Mini Map uses a normal window.
+#
+# Prebuilt wheels exist for x86_64 with glibc 2.34+ (Ubuntu 22.04+, Debian 12+,
+# Fedora, Arch). Elsewhere pip builds from source, which needs the Wayland
+# development headers (e.g. libwayland-dev) and a C compiler. run.sh installs
+# this automatically on the desktops above.
+pywayland>=0.4.17,<0.5; platform_system == "Linux"

@@ -199,31 +199,9 @@ class WindowsOcrEngine:
 def _linux_install_hint() -> str:
     """Return the Tesseract install command for the running distribution."""
 
-    ids: set[str] = set()
-    try:
-        for line in Path("/etc/os-release").read_text(encoding="utf-8").splitlines():
-            key, _, value = line.partition("=")
-            if key in {"ID", "ID_LIKE"}:
-                ids.update(value.strip().strip('"').lower().split())
-    except OSError:
-        pass
-    if ids & {"arch", "cachyos", "manjaro", "endeavouros", "garuda"}:
-        return "sudo pacman -S tesseract tesseract-data-eng"
-    if ids & {"debian", "ubuntu", "linuxmint", "pop", "elementary", "zorin"}:
-        return "sudo apt install tesseract-ocr"
-    if ids & {"fedora", "rhel", "centos", "nobara", "bazzite"}:
-        return "sudo dnf install tesseract"
-    if ids & {"opensuse", "suse", "opensuse-tumbleweed", "opensuse-leap"}:
-        return "sudo zypper install tesseract-ocr tesseract-ocr-traineddata-english"
-    if "gentoo" in ids:
-        return "sudo emerge app-text/tesseract"
-    if "void" in ids:
-        return "sudo xbps-install tesseract-ocr"
-    if "nixos" in ids:
-        return "add pkgs.tesseract to your configuration"
-    if "alpine" in ids:
-        return "sudo apk add tesseract-ocr"
-    return "install the 'tesseract' package with your package manager"
+    from core.environment import _os_release, distro_family, install_command
+
+    return install_command(distro_family(_os_release()), "tesseract")
 
 
 def tesseract_install_hint() -> str:

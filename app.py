@@ -24,6 +24,7 @@ from core.automatic_tracking import AutomaticCoordinateTracker
 from core.clipboard_monitor import ClipboardCoordinateMonitor
 from core.coordinate_transform import load_calibration
 from core.data_loader import LayerRepository
+from core.environment import detect as detect_environment
 from core.hotkeys import GlobalHotkeyManager
 from core.linux_overlay_interaction import LinuxToggleInputMonitor
 from core.local_ocr import OcrUnavailableError, create_ocr_engine
@@ -31,6 +32,7 @@ from core.models import Position
 from core.overlay_interaction import ToggleInputMonitor
 from core.screen_capture import CaptureRegion, ScreenCaptureError
 from core.settings import SettingsStore
+from core.x11_overlay import prefer_xwayland_for_overlays
 from ui.main_window import MainWindow
 from ui.mini_map import MiniMapWindow
 from ui.styles import DARK_STYLESHEET
@@ -306,9 +308,24 @@ class ApplicationController:
                 and self.overlay_interaction_monitor.available
                 else "Mini Map editing available from the toolbar"
             )
+            environment = detect_environment()
+            LOGGER.info("Environment: %s", environment.summary())
+            for item in environment.missing:
+                LOGGER.warning(
+                    "Missing %s (%s): %s", item.title, item.purpose, item.install
+                )
+            tesseract = next(
+                (item for item in environment.missing if item.key == "tesseract"),
+                None,
+            )
+            tracking_status = (
+                f"Automatic Tracking needs Tesseract: {tesseract.install}"
+                if tesseract is not None
+                else "Automatic Tracking available"
+            )
             self.main_window.statusBar().showMessage(
-                f"Linux mode: clipboard tracking ready · {shortcut_status} · OCR is Windows-only",
-                7000,
+                f"Clipboard tracking ready · {shortcut_status} · {tracking_status}",
+                12000 if tesseract is not None else 7000,
             )
 
     def shutdown(self) -> None:
@@ -332,6 +349,9 @@ def main() -> int:
     )
     configure_logging(project_root)
     LOGGER.info("Application startup")
+    # Must happen before QApplication: on GNOME Wayland the app runs under
+    # XWayland so the Mini Map can stay above fullscreen games.
+    prefer_xwayland_for_overlays()
     app = QApplication(sys.argv)
     app.setApplicationName("The Isle Companion")
     app.setOrganizationName("Local")

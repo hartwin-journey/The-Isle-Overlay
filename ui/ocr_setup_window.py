@@ -44,19 +44,21 @@ from PySide6.QtWidgets import (
 
 from core.automatic_tracking import parse_coordinates_from_ocr
 from core.coordinate_parser import CoordinateParseError
+from core.environment import detect as detect_environment
 from core.local_ocr import (
     OcrEngine,
     OcrRecognitionError,
     OcrUnavailableError,
     create_ocr_engine,
 )
-from core.wayland_layer_overlay import WaylandLayerOverlay
 from core.screen_capture import (
     CaptureRegion,
     ScreenCaptureError,
     ScreenCaptureService,
     is_wayland_session,
 )
+from core.wayland_layer_overlay import WaylandLayerOverlay
+from core.x11_overlay import x11_overlay_active
 
 
 class ScreenRegionSelector(QWidget):
@@ -64,8 +66,10 @@ class ScreenRegionSelector(QWidget):
 
     Without a backdrop it is a transparent window spanning every monitor
     (Windows, macOS, X11). Wayland does not let applications place windows at
-    global positions, so there one selector is shown full screen per monitor
-    on top of a frozen screenshot of that monitor.
+    global positions, so there one selector per monitor shows a frozen
+    screenshot of that monitor. It is a layer-shell overlay where supported,
+    an X11 override-redirect window on GNOME, and a fullscreen window
+    otherwise, so it appears above a fullscreen game.
     """
 
     region_selected = Signal(object)
@@ -110,19 +114,37 @@ class ScreenRegionSelector(QWidget):
         )
         if self.layer_overlay is not None:
             self.layer_overlay.set_interactive(True)
+        # GNOME (via XWayland): bypass the window manager so the picker
+        # cannot open behind a fullscreen game.
+        self._x11_overlay = (
+            screen is not None and self.layer_overlay is None and x11_overlay_active()
+        )
+        if self._x11_overlay:
+            self.setWindowFlags(
+                Qt.WindowType.Window
+                | Qt.WindowType.X11BypassWindowManagerHint
+                | Qt.WindowType.FramelessWindowHint
+                | Qt.WindowType.WindowStaysOnTopHint
+            )
 
     def present(self) -> None:
         if self._screen is None:
             self.show()
             return
-        if self.layer_overlay is not None:
+        if self.layer_overlay is not None or self._x11_overlay:
             self.setGeometry(self._virtual_geometry)
             self.show()
+            if self._x11_overlay:
+                self.raise_()
+                # Unmanaged windows never get focus; grab Esc explicitly.
+                self.grabKeyboard()
             return
         self.setScreen(self._screen)
         self.showFullScreen()
 
     def dispose(self) -> None:
+        if self._x11_overlay:
+            self.releaseKeyboard()
         self.hide()
         if self.layer_overlay is not None:
             self.layer_overlay.close()
@@ -156,13 +178,16 @@ class ScreenRegionSelector(QWidget):
             painter.fillRect(self.rect(), QColor(3, 9, 13, 150))
             if not self._selection.isNull():
                 # Show the frozen pixels undimmed inside the selection.
+                sx = self._backdrop.width() / max(1, self.width())
+                sy = self._backdrop.height() / max(1, self.height())
+                selection = self._selection
                 source = QRect(
-                    round(self._selection.x() * self._backdrop.width() / max(1, self.width())),
-                    round(self._selection.y() * self._backdrop.height() / max(1, self.height())),
-                    round(self._selection.width() * self._backdrop.width() / max(1, self.width())),
-                    round(self._selection.height() * self._backdrop.height() / max(1, self.height())),
+                    round(selection.x() * sx),
+                    round(selection.y() * sy),
+                    round(selection.width() * sx),
+                    round(selection.height() * sy),
                 )
-                painter.drawPixmap(self._selection, self._backdrop, source)
+                painter.drawPixmap(selection, self._backdrop, source)
         else:
             painter.fillRect(self.rect(), QColor(3, 9, 13, 150))
             if not self._selection.isNull():
@@ -184,10 +209,16 @@ class ScreenRegionSelector(QWidget):
         painter.drawText(
             self.rect().adjusted(24, 20, -24, -20),
             Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter,
-            "Drag around the coordinate text  •  Esc to cancel",
+            "Drag around the coordinate text  •  Esc or right-click to cancel",
         )
 
     def mousePressEvent(self, event: QMouseEvent) -> None:
+        if event.button() == Qt.MouseButton.RightButton:
+            # Works even where an overlay cannot receive Esc.
+            self.hide()
+            self.cancelled.emit()
+            event.accept()
+            return
         if event.button() == Qt.MouseButton.LeftButton:
             self._origin = event.position().toPoint()
             self._selection = QRect(self._origin, self._origin)
@@ -316,17 +347,16 @@ class OcrSetupDialog(QDialog):
         region_layout.addLayout(fields)
 
         buttons = QHBoxLayout()
-        select_button = QPushButton("Select area on screen")
-        select_button.clicked.connect(self._select_area)
+        self.select_button = QPushButton("Select area on screen")
+        self.select_button.clicked.connect(self._select_area)
         self.preview_button = QPushButton("Capture and preview")
         self.preview_button.clicked.connect(self._preview_current_area)
-        self.select_button = select_button
         # A countdown lets the player switch to the game first, e.g. when the
         # game is fullscreen or on another workspace/virtual desktop.
         self.delay_field = QSpinBox()
         self.delay_field.setRange(0, 15)
         self.delay_field.setSuffix(" s")
-        self.delay_field.setValue(5 if is_wayland_session() else 0)
+        self.delay_field.setValue(5 if self._wayland else 0)
         self.delay_field.setToolTip(
             "Wait before capturing so you can switch to the game's "
             "workspace or fullscreen window"
@@ -336,7 +366,7 @@ class OcrSetupDialog(QDialog):
         self._countdown_timer.timeout.connect(self._countdown_tick)
         self._countdown_remaining = 0
         self._countdown_action: Callable[[], None] | None = None
-        buttons.addWidget(select_button)
+        buttons.addWidget(self.select_button)
         buttons.addWidget(self.preview_button)
         buttons.addStretch()
         buttons.addWidget(QLabel("Delay"))
@@ -378,6 +408,23 @@ class OcrSetupDialog(QDialog):
         support_label.setObjectName("privacyNote" if supported else "fieldHint")
         support_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(support_label)
+
+        # On Linux, list anything this desktop still needs, with the exact
+        # install command for the detected distribution.
+        missing = detect_environment().missing
+        if missing:
+            lines = [
+                f"<b>{item.title}</b> ({item.purpose}):<br><code>{item.install}</code>"
+                for item in missing
+            ]
+            needs_label = QLabel("Still needed on this system:<br>" + "<br>".join(lines))
+            needs_label.setTextFormat(Qt.TextFormat.RichText)
+            needs_label.setWordWrap(True)
+            needs_label.setTextInteractionFlags(
+                Qt.TextInteractionFlag.TextSelectableByMouse
+            )
+            needs_label.setObjectName("fieldHint")
+            layout.addWidget(needs_label)
 
         dialog_buttons = QDialogButtonBox(
             QDialogButtonBox.StandardButton.Save
@@ -425,10 +472,6 @@ class OcrSetupDialog(QDialog):
         )
 
     def _hide_companion_windows(self) -> None:
-        # Do not hide this modal dialog. QDialog.exec() returns Rejected as soon
-        # as its dialog is hidden, which used to discard a freshly selected
-        # region before Settings could receive it. Making it fully transparent
-        # keeps the modal event loop alive while exposing the pixels underneath.
         if self._wayland:
             # Re-showing a hidden Wayland window maps it as a new window on
             # the *current* workspace, i.e. behind the game. Leave ordinary
@@ -438,12 +481,19 @@ class OcrSetupDialog(QDialog):
                 widget
                 for widget in QApplication.topLevelWidgets()
                 if widget.isVisible()
-                and getattr(widget, "layer_overlay", None) is not None
+                and (
+                    getattr(widget, "layer_overlay", None) is not None
+                    or getattr(widget, "x11_overlay", False)
+                )
                 and widget not in self._selectors
             ]
             for widget in self._windows_to_restore:
                 widget.hide()
             return
+        # Do not hide this modal dialog. QDialog.exec() returns Rejected as soon
+        # as its dialog is hidden, which used to discard a freshly selected
+        # region before Settings could receive it. Making it fully transparent
+        # keeps the modal event loop alive while exposing the pixels underneath.
         self._saved_window_opacity = self.windowOpacity()
         self.setWindowOpacity(0.0)
         self._windows_to_restore = [
@@ -518,7 +568,7 @@ class OcrSetupDialog(QDialog):
         QTimer.singleShot(180, self._show_selectors)
 
     def _show_selectors(self) -> None:
-        if is_wayland_session():
+        if self._wayland:
             # Freeze each monitor first: the selector covers the screen fully.
             try:
                 selectors = [

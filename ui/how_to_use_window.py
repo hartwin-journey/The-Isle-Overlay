@@ -94,7 +94,7 @@ class HowToUseDialog(QDialog):
         <h3>Tracking and OCR</h3>
         <ul>
           <li><b>Manual tracking:</b> copy coordinates from The Isle and the companion updates from your clipboard.</li>
-          <li><b>Automatic Tracking:</b> local OCR can read the coordinate text already visible on screen. Windows uses its built-in OCR; Linux and macOS use Tesseract, which you install once from your package manager.</li>
+          <li><b>Automatic Tracking:</b> local OCR can read the coordinate text already visible on screen. Windows uses its built-in OCR; Linux and macOS use Tesseract; on Linux, <b>run.sh</b> installs it for you.</li>
           <li>Open The Isle's <b>Tab</b> menu so your coordinates are visible.</li>
           <li>Choose <b>Automatic Tracking &gt; Set up capture area…</b>.</li>
           <li>Box in just the coordinate line. A tight crop is easier for OCR to read.</li>

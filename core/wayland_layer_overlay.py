@@ -5,8 +5,10 @@ workspace, so a normal "always on top" window cannot follow the player onto
 the game's workspace or float above a fullscreen game. The wlr-layer-shell
 protocol exists for exactly this (panels, docks, on-screen displays): an
 overlay-layer surface belongs to a monitor rather than a workspace and is
-drawn above fullscreen windows. niri, Sway, Hyprland, river, KDE Plasma,
-COSMIC and other wlroots compositors support it; GNOME does not.
+drawn above fullscreen windows. KDE Plasma, COSMIC and wlroots-based
+compositors (Sway, Hyprland, niri, river, ...) support it; GNOME does not
+(see ``core.x11_overlay`` for GNOME). The Mini Map and the OCR area picker
+both use this host.
 
 Qt (as bundled with PySide6) cannot give its own windows that role, so this
 host keeps the widget off screen (``WA_DontShowOnScreen``), renders it into a
@@ -39,6 +41,7 @@ from PySide6.QtCore import (
 from PySide6.QtGui import (
     QGuiApplication,
     QImage,
+    QKeyEvent,
     QMouseEvent,
     QPainter,
     QRegion,
@@ -71,6 +74,8 @@ _CURSOR_SHAPES = {
     Qt.CursorShape.WaitCursor: "wait",
 }
 
+# The widget is off screen, so Qt never reports when it repaints itself (map
+# updates, hover effects). Poll at this interval; unchanged frames are skipped.
 _RENDER_INTERVAL_MS = 50
 # Coalesce redraws triggered by input/resize to roughly one per frame.
 _RENDER_COALESCE_MS = 16
@@ -83,6 +88,7 @@ def _input_debug_enabled() -> bool:
         "yes",
         "on",
     }
+
 
 # pywayland frees proxies from garbage collection. If that happens after the
 # display connection is gone (interpreter shutdown), libwayland segfaults, so
@@ -194,6 +200,7 @@ class WaylandLayerOverlay(QObject):
         # coordinates are relative to this, which lags behind widget.pos()
         # while a move is in flight.
         self._confirmed_pos = QPoint(0, 0)
+        # Keeps wl_display.sync callback proxies alive until they fire.
         self._sync_callbacks: list[Any] = []
 
         self._pointer: Any = None
@@ -213,7 +220,6 @@ class WaylandLayerOverlay(QObject):
         # integrated from relative motion instead. Without relative-pointer
         # support the surface stays put during the press and moves on release.
         self._drag_origin = QPoint()
-        self._drag_press_local = QPointF()
         self._drag_global = QPointF()
         self._motion_pending = False
 
@@ -349,7 +355,7 @@ class WaylandLayerOverlay(QObject):
         globals_["output_scales"] = scales
         display.roundtrip()
         display.roundtrip()
-        LOGGER.info("Mini Map uses a Wayland layer-shell overlay")
+        LOGGER.info("Using a Wayland layer-shell overlay for %s", namespace)
         return cls(widget, globals_, display, namespace=namespace, keyboard=keyboard)
 
     # ------------------------------------------------------------- wayland io
@@ -482,8 +488,10 @@ class WaylandLayerOverlay(QObject):
             return False
         area = screen.geometry()
         pos = self.widget.pos()
-        x = min(max(pos.x(), area.left()), area.left() + max(0, area.width() - self.widget.width()))
-        y = min(max(pos.y(), area.top()), area.top() + max(0, area.height() - self.widget.height()))
+        max_x = area.left() + max(0, area.width() - self.widget.width())
+        max_y = area.top() + max(0, area.height() - self.widget.height())
+        x = min(max(pos.x(), area.left()), max_x)
+        y = min(max(pos.y(), area.top()), max_y)
         if (x, y) == (pos.x(), pos.y()):
             return False
         self.widget.move(x, y)  # Re-enters _update_position via a Move event.
@@ -701,8 +709,6 @@ class WaylandLayerOverlay(QObject):
         # evdev KEY_ESC == 1. Other keys are deliberately ignored.
         if key != 1 or self._surface is None:
             return
-        from PySide6.QtGui import QKeyEvent
-
         kind = QEvent.Type.KeyPress if state == 1 else QEvent.Type.KeyRelease
         QApplication.sendEvent(
             self.widget,
@@ -845,7 +851,6 @@ class WaylandLayerOverlay(QObject):
             if self._buttons == Qt.MouseButton.NoButton:
                 self._grab_target = self._target_at(self._pointer_pos.toPoint())
                 self._drag_origin = QPoint(self._confirmed_pos)
-                self._drag_press_local = QPointF(self._pointer_pos)
                 self._drag_global = QPointF(self._confirmed_pos) + self._pointer_pos
             self._buttons |= button
             self._send_mouse(QEvent.Type.MouseButtonPress, button)
@@ -926,6 +931,7 @@ class WaylandLayerOverlay(QObject):
         self._notifier.setEnabled(False)
         self._pointer = None
         self._cursor_device = None
+        self._relative_pointer = None
         self._keyboard = None
         self._sync_callbacks.clear()
         self._display = None

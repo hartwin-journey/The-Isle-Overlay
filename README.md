@@ -62,9 +62,11 @@ It supports:
 
 On Windows and Linux, the Mini Map can be switched between interactive and click-through modes with a configurable input binding.
 
-On Wayland desktops that support the layer-shell protocol (niri, Sway, Hyprland, river, KDE Plasma, COSMIC and other wlroots compositors), the Mini Map is drawn as a desktop overlay: it stays above the game on **every workspace**, including fullscreen games, with no window rules or compositor configuration. In click-through mode the compositor sends all input straight to the game. GNOME and X11 use a normal always-on-top window. Set `ISLE_COMPANION_LAYER_SHELL=0` to force the normal window.
+On Wayland desktops that support the layer-shell protocol (KDE Plasma, COSMIC, and wlroots-based compositors such as Sway, Hyprland, niri and river), the Mini Map is drawn as a desktop overlay: it stays above the game on **every workspace**, including fullscreen games, with no window rules or compositor configuration. In click-through mode the compositor sends all input straight to the game. This uses the optional `pywayland` package, which `run.sh` installs on these desktops; without it the Mini Map uses a normal window. Set `ISLE_COMPANION_LAYER_SHELL=0` to force the normal window.
 
-On Linux, the binding works on X11 and XWayland without consuming the input. Native Wayland desktops may block global input observation; the **Edit Mini Map** button in the Full Map toolbar remains available as a fallback.
+GNOME does not support layer-shell, so on GNOME Wayland the app runs through XWayland and the Mini Map bypasses the window manager (the way menus and tooltips do). That keeps it above fullscreen games on every workspace without extensions or settings. Set `ISLE_COMPANION_X11_OVERLAY=0` to turn this off. Other X11 desktops keep a normal always-on-top window.
+
+On Linux, the binding is observed without consuming the input. On X11 it works everywhere; on Wayland it works while an XWayland window has focus, which includes The Isle running through Proton, so it works in-game. Wayland does not let apps observe keys typed into native Wayland windows; the **Edit Mini Map** button in the Full Map toolbar works everywhere.
 
 ### Waypoints
 
@@ -145,7 +147,7 @@ See [`assets/map/SOURCE.md`](assets/map/SOURCE.md) for map source and version in
 | Automatic OCR tracking      |    ✅    | ✅ (Tesseract) |
 | Global shortcuts            |    ✅    |   ❌   |
 | Mini Map interaction hotkey |    ✅    | X11/XWayland |
-| Mini Map above game on any workspace | ✅ | Wayland layer-shell desktops |
+| Mini Map above game on any workspace | ✅ | Wayland (layer-shell desktops, GNOME via XWayland) |
 
 Linux keeps the general Windows shortcut set hidden, while exposing the non-consuming Mini Map interaction binding and a toolbar fallback for native Wayland desktops.
 
@@ -162,7 +164,7 @@ Linux keeps the general Windows shortcut set hidden, while exposing the non-cons
 * Modern 64-bit Linux desktop (X11 or Wayland)
 * Python 3.11 or newer
 * PySide6
-* Optional, for Automatic Tracking: Tesseract OCR with English data, and on wlroots Wayland compositors, `grim`
+* Automatic Tracking also needs Tesseract OCR (and `grim` on wlroots desktops); `run.sh` installs them for you
 
 PySide6 includes Qt, so a separate Qt SDK is not required.
 
@@ -250,46 +252,25 @@ run.bat
 
 ### Linux
 
-Create a virtual environment:
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-```
-
-Launch:
-
-```bash
-python app.py
-```
-
-or:
+From the project folder, run:
 
 ```bash
 sh run.sh
 ```
 
-#### Optional: Automatic Tracking on Linux
+That is the whole setup. On the first run `run.sh` detects your distribution and desktop and:
 
-Install Tesseract OCR with English language data:
+* creates a Python environment in `.venv` and installs the requirements;
+* on Wayland desktops with overlay support (KDE Plasma, Hyprland, Sway, niri, river, COSMIC) adds the Mini Map overlay package (`requirements-wayland.txt`), so the Mini Map stays above the game on every workspace;
+* installs what Automatic Tracking needs from your package manager: Tesseract OCR with English data, plus `grim` on wlroots desktops (Sway, Hyprland, niri, river). This asks for your password, in the terminal or with a graphical prompt when started from a desktop shortcut.
 
-| Distribution | Command |
-| --- | --- |
-| Arch / CachyOS / Manjaro | `sudo pacman -S tesseract tesseract-data-eng` |
-| Debian / Ubuntu / Mint / Pop!_OS | `sudo apt install tesseract-ocr` |
-| Fedora / Nobara / Bazzite | `sudo dnf install tesseract` |
-| openSUSE | `sudo zypper install tesseract-ocr tesseract-ocr-traineddata-english` |
-| NixOS | add `pkgs.tesseract` to your configuration |
+Later runs skip all of this and start the app straight away; setup runs again only when the requirements or your desktop change. Use `sh run.sh` to start the app every time.
 
-Screen capture is picked automatically:
+Supported for automatic installs: Arch/CachyOS/Manjaro/EndeavourOS, Debian/Ubuntu/Mint/Pop!_OS, Fedora/Nobara, openSUSE, Void and Alpine. On image-based systems (Fedora Silverblue/Kinoite, Bazzite, SteamOS), NixOS and Gentoo, nothing is installed system-wide; the app shows what to add instead. Set `ISLE_COMPANION_NO_SYSTEM_INSTALL=1` to skip system installs.
 
-* **X11:** Qt's normal screen grab, nothing else needed.
-* **Wayland on wlroots compositors** (Sway, Hyprland, niri, river): install `grim` for the fastest capture.
-* **Other Wayland desktops** (GNOME, KDE Plasma) or no `grim`: the standard xdg-desktop-portal Screenshot API is used. Some desktops ask for screenshot permission the first time.
+Anything still missing is listed in the app (status bar at startup and **Automatic Tracking > Set up capture area…**) with the exact command for your system, and logged in `logs/`.
 
-If `tesseract` is not on your `PATH`, set `TESSERACT_CMD` to its full path.
+Screen capture for Automatic Tracking is picked automatically: Qt's normal grab on X11, `grim` on wlroots desktops, and the standard xdg-desktop-portal Screenshot API on GNOME and KDE Plasma. If `tesseract` is not on your `PATH`, set `TESSERACT_CMD` to its full path.
 
 ## Using position tracking
 
@@ -303,7 +284,7 @@ If `tesseract` is not on your `PATH`, set `TESSERACT_CMD` to its full path.
 ### Automatic Tracking
 
 1. Enable **Automatic Tracking** from the Full Map.
-2. Select the area of the screen containing the coordinates in the Tab menu.
+2. Select the area of the screen containing the coordinates in the Tab menu. On Wayland, a short countdown (5 seconds by default) gives you time to switch to the game before the screen is captured; then drag around the coordinates on the frozen snapshot.
 3. Open the Tab menu while playing.
 4. The app reads the visible coordinates using local OCR (Windows OCR or Tesseract) and updates your position.
 

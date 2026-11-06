@@ -19,6 +19,7 @@ from core.coordinate_transform import MapCalibration
 from core.data_loader import LayerRepository
 from core.overlay_interaction import apply_windows_overlay_input_style
 from core.wayland_layer_overlay import WaylandLayerOverlay
+from core.x11_overlay import overlay_window_flags, x11_overlay_active
 from ui.map_canvas import MapCanvas
 from ui.map_fonts import build_map_label_font
 
@@ -122,10 +123,11 @@ class MiniMapControlStrip(QWidget):
             # path there and also gives X11 window managers their normal snapping
             # and multi-monitor behavior. Keep the manual move as a fallback for
             # platforms/plugins that do not implement startSystemMove().
-            # A layer-shell overlay has no compositor window to move; the
-            # manual move below updates its margins instead.
+            # Overlays (layer-shell, or GNOME's unmanaged X11 window) have no
+            # window-manager window to move; the manual move below handles them.
             layer_overlay = getattr(self.window(), "layer_overlay", None)
-            if os.name != "nt" and layer_overlay is None:
+            unmanaged = bool(getattr(self.window(), "x11_overlay", False))
+            if os.name != "nt" and layer_overlay is None and not unmanaged:
                 handle = self.window().windowHandle()
                 self._system_move_active = bool(
                     handle is not None and handle.startSystemMove()
@@ -281,9 +283,15 @@ class MiniMapWindow(QWidget):
         self.resize_handle.resize_finished.connect(self._finish_resize)
 
         # On Wayland compositors with layer-shell the Mini Map is drawn as an
-        # overlay that stays above the game on every workspace. Elsewhere
-        # (Windows, X11, GNOME) it remains an ordinary top-most window.
+        # overlay that stays above the game on every workspace. Windows and
+        # X11 sessions keep an ordinary top-most window.
         self.layer_overlay = WaylandLayerOverlay.create(self)
+        # GNOME on Wayland has no layer-shell; there the app runs under
+        # XWayland and the Mini Map bypasses the window manager instead.
+        self.x11_overlay = self.layer_overlay is None and x11_overlay_active()
+        self._keep_on_top_timer = QTimer(self)
+        self._keep_on_top_timer.setInterval(1500)
+        self._keep_on_top_timer.timeout.connect(self._keep_on_top)
 
         self.apply_settings()
         self.set_interaction_enabled(False)
@@ -295,6 +303,8 @@ class MiniMapWindow(QWidget):
     def _window_flags(self, *, interactable: bool | None = None) -> Qt.WindowType:
         if interactable is None:
             interactable = self._interaction_enabled
+        if getattr(self, "x11_overlay", False):
+            return overlay_window_flags(interactable=interactable)
         settings = self.state.settings
         flags = Qt.WindowType.Window
         if settings["overlay_borderless"]:
@@ -531,8 +541,20 @@ class MiniMapWindow(QWidget):
         self._apply_mask()
         self._position_overlay_controls()
 
+    def _keep_on_top(self) -> None:
+        # Mutter keeps override-redirect windows on top by itself; other X11
+        # window managers may restack a newly raised fullscreen window above.
+        if self.isVisible():
+            self.raise_()
+
+    def hideEvent(self, event: object) -> None:
+        self._keep_on_top_timer.stop()
+        super().hideEvent(event)  # type: ignore[arg-type]
+
     def showEvent(self, event: QShowEvent) -> None:
         super().showEvent(event)
+        if self.x11_overlay:
+            self._keep_on_top_timer.start()
         if not self._position_initialized:
             screen = QGuiApplication.screenAt(QCursor.pos()) or QGuiApplication.primaryScreen()
             if screen is not None:
