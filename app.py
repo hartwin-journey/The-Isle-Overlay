@@ -15,8 +15,7 @@ import sys
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QAction, QColor, QIcon, QPainter, QPixmap
+from PySide6.QtGui import QAction
 from PySide6.QtWidgets import QApplication, QMenu, QSystemTrayIcon
 
 from core.app_state import AppState
@@ -33,6 +32,7 @@ from core.overlay_interaction import ToggleInputMonitor
 from core.screen_capture import CaptureRegion, ScreenCaptureError
 from core.settings import SettingsStore
 from core.x11_overlay import prefer_xwayland_for_overlays
+from ui.app_icon import create_app_icon
 from ui.main_window import MainWindow
 from ui.mini_map import MiniMapWindow
 from ui.styles import DARK_STYLESHEET
@@ -48,24 +48,6 @@ def configure_logging(project_root: Path) -> None:
     )
     handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s"))
     logging.basicConfig(level=logging.INFO, handlers=[handler])
-
-
-def create_app_icon() -> QIcon:
-    pixmap = QPixmap(64, 64)
-    pixmap.fill(Qt.GlobalColor.transparent)
-    painter = QPainter(pixmap)
-    painter.setRenderHint(QPainter.RenderHint.Antialiasing)
-    painter.setBrush(QColor("#102d38"))
-    painter.setPen(QColor("#42d2ea"))
-    painter.drawEllipse(3, 3, 58, 58)
-    painter.setPen(QColor("#eafcff"))
-    font = painter.font()
-    font.setBold(True)
-    font.setPixelSize(28)
-    painter.setFont(font)
-    painter.drawText(pixmap.rect(), Qt.AlignmentFlag.AlignCenter, "IC")
-    painter.end()
-    return QIcon(pixmap)
 
 
 class ApplicationController:

@@ -6,7 +6,8 @@
 # also installs requirements-wayland.txt. Installs are skipped on later runs
 # unless the requirements or the desktop change. Missing system packages
 # (Tesseract; grim on wlroots desktops) are installed after asking for your
-# password; set ISLE_COMPANION_NO_SYSTEM_INSTALL=1 to skip that.
+# password; set ISLE_COMPANION_NO_SYSTEM_INSTALL=1 to skip that. Every start
+# also keeps an app launcher entry (search bar / app menu) up to date.
 set -eu
 cd "$(dirname "$0")"
 
@@ -39,5 +40,10 @@ if [ ! -f "$STAMP" ] || [ "$(cat "$STAMP")" != "$WANT" ]; then
     printf '%s' "$WANT" > "$STAMP"
     "$PY" -m core.environment || true
 fi
+
+# Add (or refresh after moving the folder) the app launcher entry and icon,
+# so the app can be started from the desktop's search bar. Cheap when nothing
+# changed; ISLE_COMPANION_NO_LAUNCHER=1 skips it.
+"$PY" -m core.launcher install || true
 
 exec "$PY" app.py "$@"

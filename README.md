@@ -266,6 +266,8 @@ That is the whole setup. On the first run `run.sh` detects your distribution and
 
 Later runs skip all of this and start the app straight away; setup runs again only when the requirements or your desktop change. Use `sh run.sh` to start the app every time.
 
+`run.sh` also adds **The Isle Companion** to your app launcher, so after the first run you can start it from your desktop's search bar or app menu (search for "Isle"). The entry and icon are written to `~/.local/share` and updated automatically if you move the project folder. Set `ISLE_COMPANION_NO_LAUNCHER=1` to skip this.
+
 Supported for automatic installs: Arch/CachyOS/Manjaro/EndeavourOS, Debian/Ubuntu/Mint/Pop!_OS, Fedora/Nobara, openSUSE, Void and Alpine. On image-based systems (Fedora Silverblue/Kinoite, Bazzite, SteamOS), NixOS and Gentoo, nothing is installed system-wide; the app shows what to add instead. Set `ISLE_COMPANION_NO_SYSTEM_INSTALL=1` to skip system installs.
 
 Anything still missing is listed in the app (status bar at startup and **Automatic Tracking > Set up capture area…**) with the exact command for your system, and logged in `logs/`.
