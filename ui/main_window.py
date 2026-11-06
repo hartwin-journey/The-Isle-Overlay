@@ -61,6 +61,7 @@ class MainWindow(QMainWindow):
         state: AppState,
         *,
         windows_features: bool | None = None,
+        automatic_tracking_features: bool = True,
     ) -> None:
         super().__init__()
         self.project_root = project_root
@@ -72,6 +73,9 @@ class MainWindow(QMainWindow):
         self.windows_features = (
             os.name == "nt" if windows_features is None else bool(windows_features)
         )
+        # OCR tracking runs everywhere (Windows OCR or Tesseract); global
+        # shortcuts remain Windows-only and keep using windows_features.
+        self.automatic_tracking_features = bool(automatic_tracking_features)
         self.tray_available = False
         self.mini_map: MiniMapWindow | None = None
         self._ocr_setup_dialog: OcrSetupDialog | None = None
@@ -129,7 +133,7 @@ class MainWindow(QMainWindow):
             bool(self.state.settings["automatic_tracking_enabled"])
         )
         self.automatic_tracking_action.setToolTip(
-            "Read coordinates from a selected screen area using local Windows OCR"
+            "Read coordinates from a selected screen area using local OCR"
         )
         self.automatic_tracking_action.triggered.connect(
             self._automatic_tracking_toggled
@@ -142,7 +146,7 @@ class MainWindow(QMainWindow):
             self.open_automatic_tracking_setup
         )
         self.automatic_tracking_action.setMenu(automatic_menu)
-        if self.windows_features:
+        if self.automatic_tracking_features:
             toolbar.addAction(self.automatic_tracking_action)
         automatic_button = toolbar.widgetForAction(self.automatic_tracking_action)
         if isinstance(automatic_button, QToolButton):
@@ -374,7 +378,7 @@ class MainWindow(QMainWindow):
 
     @Slot(bool)
     def _automatic_tracking_toggled(self, enabled: bool) -> None:
-        if not self.windows_features:
+        if not self.automatic_tracking_features:
             return
         if enabled and CaptureRegion.from_mapping(
             self.state.settings.get("automatic_tracking_region")
@@ -395,9 +399,9 @@ class MainWindow(QMainWindow):
         self._begin_automatic_tracking_setup(enable_after_save=False)
 
     def _begin_automatic_tracking_setup(self, *, enable_after_save: bool) -> None:
-        if not self.windows_features:
+        if not self.automatic_tracking_features:
             self.statusBar().showMessage(
-                "Automatic Tracking is available only on Windows", 3500
+                "Automatic Tracking is turned off for this session", 3500
             )
             return
         self._enable_automatic_after_setup |= enable_after_save

@@ -28,6 +28,7 @@ SPECIAL_KEYS = {
     "INSERT": 0x2D,
     "DELETE": 0x2E,
     "SPACE": 0x20,
+    "BACKSLASH": 0xDC,  # VK_OEM_5, the backslash key on US layouts
 }
 
 HOLD_KEY_CODES = {
@@ -57,8 +58,16 @@ def _virtual_key_for_name(key_name: str) -> int:
         raise ValueError(f"unsupported hotkey key: {key_name}") from exc
 
 
-def parse_hotkey(value: str) -> tuple[int, int]:
+_KEY_ALIASES = {"\\": "BACKSLASH"}
+
+
+def _binding_parts(value: str) -> list[str]:
     parts = [part.strip().upper() for part in value.split("+") if part.strip()]
+    return [_KEY_ALIASES.get(part, part) for part in parts]
+
+
+def parse_hotkey(value: str) -> tuple[int, int]:
+    parts = _binding_parts(value)
     modifiers = MOD_NOREPEAT
     key_name: str | None = None
     for part in parts:
@@ -84,7 +93,7 @@ def parse_binding_names(value: str) -> tuple[str, ...]:
     """Return canonical names for a physical interaction binding."""
 
     aliases = {"CONTROL": "CTRL", "WINDOWS": "WIN", "XBUTTON1": "M4", "XBUTTON2": "M5"}
-    parts = [part.strip().upper() for part in value.split("+") if part.strip()]
+    parts = _binding_parts(value)
     if not parts:
         raise ValueError("hold binding has no key")
     names: list[str] = []

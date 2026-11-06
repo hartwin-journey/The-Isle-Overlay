@@ -53,6 +53,8 @@ class LinuxToggleInputMonitor(QObject):
         character = getattr(key, "char", None)
         if character and len(character) == 1 and character.isalnum():
             return character.upper()
+        if character in {"\\", "|"}:
+            return "BACKSLASH"
         name = str(getattr(key, "name", "")).upper()
         normalized = name.replace("_", "")
         aliases = {

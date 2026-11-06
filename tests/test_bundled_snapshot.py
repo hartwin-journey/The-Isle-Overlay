@@ -47,8 +47,11 @@ def test_gateway_calibration_is_bundled_for_the_exact_raster():
         "max_y": 7817.0,
     }
     assert calibration["swap_axes"] is True
-    assert hashlib.sha256(calibration_path.read_bytes()).hexdigest() == (
-        "55e42649a30c28295fc7fb304c21403d9271535c116c1aafbaab3dc78c02036b"
+    # Hash with LF line endings: git checks this file out with CRLF on
+    # Windows and LF elsewhere, and the hash must not depend on that.
+    content = calibration_path.read_bytes().replace(b"\r\n", b"\n")
+    assert hashlib.sha256(content).hexdigest() == (
+        "484fde1e1ebf26660fd2114be1ad5916c52a2ac0da05e849e1cfb10aabf8ff7d"
     )
 
 

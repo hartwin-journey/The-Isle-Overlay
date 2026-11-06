@@ -15,8 +15,7 @@ import sys
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QAction, QColor, QIcon, QPainter, QPixmap
+from PySide6.QtGui import QAction
 from PySide6.QtWidgets import QApplication, QMenu, QSystemTrayIcon
 
 from core.app_state import AppState
@@ -24,13 +23,16 @@ from core.automatic_tracking import AutomaticCoordinateTracker
 from core.clipboard_monitor import ClipboardCoordinateMonitor
 from core.coordinate_transform import load_calibration
 from core.data_loader import LayerRepository
+from core.environment import detect as detect_environment
 from core.hotkeys import GlobalHotkeyManager
 from core.linux_overlay_interaction import LinuxToggleInputMonitor
-from core.local_ocr import OcrUnavailableError, WindowsOcrEngine
+from core.local_ocr import OcrUnavailableError, create_ocr_engine
 from core.models import Position
 from core.overlay_interaction import ToggleInputMonitor
 from core.screen_capture import CaptureRegion, ScreenCaptureError
 from core.settings import SettingsStore
+from core.x11_overlay import prefer_xwayland_for_overlays
+from ui.app_icon import create_app_icon
 from ui.main_window import MainWindow
 from ui.mini_map import MiniMapWindow
 from ui.styles import DARK_STYLESHEET
@@ -48,24 +50,6 @@ def configure_logging(project_root: Path) -> None:
     logging.basicConfig(level=logging.INFO, handlers=[handler])
 
 
-def create_app_icon() -> QIcon:
-    pixmap = QPixmap(64, 64)
-    pixmap.fill(Qt.GlobalColor.transparent)
-    painter = QPainter(pixmap)
-    painter.setRenderHint(QPainter.RenderHint.Antialiasing)
-    painter.setBrush(QColor("#102d38"))
-    painter.setPen(QColor("#42d2ea"))
-    painter.drawEllipse(3, 3, 58, 58)
-    painter.setPen(QColor("#eafcff"))
-    font = painter.font()
-    font.setBold(True)
-    font.setPixelSize(28)
-    painter.setFont(font)
-    painter.drawText(pixmap.rect(), Qt.AlignmentFlag.AlignCenter, "IC")
-    painter.end()
-    return QIcon(pixmap)
-
-
 class ApplicationController:
     def __init__(
         self,
@@ -73,6 +57,7 @@ class ApplicationController:
         project_root: Path,
         *,
         windows_features: bool | None = None,
+        automatic_tracking_features: bool = True,
     ) -> None:
         self.app = app
         self.project_root = project_root
@@ -80,8 +65,12 @@ class ApplicationController:
             os.name == "nt" if windows_features is None else bool(windows_features)
         )
         self.settings_store = SettingsStore(project_root / "config" / "settings.json")
+        self.automatic_tracking_features = bool(automatic_tracking_features)
         settings = self.settings_store.load()
-        if not self.windows_features and settings["automatic_tracking_enabled"]:
+        if (
+            not self.automatic_tracking_features
+            and settings["automatic_tracking_enabled"]
+        ):
             settings["automatic_tracking_enabled"] = False
             self.settings_store.save()
         calibration = load_calibration(project_root / "assets" / "map" / "calibration.json")
@@ -101,6 +90,7 @@ class ApplicationController:
             self.repository,
             self.state,
             windows_features=self.windows_features,
+            automatic_tracking_features=self.automatic_tracking_features,
         )
         self.mini_map = MiniMapWindow(
             project_root / "assets" / "map" / "gateway.webp",
@@ -120,9 +110,9 @@ class ApplicationController:
         self.clipboard_monitor.position_copied.connect(self._handle_clipboard_position)
 
         self.automatic_tracker: AutomaticCoordinateTracker | None = None
-        if self.windows_features:
+        if self.automatic_tracking_features:
             self.automatic_tracker = AutomaticCoordinateTracker(
-                WindowsOcrEngine(project_root / "core" / "windows_ocr.ps1"),
+                create_ocr_engine(project_root),
                 parent=self.app,
             )
             self.automatic_tracker.position_detected.connect(
@@ -191,7 +181,7 @@ class ApplicationController:
         if tracker is None:
             if enabled:
                 self._automatic_tracking_unavailable(
-                    "on-device OCR tracking is available only on Windows"
+                    "Automatic Tracking is turned off for this session"
                 )
             return
         if not enabled:
@@ -300,9 +290,24 @@ class ApplicationController:
                 and self.overlay_interaction_monitor.available
                 else "Mini Map editing available from the toolbar"
             )
+            environment = detect_environment()
+            LOGGER.info("Environment: %s", environment.summary())
+            for item in environment.missing:
+                LOGGER.warning(
+                    "Missing %s (%s): %s", item.title, item.purpose, item.install
+                )
+            tesseract = next(
+                (item for item in environment.missing if item.key == "tesseract"),
+                None,
+            )
+            tracking_status = (
+                f"Automatic Tracking needs Tesseract: {tesseract.install}"
+                if tesseract is not None
+                else "Automatic Tracking available"
+            )
             self.main_window.statusBar().showMessage(
-                f"Linux mode: clipboard tracking ready · {shortcut_status} · OCR is Windows-only",
-                7000,
+                f"Clipboard tracking ready · {shortcut_status} · {tracking_status}",
+                12000 if tesseract is not None else 7000,
             )
 
     def shutdown(self) -> None:
@@ -326,8 +331,14 @@ def main() -> int:
     )
     configure_logging(project_root)
     LOGGER.info("Application startup")
+    # Must happen before QApplication: on GNOME Wayland the app runs under
+    # XWayland so the Mini Map can stay above fullscreen games.
+    prefer_xwayland_for_overlays()
     app = QApplication(sys.argv)
     app.setApplicationName("The Isle Companion")
+    # Lets a launcher entry named the-isle-companion.desktop, if installed,
+    # pair the running windows with its icon (Wayland app_id / X11 class).
+    app.setDesktopFileName("the-isle-companion")
     app.setOrganizationName("Local")
     app.setWindowIcon(create_app_icon())
     app.setStyleSheet(DARK_STYLESHEET)

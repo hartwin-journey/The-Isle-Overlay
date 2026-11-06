@@ -6,13 +6,13 @@ I started it while learning Gateway the hard way: losing my bearings, missing mi
 
 The app is meant to be a small second-screen companion rather than anything invasive. It includes the Gateway map, a toggleable Mini Map overlay, position tracking, waypoints, breadcrumbs, migration zones, sanctuaries, patrol zones, water sources, updrafts, named locations, and other practical layers.
 
-Windows also supports optional Automatic Tracking using local OCR.
+Both platforms also support optional Automatic Tracking using local OCR.
 
 ## Quick note about the Mini Map
 
 By default, the hotkey for making the Mini Map editable is **Mouse Button 4 (M4)**. You can change it in Settings.
 
-Press the hotkey once to edit the Mini Map: zoom, pan, toggle auto-follow with the small **F** button, or switch between the square and circle layouts. Press it again when you want the Mini Map to go back to click-through mode.
+Press the hotkey once to edit the Mini Map: zoom, pan, toggle auto-follow with the small **F** button, or switch between the square and circle layouts. Press it again when you want the Mini Map to go back to click-through mode. On Wayland desktops with overlay support (KDE Plasma, Hyprland, Sway, niri, ...), clicking anywhere outside the Mini Map also leaves edit mode; while editing, the game does not receive mouse input, so a game that holds the cursor cannot keep it off the Mini Map.
 
 You can also use **Edit Mini Map** in the Full Map toolbar on either platform if the shortcut is unavailable.
 
@@ -62,7 +62,11 @@ It supports:
 
 On Windows and Linux, the Mini Map can be switched between interactive and click-through modes with a configurable input binding.
 
-On Linux, the binding works on X11 and XWayland without consuming the input. Native Wayland desktops may block global input observation; the **Edit Mini Map** button in the Full Map toolbar remains available as a fallback.
+On Wayland desktops that support the layer-shell protocol (KDE Plasma, COSMIC, and wlroots-based compositors such as Sway, Hyprland, niri and river), the Mini Map is drawn as a desktop overlay: it stays above the game on **every workspace**, including fullscreen games, with no window rules or compositor configuration. In click-through mode the compositor sends all input straight to the game. This uses the optional `pywayland` package, which `run.sh` installs on these desktops; without it the Mini Map uses a normal window. Set `ISLE_COMPANION_LAYER_SHELL=0` to force the normal window.
+
+GNOME does not support layer-shell, so on GNOME Wayland the app runs through XWayland and the Mini Map bypasses the window manager (the way menus and tooltips do). That keeps it above fullscreen games on every workspace without extensions or settings. Set `ISLE_COMPANION_X11_OVERLAY=0` to turn this off. Other X11 desktops keep a normal always-on-top window.
+
+On Linux, the binding is observed without consuming the input. On X11 it works everywhere; on Wayland it works while an XWayland window has focus, which includes The Isle running through Proton, so it works in-game. Wayland does not let apps observe keys typed into native Wayland windows; the **Edit Mini Map** button in the Full Map toolbar works everywhere.
 
 ### Waypoints
 
@@ -90,19 +94,15 @@ The app keeps track of:
 
 ### Automatic Tracking
 
-**Windows only**
-
 Automatic Tracking removes the need to click the coordinates manually.
 
 When enabled, the app watches a small user selected part of the screen containing the coordinates shown in The Isle's Tab menu.
 
-Windows' local OCR reads those visible coordinates and updates your map position.
+Local OCR reads those visible coordinates and updates your map position. Windows uses its built-in OCR service; Linux (and macOS) use [Tesseract](https://github.com/tesseract-ocr/tesseract).
 
 Simply open the Tab menu and your position can update automatically.
 
-Automatic Tracking is not available on Linux because it currently uses Windows' built-in OCR service.
-
-Clipboard tracking remains fully available on Linux.
+Clipboard tracking remains available everywhere and needs no extra software.
 
 ## Completely external to The Isle
 
@@ -118,7 +118,7 @@ The application does **not**:
 * Inspect game network traffic
 * Send input to the game
 
-Coordinate tracking comes from either normal clipboard text or, on Windows, pixels already visible on your screen.
+Coordinate tracking comes from either normal clipboard text or pixels already visible on your screen.
 
 The Mini Map is a normal independent desktop window. It is not injected into The Isle.
 
@@ -144,9 +144,10 @@ See [`assets/map/SOURCE.md`](assets/map/SOURCE.md) for map source and version in
 | Waypoints                   |    ✅    |   ✅   |
 | Breadcrumbs                 |    ✅    |   ✅   |
 | Map layers                  |    ✅    |   ✅   |
-| Automatic OCR tracking      |    ✅    |   ❌   |
+| Automatic OCR tracking      |    ✅    | ✅ (Tesseract) |
 | Global shortcuts            |    ✅    |   ❌   |
 | Mini Map interaction hotkey |    ✅    | X11/XWayland |
+| Mini Map above game on any workspace | ✅ | Wayland (layer-shell desktops, GNOME via XWayland) |
 
 Linux keeps the general Windows shortcut set hidden, while exposing the non-consuming Mini Map interaction binding and a toolbar fallback for native Wayland desktops.
 
@@ -160,9 +161,10 @@ Linux keeps the general Windows shortcut set hidden, while exposing the non-cons
 
 ### Linux
 
-* Modern 64-bit Linux desktop
+* Modern 64-bit Linux desktop (X11 or Wayland)
 * Python 3.11 or newer
 * PySide6
+* Automatic Tracking also needs Tesseract OCR (and `grim` on wlroots desktops); `run.sh` installs them for you
 
 PySide6 includes Qt, so a separate Qt SDK is not required.
 
@@ -250,26 +252,27 @@ run.bat
 
 ### Linux
 
-Create a virtual environment:
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-```
-
-Launch:
-
-```bash
-python app.py
-```
-
-or:
+From the project folder, run:
 
 ```bash
 sh run.sh
 ```
+
+That is the whole setup. On the first run `run.sh` detects your distribution and desktop and:
+
+* creates a Python environment in `.venv` and installs the requirements;
+* on Wayland desktops with overlay support (KDE Plasma, Hyprland, Sway, niri, river, COSMIC) adds the Mini Map overlay package (`requirements-wayland.txt`), so the Mini Map stays above the game on every workspace;
+* installs what Automatic Tracking needs from your package manager: Tesseract OCR with English data, plus `grim` on wlroots desktops (Sway, Hyprland, niri, river). This asks for your password, in the terminal or with a graphical prompt when started from a desktop shortcut.
+
+Later runs skip all of this and start the app straight away; setup runs again only when the requirements or your desktop change. Use `sh run.sh` to start the app every time.
+
+`run.sh` also adds **The Isle Companion** to your app launcher, so after the first run you can start it from your desktop's search bar or app menu (search for "Isle"). The entry and icon are written to `~/.local/share` and updated automatically if you move the project folder. Set `ISLE_COMPANION_NO_LAUNCHER=1` to skip this.
+
+Supported for automatic installs: Arch/CachyOS/Manjaro/EndeavourOS, Debian/Ubuntu/Mint/Pop!_OS, Fedora/Nobara, openSUSE, Void and Alpine. On image-based systems (Fedora Silverblue/Kinoite, Bazzite, SteamOS), NixOS and Gentoo, nothing is installed system-wide; the app shows what to add instead. Set `ISLE_COMPANION_NO_SYSTEM_INSTALL=1` to skip system installs.
+
+Anything still missing is listed in the app (status bar at startup and **Automatic Tracking > Set up capture area…**) with the exact command for your system, and logged in `logs/`.
+
+Screen capture for Automatic Tracking is picked automatically: Qt's normal grab on X11, `grim` on wlroots desktops, and the standard xdg-desktop-portal Screenshot API on GNOME and KDE Plasma. If `tesseract` is not on your `PATH`, set `TESSERACT_CMD` to its full path.
 
 ## Using position tracking
 
@@ -280,12 +283,12 @@ sh run.sh
 3. Use the game's built-in **Copy Location** function.
 4. Your position updates on the Full Map and Mini Map.
 
-### Automatic Tracking on Windows
+### Automatic Tracking
 
 1. Enable **Automatic Tracking** from the Full Map.
-2. Select the area of the screen containing the coordinates in the Tab menu.
+2. Select the area of the screen containing the coordinates in the Tab menu. On Wayland, a short countdown (5 seconds by default) gives you time to switch to the game before the screen is captured; then drag around the coordinates on the frozen snapshot.
 3. Open the Tab menu while playing.
-4. The app reads the visible coordinates using Windows OCR and updates your position.
+4. The app reads the visible coordinates using local OCR (Windows OCR or Tesseract) and updates your position.
 
 If screen capture does not work in exclusive fullscreen mode, try borderless windowed mode.
 
@@ -319,7 +322,7 @@ This includes things such as:
 * Enabled layers
 * Saved markers
 * Tracking preferences
-* Windows OCR capture area
+* OCR capture area
 
 Personal settings, saved markers, and logs are excluded from Git.
 

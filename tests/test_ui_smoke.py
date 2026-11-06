@@ -290,7 +290,7 @@ def test_polished_settings_hide_local_data_and_consolidate_zone_intensity():
     app.processEvents()
 
 
-def test_linux_ui_hides_windows_features_and_can_edit_mini_map(tmp_path):
+def test_linux_ui_hides_windows_shortcuts_and_can_edit_mini_map(tmp_path):
     app = QApplication.instance() or QApplication([])
     root = Path(__file__).resolve().parents[1]
     settings = copy.deepcopy(DEFAULT_SETTINGS)
@@ -318,7 +318,8 @@ def test_linux_ui_hides_windows_features_and_can_edit_mini_map(tmp_path):
     toolbar = window.findChild(QToolBar, "mainToolbar")
     assert toolbar is not None
     assert window.mini_map_edit_action in toolbar.actions()
-    assert window.automatic_tracking_action not in toolbar.actions()
+    # OCR tracking is no longer Windows-only; global shortcuts still are.
+    assert window.automatic_tracking_action in toolbar.actions()
 
     window.mini_map_edit_action.trigger()
     app.processEvents()
