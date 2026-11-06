@@ -19,7 +19,8 @@ def test_controller_starts_without_windows_only_services(tmp_path):
         windows_features=False,
     )
 
-    assert controller.automatic_tracker is None
+    # Automatic OCR tracking is cross-platform (Tesseract outside Windows).
+    assert controller.automatic_tracker is not None
     if os.name == "nt":
         # windows_features=False simulates Linux UI without changing the host OS.
         assert controller.overlay_interaction_monitor is None
@@ -32,13 +33,30 @@ def test_controller_starts_without_windows_only_services(tmp_path):
     toolbar = controller.main_window.findChild(QToolBar, "mainToolbar")
     assert toolbar is not None
     assert controller.main_window.mini_map_edit_action in toolbar.actions()
-    assert controller.main_window.automatic_tracking_action not in toolbar.actions()
+    assert controller.main_window.automatic_tracking_action in toolbar.actions()
 
     controller.shutdown()
     app.processEvents()
 
 
-def test_linux_startup_disables_a_stale_automatic_tracking_setting(tmp_path):
+def test_controller_can_run_without_automatic_tracking(tmp_path):
+    app = QApplication.instance() or QApplication([])
+    controller = ApplicationController(
+        app,
+        tmp_path,
+        windows_features=False,
+        automatic_tracking_features=False,
+    )
+
+    assert controller.automatic_tracker is None
+    toolbar = controller.main_window.findChild(QToolBar, "mainToolbar")
+    assert toolbar is not None
+    assert controller.main_window.automatic_tracking_action not in toolbar.actions()
+    controller.shutdown()
+    app.processEvents()
+
+
+def test_startup_without_ocr_disables_a_stale_automatic_tracking_setting(tmp_path):
     config_folder = tmp_path / "config"
     config_folder.mkdir()
     settings = copy.deepcopy(DEFAULT_SETTINGS)
@@ -53,6 +71,7 @@ def test_linux_startup_disables_a_stale_automatic_tracking_setting(tmp_path):
         app,
         tmp_path,
         windows_features=False,
+        automatic_tracking_features=False,
     )
 
     assert controller.state.settings["automatic_tracking_enabled"] is False

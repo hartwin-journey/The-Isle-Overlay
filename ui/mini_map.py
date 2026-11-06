@@ -18,6 +18,7 @@ from core.app_state import AppState
 from core.coordinate_transform import MapCalibration
 from core.data_loader import LayerRepository
 from core.overlay_interaction import apply_windows_overlay_input_style
+from core.wayland_layer_overlay import WaylandLayerOverlay
 from ui.map_canvas import MapCanvas
 from ui.map_fonts import build_map_label_font
 
@@ -121,7 +122,10 @@ class MiniMapControlStrip(QWidget):
             # path there and also gives X11 window managers their normal snapping
             # and multi-monitor behavior. Keep the manual move as a fallback for
             # platforms/plugins that do not implement startSystemMove().
-            if os.name != "nt":
+            # A layer-shell overlay has no compositor window to move; the
+            # manual move below updates its margins instead.
+            layer_overlay = getattr(self.window(), "layer_overlay", None)
+            if os.name != "nt" and layer_overlay is None:
                 handle = self.window().windowHandle()
                 self._system_move_active = bool(
                     handle is not None and handle.startSystemMove()
@@ -276,6 +280,11 @@ class MiniMapWindow(QWidget):
         self.resize_handle.resize_requested.connect(self._resize_from_handle)
         self.resize_handle.resize_finished.connect(self._finish_resize)
 
+        # On Wayland compositors with layer-shell the Mini Map is drawn as an
+        # overlay that stays above the game on every workspace. Elsewhere
+        # (Windows, X11, GNOME) it remains an ordinary top-most window.
+        self.layer_overlay = WaylandLayerOverlay.create(self)
+
         self.apply_settings()
         self.set_interaction_enabled(False)
 
@@ -296,13 +305,24 @@ class MiniMapWindow(QWidget):
             flags |= Qt.WindowType.WindowTransparentForInput
         return flags
 
+    def _apply_window_flags(self, flags: Qt.WindowType) -> None:
+        # A layer-shell overlay has no native window: changing flags would
+        # only hide/re-show the widget, briefly unmapping the overlay.
+        if self.layer_overlay is not None:
+            return
+        self.setWindowFlags(flags)
+
     def apply_settings(self) -> None:
         settings = self.state.settings
         was_visible = self.isVisible()
-        self.setWindowFlags(self._window_flags())
+        self._apply_window_flags(self._window_flags())
         size = int(settings["overlay_size"])
         self._set_map_side(size)
-        self.setWindowOpacity(float(settings["overlay_opacity"]))
+        if self.layer_overlay is not None:
+            # Wayland has no window opacity; the overlay applies it when drawing.
+            self.layer_overlay.set_opacity(float(settings["overlay_opacity"]))
+        else:
+            self.setWindowOpacity(float(settings["overlay_opacity"]))
         self._apply_nearest_label_font()
         self.control_strip.update_state(
             bool(settings["player_centered_mode"]), str(settings["overlay_shape"])
@@ -335,7 +355,7 @@ class MiniMapWindow(QWidget):
                 Qt.WidgetAttribute.WA_TransparentForMouseEvents,
                 not self._interaction_enabled,
             )
-            self.setWindowFlags(self._window_flags(interactable=enabled))
+            self._apply_window_flags(self._window_flags(interactable=enabled))
             if was_visible:
                 self.show()
         else:
@@ -352,6 +372,8 @@ class MiniMapWindow(QWidget):
             self.map_canvas.cancel_mouse_interaction()
         self._position_overlay_controls()
         self._reapply_input_style()
+        if self.layer_overlay is not None:
+            self.layer_overlay.set_interactive(self._interaction_enabled)
         if changed:
             self.interaction_changed.emit(self._interaction_enabled)
 
@@ -384,7 +406,7 @@ class MiniMapWindow(QWidget):
         # for a second time.
         was_visible = self.isVisible()
         self.clearMask()
-        self.setWindowFlags(self._window_flags())
+        self._apply_window_flags(self._window_flags())
         self._apply_mask()
         self._position_overlay_controls()
         if was_visible:
@@ -405,6 +427,17 @@ class MiniMapWindow(QWidget):
 
     def _set_map_side(self, side: int) -> None:
         side = min(1200, max(180, int(side)))
+        if getattr(self, "layer_overlay", None) is not None:
+            # An overlay cannot extend past its monitor; cap it to fit.
+            screen = QGuiApplication.screenAt(self.geometry().center()) or (
+                QGuiApplication.primaryScreen()
+            )
+            if screen is not None:
+                area = screen.geometry()
+                side = max(
+                    180,
+                    min(side, area.width(), area.height() - MINI_MAP_FOOTER_HEIGHT),
+                )
         self._enforcing_square = True
         self.resize(side, side + MINI_MAP_FOOTER_HEIGHT)
         self._enforcing_square = False
@@ -447,6 +480,8 @@ class MiniMapWindow(QWidget):
             self.setMask(map_region.united(footer_region))
         self.update()
         self.map_canvas.viewport().update()
+        if getattr(self, "layer_overlay", None) is not None:
+            self.layer_overlay.refresh()
 
     def _position_overlay_controls(self) -> None:
         side = self.map_canvas.width()

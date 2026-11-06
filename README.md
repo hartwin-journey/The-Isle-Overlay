@@ -6,7 +6,7 @@ I started it while learning Gateway the hard way: losing my bearings, missing mi
 
 The app is meant to be a small second-screen companion rather than anything invasive. It includes the Gateway map, a toggleable Mini Map overlay, position tracking, waypoints, breadcrumbs, migration zones, sanctuaries, patrol zones, water sources, updrafts, named locations, and other practical layers.
 
-Windows also supports optional Automatic Tracking using local OCR.
+Both platforms also support optional Automatic Tracking using local OCR.
 
 ## Quick note about the Mini Map
 
@@ -62,6 +62,8 @@ It supports:
 
 On Windows and Linux, the Mini Map can be switched between interactive and click-through modes with a configurable input binding.
 
+On Wayland desktops that support the layer-shell protocol (niri, Sway, Hyprland, river, KDE Plasma, COSMIC and other wlroots compositors), the Mini Map is drawn as a desktop overlay: it stays above the game on **every workspace**, including fullscreen games, with no window rules or compositor configuration. In click-through mode the compositor sends all input straight to the game. GNOME and X11 use a normal always-on-top window. Set `ISLE_COMPANION_LAYER_SHELL=0` to force the normal window.
+
 On Linux, the binding works on X11 and XWayland without consuming the input. Native Wayland desktops may block global input observation; the **Edit Mini Map** button in the Full Map toolbar remains available as a fallback.
 
 ### Waypoints
@@ -90,19 +92,15 @@ The app keeps track of:
 
 ### Automatic Tracking
 
-**Windows only**
-
 Automatic Tracking removes the need to click the coordinates manually.
 
 When enabled, the app watches a small user selected part of the screen containing the coordinates shown in The Isle's Tab menu.
 
-Windows' local OCR reads those visible coordinates and updates your map position.
+Local OCR reads those visible coordinates and updates your map position. Windows uses its built-in OCR service; Linux (and macOS) use [Tesseract](https://github.com/tesseract-ocr/tesseract).
 
 Simply open the Tab menu and your position can update automatically.
 
-Automatic Tracking is not available on Linux because it currently uses Windows' built-in OCR service.
-
-Clipboard tracking remains fully available on Linux.
+Clipboard tracking remains available everywhere and needs no extra software.
 
 ## Completely external to The Isle
 
@@ -118,7 +116,7 @@ The application does **not**:
 * Inspect game network traffic
 * Send input to the game
 
-Coordinate tracking comes from either normal clipboard text or, on Windows, pixels already visible on your screen.
+Coordinate tracking comes from either normal clipboard text or pixels already visible on your screen.
 
 The Mini Map is a normal independent desktop window. It is not injected into The Isle.
 
@@ -144,9 +142,10 @@ See [`assets/map/SOURCE.md`](assets/map/SOURCE.md) for map source and version in
 | Waypoints                   |    ✅    |   ✅   |
 | Breadcrumbs                 |    ✅    |   ✅   |
 | Map layers                  |    ✅    |   ✅   |
-| Automatic OCR tracking      |    ✅    |   ❌   |
+| Automatic OCR tracking      |    ✅    | ✅ (Tesseract) |
 | Global shortcuts            |    ✅    |   ❌   |
 | Mini Map interaction hotkey |    ✅    | X11/XWayland |
+| Mini Map above game on any workspace | ✅ | Wayland layer-shell desktops |
 
 Linux keeps the general Windows shortcut set hidden, while exposing the non-consuming Mini Map interaction binding and a toolbar fallback for native Wayland desktops.
 
@@ -160,9 +159,10 @@ Linux keeps the general Windows shortcut set hidden, while exposing the non-cons
 
 ### Linux
 
-* Modern 64-bit Linux desktop
+* Modern 64-bit Linux desktop (X11 or Wayland)
 * Python 3.11 or newer
 * PySide6
+* Optional, for Automatic Tracking: Tesseract OCR with English data, and on wlroots Wayland compositors, `grim`
 
 PySide6 includes Qt, so a separate Qt SDK is not required.
 
@@ -271,6 +271,26 @@ or:
 sh run.sh
 ```
 
+#### Optional: Automatic Tracking on Linux
+
+Install Tesseract OCR with English language data:
+
+| Distribution | Command |
+| --- | --- |
+| Arch / CachyOS / Manjaro | `sudo pacman -S tesseract tesseract-data-eng` |
+| Debian / Ubuntu / Mint / Pop!_OS | `sudo apt install tesseract-ocr` |
+| Fedora / Nobara / Bazzite | `sudo dnf install tesseract` |
+| openSUSE | `sudo zypper install tesseract-ocr tesseract-ocr-traineddata-english` |
+| NixOS | add `pkgs.tesseract` to your configuration |
+
+Screen capture is picked automatically:
+
+* **X11:** Qt's normal screen grab, nothing else needed.
+* **Wayland on wlroots compositors** (Sway, Hyprland, niri, river): install `grim` for the fastest capture.
+* **Other Wayland desktops** (GNOME, KDE Plasma) or no `grim`: the standard xdg-desktop-portal Screenshot API is used. Some desktops ask for screenshot permission the first time.
+
+If `tesseract` is not on your `PATH`, set `TESSERACT_CMD` to its full path.
+
 ## Using position tracking
 
 ### Clipboard tracking
@@ -280,12 +300,12 @@ sh run.sh
 3. Use the game's built-in **Copy Location** function.
 4. Your position updates on the Full Map and Mini Map.
 
-### Automatic Tracking on Windows
+### Automatic Tracking
 
 1. Enable **Automatic Tracking** from the Full Map.
 2. Select the area of the screen containing the coordinates in the Tab menu.
 3. Open the Tab menu while playing.
-4. The app reads the visible coordinates using Windows OCR and updates your position.
+4. The app reads the visible coordinates using local OCR (Windows OCR or Tesseract) and updates your position.
 
 If screen capture does not work in exclusive fullscreen mode, try borderless windowed mode.
 
@@ -319,7 +339,7 @@ This includes things such as:
 * Enabled layers
 * Saved markers
 * Tracking preferences
-* Windows OCR capture area
+* OCR capture area
 
 Personal settings, saved markers, and logs are excluded from Git.
 

@@ -56,6 +56,8 @@ _SPECIAL_KEY_NAMES = {
     Qt.Key.Key_Insert: "Insert",
     Qt.Key.Key_Delete: "Delete",
     Qt.Key.Key_Space: "Space",
+    Qt.Key.Key_Backslash: "Backslash",
+    Qt.Key.Key_Bar: "Backslash",
 }
 
 _MOUSE_BUTTON_NAMES = {

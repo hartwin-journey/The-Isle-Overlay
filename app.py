@@ -26,7 +26,7 @@ from core.coordinate_transform import load_calibration
 from core.data_loader import LayerRepository
 from core.hotkeys import GlobalHotkeyManager
 from core.linux_overlay_interaction import LinuxToggleInputMonitor
-from core.local_ocr import OcrUnavailableError, WindowsOcrEngine
+from core.local_ocr import OcrUnavailableError, create_ocr_engine
 from core.models import Position
 from core.overlay_interaction import ToggleInputMonitor
 from core.screen_capture import CaptureRegion, ScreenCaptureError
@@ -73,6 +73,7 @@ class ApplicationController:
         project_root: Path,
         *,
         windows_features: bool | None = None,
+        automatic_tracking_features: bool = True,
     ) -> None:
         self.app = app
         self.project_root = project_root
@@ -80,8 +81,12 @@ class ApplicationController:
             os.name == "nt" if windows_features is None else bool(windows_features)
         )
         self.settings_store = SettingsStore(project_root / "config" / "settings.json")
+        self.automatic_tracking_features = bool(automatic_tracking_features)
         settings = self.settings_store.load()
-        if not self.windows_features and settings["automatic_tracking_enabled"]:
+        if (
+            not self.automatic_tracking_features
+            and settings["automatic_tracking_enabled"]
+        ):
             settings["automatic_tracking_enabled"] = False
             self.settings_store.save()
         calibration = load_calibration(project_root / "assets" / "map" / "calibration.json")
@@ -101,6 +106,7 @@ class ApplicationController:
             self.repository,
             self.state,
             windows_features=self.windows_features,
+            automatic_tracking_features=self.automatic_tracking_features,
         )
         self.mini_map = MiniMapWindow(
             project_root / "assets" / "map" / "gateway.webp",
@@ -120,9 +126,9 @@ class ApplicationController:
         self.clipboard_monitor.position_copied.connect(self._handle_clipboard_position)
 
         self.automatic_tracker: AutomaticCoordinateTracker | None = None
-        if self.windows_features:
+        if self.automatic_tracking_features:
             self.automatic_tracker = AutomaticCoordinateTracker(
-                WindowsOcrEngine(project_root / "core" / "windows_ocr.ps1"),
+                create_ocr_engine(project_root),
                 parent=self.app,
             )
             self.automatic_tracker.position_detected.connect(
@@ -191,7 +197,7 @@ class ApplicationController:
         if tracker is None:
             if enabled:
                 self._automatic_tracking_unavailable(
-                    "on-device OCR tracking is available only on Windows"
+                    "Automatic Tracking is turned off for this session"
                 )
             return
         if not enabled:

@@ -13,9 +13,14 @@ from core.coordinate_parser import (
     ParsedCoordinates,
     parse_coordinates,
 )
-from core.local_ocr import OcrRecognitionError, OcrUnavailableError, WindowsOcrEngine
+from core.local_ocr import OcrEngine, OcrRecognitionError, OcrUnavailableError
 from core.models import Position
-from core.screen_capture import CaptureRegion, ScreenCaptureError, ScreenCaptureService
+from core.screen_capture import (
+    CaptureBackendUnavailable,
+    CaptureRegion,
+    ScreenCaptureError,
+    ScreenCaptureService,
+)
 
 LOGGER = logging.getLogger(__name__)
 
@@ -27,7 +32,9 @@ def _single_labeled_ocr_value(text: str, labels: str) -> str | None:
 
     pattern = re.compile(
         rf"(?<![A-Za-z])(?:{labels})\s*[:=]\s*"
-        rf"(?P<value>{_OCR_NUMBER})(?![\d.,A-Za-z])",
+        # A value followed by a space and more digits means OCR split one
+        # number (e.g. a dropped decimal point); never accept a fragment.
+        rf"(?P<value>{_OCR_NUMBER})(?![\d.,A-Za-z])(?!\s+\d)",
         re.IGNORECASE,
     )
     values = [match.group("value") for match in pattern.finditer(text)]
@@ -73,7 +80,7 @@ def parse_coordinates_from_ocr(text: str) -> ParsedCoordinates:
         normalized,
         r"Long(?:itude)?|Lon",
     )
-    # Windows OCR commonly reads the lowercase L in "Alt" as an uppercase I
+    # OCR engines commonly read the lowercase L in "Alt" as an uppercase I
     # in small UI fonts. This correction applies only to the known static label;
     # numeric OCR output is never guessed or repaired.
     altitude = _single_labeled_ocr_value(
@@ -144,7 +151,7 @@ class _OcrWorkerSignals(QObject):
 
 
 class _OcrWorker(QRunnable):
-    def __init__(self, sequence: int, engine: WindowsOcrEngine, png_bytes: bytes) -> None:
+    def __init__(self, sequence: int, engine: OcrEngine, png_bytes: bytes) -> None:
         super().__init__()
         self.sequence = sequence
         self.engine = engine
@@ -178,7 +185,7 @@ class AutomaticCoordinateTracker(QObject):
 
     def __init__(
         self,
-        engine: WindowsOcrEngine,
+        engine: OcrEngine,
         capture_service: ScreenCaptureService | None = None,
         parent: QObject | None = None,
     ) -> None:
@@ -209,6 +216,9 @@ class AutomaticCoordinateTracker(QObject):
         supported, reason = self.engine.support_status()
         if not supported:
             raise OcrUnavailableError(reason)
+        supported, reason = self.capture_service.support_status()
+        if not supported:
+            raise OcrUnavailableError(reason)
         self._timer.stop()
         self._region = region
         self._confirmation = CoordinateConfirmation(confirmation_reads)
@@ -236,15 +246,31 @@ class AutomaticCoordinateTracker(QObject):
     def _poll(self) -> None:
         if self._busy or self._region is None or not self.enabled:
             return
+        # Set before capturing: the Wayland portal waits in a nested event
+        # loop, during which the timer could otherwise start a second poll.
+        self._busy = True
+        sequence = self._sequence
         try:
             pixmap = self.capture_service.capture(self._region)
             png_bytes = self.capture_service.png_bytes_for_ocr(pixmap)
+        except CaptureBackendUnavailable as exc:
+            if sequence == self._sequence:
+                self._busy = False
+                self._timer.stop()
+                reason = str(exc)
+                self._set_status(f"Automatic tracking unavailable: {reason}")
+                self.unavailable.emit(reason)
+            return
         except ScreenCaptureError as exc:
-            self._confirmation.reset_candidate()
-            self._set_status(f"Automatic tracking: {exc}")
+            if sequence == self._sequence:
+                self._busy = False
+                self._confirmation.reset_candidate()
+                self._set_status(f"Automatic tracking: {exc}")
+            return
+        if sequence != self._sequence or not self.enabled:
+            # Stopped or restarted while the capture was in progress.
             return
 
-        self._busy = True
         worker = _OcrWorker(self._sequence, self.engine, png_bytes)
         worker.signals.finished.connect(self._on_ocr_finished)
         self._thread_pool.start(worker)

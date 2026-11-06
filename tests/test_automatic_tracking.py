@@ -53,6 +53,9 @@ def test_ocr_text_accepts_status_report_lat_long_alt_layout(text):
         "88,879.S26, 288,696.110, 21,112.882",
         "Lat: -47,020.760 Alt: 32,374.O64 Long: 91,091.448",
         "Lat: 1 Lat: 2 Long: 3 Alt: 4",
+        # Tesseract occasionally drops a decimal point at small font sizes.
+        "Lat: -572,924 486 Alt: 6,124.100\nLong: -45,965.656",
+        "Lat: 280,622.548 Alt: 44 756.942\nLong: 374,662.699",
     ],
 )
 def test_ocr_text_rejects_missing_ambiguous_or_uncertain_values(text):
