@@ -12,7 +12,7 @@ Both platforms also support optional Automatic Tracking using local OCR.
 
 By default, the hotkey for making the Mini Map editable is **Mouse Button 4 (M4)**. You can change it in Settings.
 
-Press the hotkey once to edit the Mini Map: zoom, pan, toggle auto-follow with the small **F** button, or switch between the square and circle layouts. Press it again when you want the Mini Map to go back to click-through mode.
+Press the hotkey once to edit the Mini Map: zoom, pan, toggle auto-follow with the small **F** button, or switch between the square and circle layouts. Press it again when you want the Mini Map to go back to click-through mode. On Wayland desktops with overlay support (KDE Plasma, Hyprland, Sway, niri, ...), clicking anywhere outside the Mini Map also leaves edit mode; while editing, the game does not receive mouse input, so a game that holds the cursor cannot keep it off the Mini Map.
 
 You can also use **Edit Mini Map** in the Full Map toolbar on either platform if the shortcut is unavailable.
 

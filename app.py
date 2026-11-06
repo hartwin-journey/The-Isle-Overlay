@@ -354,6 +354,9 @@ def main() -> int:
     prefer_xwayland_for_overlays()
     app = QApplication(sys.argv)
     app.setApplicationName("The Isle Companion")
+    # Lets a launcher entry named the-isle-companion.desktop, if installed,
+    # pair the running windows with its icon (Wayland app_id / X11 class).
+    app.setDesktopFileName("the-isle-companion")
     app.setOrganizationName("Local")
     app.setWindowIcon(create_app_icon())
     app.setStyleSheet(DARK_STYLESHEET)

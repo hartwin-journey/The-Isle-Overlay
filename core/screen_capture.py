@@ -299,6 +299,17 @@ class ScreenCaptureService:
             list(backends) if backends is not None else None
         )
         self._unavailable_reasons: list[str] = []
+        self._fixed_backends = backends is not None
+        # Methods that have produced at least one capture. A later failure of
+        # one of these is temporary, never a reason to drop it.
+        self._proven: set[str] = set()
+
+    def reset_backends(self) -> None:
+        """Forget dropped capture methods and detect them again."""
+
+        if not self._fixed_backends:
+            self._backends = None
+            self._unavailable_reasons.clear()
 
     @property
     def backends(self) -> list[CaptureBackend]:
@@ -362,12 +373,19 @@ class ScreenCaptureService:
         while self.backends:
             backend = self.backends[0]
             try:
-                return backend.grab(rect)
+                pixmap = backend.grab(rect)
             except CaptureBackendUnavailable as exc:
+                if backend.name in self._proven:
+                    raise ScreenCaptureError(
+                        f"{backend.name} capture failed: {exc}"
+                    ) from exc
                 # This method cannot work on this desktop; use the next one.
                 LOGGER.info("Screen capture via %s unavailable: %s", backend.name, exc)
                 self._unavailable_reasons.append(f"{backend.name}: {exc}")
                 self.backends.pop(0)
+                continue
+            self._proven.add(backend.name)
+            return pixmap
         raise CaptureBackendUnavailable(self.support_status()[1])
 
     @staticmethod

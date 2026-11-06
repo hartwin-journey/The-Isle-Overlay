@@ -37,6 +37,7 @@ from PySide6.QtCore import (
     QSocketNotifier,
     Qt,
     QTimer,
+    Signal,
 )
 from PySide6.QtGui import (
     QGuiApplication,
@@ -158,6 +159,10 @@ class WaylandLayerOverlay(QObject):
     """Host ``widget`` on a layer-shell overlay surface instead of a window."""
 
     NAMESPACE = "isle-companion-minimap"
+    CATCHER_NAMESPACE = "isle-companion-edit-catcher"
+
+    # Emitted when the click-catcher (see catch_outside) is clicked.
+    outside_clicked = Signal()
 
     def __init__(
         self,
@@ -167,10 +172,21 @@ class WaylandLayerOverlay(QObject):
         *,
         namespace: str = NAMESPACE,
         keyboard: bool = False,
+        catch_outside: bool = False,
     ) -> None:
         super().__init__(widget)
         self.widget = widget
         self._namespace = namespace
+        # catch_outside: while interactive, cover the rest of the monitor with
+        # a transparent surface below the widget. A game that holds the mouse
+        # confines the cursor to itself and stops it crossing onto other
+        # surfaces; with the catcher the cursor is always over this app, so
+        # it can move straight onto the widget. Clicking the catcher emits
+        # outside_clicked. Keyboard focus is never taken.
+        self._catch_outside = catch_outside
+        self._viewporter = globals_.get("wp_viewporter")
+        self._catcher: dict[str, Any] | None = None
+        self._over_catcher = False
         # Exclusive keyboard focus (e.g. Esc in the area picker). The Mini Map
         # never takes the keyboard, so the game keeps receiving every key.
         self._wants_keyboard = keyboard
@@ -259,6 +275,7 @@ class WaylandLayerOverlay(QObject):
         *,
         namespace: str = NAMESPACE,
         keyboard: bool = False,
+        catch_outside: bool = False,
     ) -> "WaylandLayerOverlay | None":
         """Return a host when the compositor supports layer-shell, else None."""
 
@@ -331,6 +348,10 @@ class WaylandLayerOverlay(QObject):
             globals_["zwp_relative_pointer_manager_v1"] = bind(
                 "zwp_relative_pointer_manager_v1", ZwpRelativePointerManagerV1, 1
             )
+        if "wp_viewporter" in announced:
+            from pywayland.protocol.viewporter import WpViewporter
+
+            globals_["wp_viewporter"] = bind("wp_viewporter", WpViewporter, 1)
         if "wp_cursor_shape_manager_v1" in announced:
             from pywayland.protocol.cursor_shape_v1 import WpCursorShapeManagerV1
 
@@ -356,7 +377,14 @@ class WaylandLayerOverlay(QObject):
         display.roundtrip()
         display.roundtrip()
         LOGGER.info("Using a Wayland layer-shell overlay for %s", namespace)
-        return cls(widget, globals_, display, namespace=namespace, keyboard=keyboard)
+        return cls(
+            widget,
+            globals_,
+            display,
+            namespace=namespace,
+            keyboard=keyboard,
+            catch_outside=catch_outside,
+        )
 
     # ------------------------------------------------------------- wayland io
 
@@ -421,6 +449,10 @@ class WaylandLayerOverlay(QObject):
             QPoint(screen.geometry().topLeft()) if screen is not None else QPoint()
         )
         output = self._outputs.get(self._output_name or "")
+        if self._catch_outside and self._interactive:
+            # Created first: niri and other compositors stack later layer
+            # surfaces above earlier ones, keeping the widget on top.
+            self._create_catcher(output)
         self._surface = self._compositor.create_surface()
         self._layer_surface = self._layer_shell.get_layer_surface(
             self._surface, output, ZwlrLayerShellV1.layer.overlay.value, self._namespace
@@ -446,6 +478,7 @@ class WaylandLayerOverlay(QObject):
         self._render_timer.stop()
         self._render_soon.stop()
         self._release_pointer_grab()
+        self._destroy_catcher()
         if self._layer_surface is not None:
             self._layer_surface.destroy()
         if self._surface is not None:
@@ -557,9 +590,16 @@ class WaylandLayerOverlay(QObject):
         self._flush()
 
     def set_interactive(self, interactive: bool) -> None:
+        changed = bool(interactive) != self._interactive
         self._interactive = bool(interactive)
         if not self._interactive:
             self._release_pointer_grab()
+            self._destroy_catcher()
+        if changed and self._interactive and self._catch_outside and self._surface:
+            # Re-create the widget surface after the catcher so it stays on top.
+            self._unmap()
+            self._map()
+            return
         if self._surface is not None:
             self._apply_input_region()
             self._surface.commit()
@@ -581,6 +621,77 @@ class WaylandLayerOverlay(QObject):
         # An empty region makes the overlay click-through.
         self._surface.set_input_region(region)
         region.destroy()
+
+    # ---------------------------------------------------------- click catcher
+
+    def _create_catcher(self, output: Any) -> None:
+        from core.wayland_protocols.wlr_layer_shell_unstable_v1 import (
+            ZwlrLayerShellV1,
+            ZwlrLayerSurfaceV1,
+        )
+
+        surface = self._compositor.create_surface()
+        layer_surface = self._layer_shell.get_layer_surface(
+            surface, output, ZwlrLayerShellV1.layer.overlay.value, self.CATCHER_NAMESPACE
+        )
+        anchor = ZwlrLayerSurfaceV1.anchor
+        layer_surface.set_anchor(
+            anchor.top.value | anchor.bottom.value | anchor.left.value | anchor.right.value
+        )
+        layer_surface.set_size(0, 0)  # Fill the monitor.
+        layer_surface.set_exclusive_zone(-1)
+        layer_surface.set_keyboard_interactivity(0)
+        catcher: dict[str, Any] = {
+            "surface": surface,
+            "layer": layer_surface,
+            "buffer": None,
+            "viewport": None,
+        }
+        layer_surface.dispatcher["configure"] = self._configure_catcher
+        layer_surface.dispatcher["closed"] = lambda _ls: self._destroy_catcher()
+        self._catcher = catcher
+        surface.commit()
+        self._flush()
+
+    def _configure_catcher(self, layer_surface: Any, serial: int, width: int, height: int) -> None:
+        catcher = self._catcher
+        if catcher is None or catcher["layer"] is not layer_surface:
+            return
+        layer_surface.ack_configure(serial)
+        width, height = max(1, width), max(1, height)
+        surface = catcher["surface"]
+        if catcher["buffer"] is not None:
+            catcher["buffer"].destroy()
+        if self._viewporter is not None:
+            # One transparent pixel stretched to the monitor.
+            buffer = _ShmBuffer(self._shm, 1, 1)
+            if catcher["viewport"] is None:
+                catcher["viewport"] = self._viewporter.get_viewport(surface)
+            catcher["viewport"].set_destination(width, height)
+        else:
+            buffer = _ShmBuffer(self._shm, width, height)
+        buffer.data.write(bytes(buffer.size))  # Fully transparent.
+        catcher["buffer"] = buffer
+        surface.attach(buffer.buffer, 0, 0)
+        surface.damage_buffer(0, 0, buffer.width, buffer.height)
+        surface.commit()
+        self._flush()
+
+    def _destroy_catcher(self) -> None:
+        catcher, self._catcher = self._catcher, None
+        self._over_catcher = False
+        if catcher is None:
+            return
+        if catcher["viewport"] is not None:
+            catcher["viewport"].destroy()
+        catcher["layer"].destroy()
+        catcher["surface"].destroy()
+        if catcher["buffer"] is not None:
+            catcher["buffer"].destroy()
+        self._flush()
+
+    def _is_catcher(self, surface: Any) -> bool:
+        return self._catcher is not None and surface == self._catcher["surface"]
 
     # -------------------------------------------------------------- rendering
 
@@ -779,6 +890,18 @@ class WaylandLayerOverlay(QObject):
         self._flush()
 
     def _pointer_enter(self, _p: Any, serial: int, surface: Any, x: float, y: float) -> None:
+        if self._is_catcher(surface):
+            self._over_catcher = True
+            self._enter_serial = serial
+            if self._cursor_device is not None:
+                from pywayland.protocol.cursor_shape_v1 import WpCursorShapeDeviceV1
+
+                self._cursor_device.set_shape(
+                    serial, WpCursorShapeDeviceV1.shape.default.value
+                )
+                self._cursor_shape = ""
+                self._flush()
+            return
         if not self._ours(surface):
             return
         self._debug("enter at %.1f,%.1f", x, y)
@@ -789,6 +912,9 @@ class WaylandLayerOverlay(QObject):
         self._update_cursor(self._target_at(self._pointer_pos.toPoint()))
 
     def _pointer_leave(self, _p: Any, _serial: int, surface: Any) -> None:
+        if self._is_catcher(surface):
+            self._over_catcher = False
+            return
         if not self._ours(surface):
             return
         self._debug("leave (buttons=%s)", int(self._buttons.value))
@@ -841,6 +967,11 @@ class WaylandLayerOverlay(QObject):
             self._pointer_inside,
             self._interactive,
         )
+        if self._over_catcher and not self._pointer_inside:
+            if state == 1 and self._interactive:
+                self._debug("click outside the widget: leaving edit mode")
+                self.outside_clicked.emit()
+            return
         if not self._pointer_inside or not self._interactive:
             return
         button = _BUTTONS.get(code)

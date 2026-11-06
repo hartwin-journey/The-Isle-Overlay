@@ -285,7 +285,12 @@ class MiniMapWindow(QWidget):
         # On Wayland compositors with layer-shell the Mini Map is drawn as an
         # overlay that stays above the game on every workspace. Windows and
         # X11 sessions keep an ordinary top-most window.
-        self.layer_overlay = WaylandLayerOverlay.create(self)
+        self.layer_overlay = WaylandLayerOverlay.create(self, catch_outside=True)
+        if self.layer_overlay is not None:
+            # In edit mode, clicking anywhere outside the Mini Map leaves it.
+            self.layer_overlay.outside_clicked.connect(
+                lambda: self.set_interaction_enabled(False)
+            )
         # GNOME on Wayland has no layer-shell; there the app runs under
         # XWayland and the Mini Map bypasses the window manager instead.
         self.x11_overlay = self.layer_overlay is None and x11_overlay_active()

@@ -81,6 +81,7 @@ class HowToUseDialog(QDialog):
           <li>It starts click-through by default, so stray clicks still go to the game.</li>
           <li><b>Edit mode:</b> press <b>M4 / mouse button 4</b> to unlock the Mini Map. Press it again when you are done.</li>
           <li>On Linux desktops that block global input observation, use <b>Edit Mini Map</b> in the Full Map toolbar instead.</li>
+          <li>On Wayland desktops such as KDE, Sway, Hyprland or niri, clicking anywhere outside the Mini Map also leaves edit mode. While editing, the game does not receive mouse input.</li>
           <li>While it is unlocked, scroll to zoom and drag to pan.</li>
           <li>Use the small <b>F</b> button to turn player-following on or off.</li>
           <li>The shape button beside <b>F</b> switches between square and circle.</li>
@@ -97,7 +98,7 @@ class HowToUseDialog(QDialog):
           <li><b>Automatic Tracking:</b> local OCR can read the coordinate text already visible on screen. Windows uses its built-in OCR; Linux and macOS use Tesseract; on Linux, <b>run.sh</b> installs it for you.</li>
           <li>Open The Isle's <b>Tab</b> menu so your coordinates are visible.</li>
           <li>Choose <b>Automatic Tracking &gt; Set up capture area…</b>.</li>
-          <li>Box in just the coordinate line. A tight crop is easier for OCR to read.</li>
+          <li>Box in just the coordinates and keep other text out. If the box clips the start of a label, the numbers are still read.</li>
           <li>Use <b>Capture and preview</b> before saving, especially after changing resolution or UI scale.</li>
           <li>Save the capture area, then turn <b>Automatic Tracking</b> on.</li>
           <li>On Wayland, selecting an area shows a frozen snapshot of your screen to drag on. Screen capture uses <b>grim</b> if installed, otherwise your desktop's screenshot portal.</li>

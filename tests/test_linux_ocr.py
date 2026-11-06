@@ -6,6 +6,7 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 import pytest
 from PySide6.QtCore import QRect
 from PySide6.QtGui import QColor, QGuiApplication, QImage, QPixmap
+from PySide6.QtWidgets import QApplication
 
 from core.local_ocr import (
     OcrRecognitionError,
@@ -100,7 +101,7 @@ class _SolidBackend:
 
 
 def test_capture_falls_through_unavailable_backends():
-    QGuiApplication.instance() or QGuiApplication([])
+    QApplication.instance() or QApplication([])
     solid = _SolidBackend()
     service = ScreenCaptureService([_FailingBackend(), solid])
     screen = QGuiApplication.primaryScreen().geometry()
@@ -113,7 +114,7 @@ def test_capture_falls_through_unavailable_backends():
 
 
 def test_capture_reports_when_no_backend_can_work():
-    QGuiApplication.instance() or QGuiApplication([])
+    QApplication.instance() or QApplication([])
     service = ScreenCaptureService([_FailingBackend()])
     screen = QGuiApplication.primaryScreen().geometry()
     with pytest.raises(CaptureBackendUnavailable, match="grim"):
@@ -122,7 +123,7 @@ def test_capture_reports_when_no_backend_can_work():
 
 
 def test_portal_crop_maps_logical_region_into_device_pixels():
-    QGuiApplication.instance() or QGuiApplication([])
+    QApplication.instance() or QApplication([])
     desktop = ScreenCaptureService.virtual_geometry()
     # Simulate a 2x scaled screenshot with a marker at logical (10, 20).
     image = QImage(desktop.width() * 2, desktop.height() * 2, QImage.Format.Format_RGB32)

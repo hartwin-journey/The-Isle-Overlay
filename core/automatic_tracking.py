@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import re
+import time
 from typing import Literal
 
 from PySide6.QtCore import QObject, QRunnable, QThreadPool, QTimer, Signal, Slot
@@ -39,6 +40,44 @@ def _single_labeled_ocr_value(text: str, labels: str) -> str | None:
     )
     values = [match.group("value") for match in pattern.finditer(text)]
     return values[0] if len(values) == 1 else None
+
+
+# The game always prints coordinates with digit grouping and three decimals
+# (e.g. -208,961.288). The layout fallback below accepts only this exact form.
+_GAME_NUMBER = r"-?\d{1,3}(?:,\d{3})*\.\d{3}"
+_ALT_LABEL = r"Alt(?:itude)?|Ait"
+
+
+def _status_report_by_layout(text: str) -> tuple[str, str, str] | None:
+    """Read the Lat/Alt and Long lines by position when a label is clipped.
+
+    A capture box drawn tightly can cut the first letters off "Lat" and
+    "Long", sometimes including the colon (OCR then sees e.g. "I_Et:", "it"
+    or "ong:"). The panel layout is fixed: one line holds ``LAT  Alt: ALT``
+    and another holds ``LONG``. Each value must be a complete, well-formed
+    game number; nothing is repaired or guessed.
+    """
+
+    alt_lines = []
+    long_lines = []
+    alt_pattern = re.compile(
+        rf"(?<![\d.,])(?P<lat>{_GAME_NUMBER})\s+(?:{_ALT_LABEL})\s*[:=]\s*"
+        rf"(?P<alt>{_GAME_NUMBER})(?![\d.,])",
+        re.IGNORECASE,
+    )
+    value_pattern = re.compile(rf"(?<![\d.,])(?P<value>{_GAME_NUMBER})(?![\d.,])")
+    for line in text.splitlines():
+        alt_match = alt_pattern.search(line)
+        if alt_match:
+            alt_lines.append((alt_match.group("lat"), alt_match.group("alt")))
+            continue
+        values = value_pattern.findall(line)
+        if len(values) == 1:
+            long_lines.append(values[0])
+    if len(alt_lines) != 1 or len(long_lines) != 1:
+        return None
+    latitude, altitude = alt_lines[0]
+    return latitude, long_lines[0], altitude
 
 
 def parse_coordinates_from_ocr(text: str) -> ParsedCoordinates:
@@ -87,6 +126,10 @@ def parse_coordinates_from_ocr(text: str) -> ParsedCoordinates:
         normalized,
         r"Alt(?:itude)?|Ait",
     )
+    if latitude is None or longitude is None:
+        by_layout = _status_report_by_layout(normalized)
+        if by_layout is not None:
+            latitude, longitude, altitude = by_layout
     if latitude is not None and longitude is not None and altitude is not None:
         try:
             parsed = parse_coordinates(
@@ -104,30 +147,68 @@ def parse_coordinates_from_ocr(text: str) -> ParsedCoordinates:
 
 
 class CoordinateConfirmation:
-    """Confirm consecutive plausible reads and suppress exact duplicates."""
+    """Confirm consecutive plausible reads and suppress exact duplicates.
+
+    A position far from the last confirmed one (further than the player could
+    have travelled in the elapsed time) needs ``jump_reads`` consistent reads
+    instead of ``required_reads``. Real teleports such as respawning are still
+    accepted after a few seconds, while a misread that repeats for two frames
+    (e.g. a dropped digit separator) no longer moves the player across the map.
+    """
+
+    # Generous upper bound on travel speed, in world units per second.
+    MAX_TRAVEL_SPEED = 2_000.0
+    JUMP_ALLOWANCE = 10_000.0
+    # A read that could not be parsed says nothing about the pending
+    # candidate, so the candidate survives unreadable frames for this long.
+    CANDIDATE_TTL_S = 4.0
 
     def __init__(
         self,
         required_reads: int = 2,
         max_confirmation_delta: float = 25_000.0,
+        jump_reads: int = 4,
     ) -> None:
         self.required_reads = max(2, int(required_reads))
+        self.jump_reads = max(self.required_reads, int(jump_reads))
         self.max_confirmation_delta = max(0.0, float(max_confirmation_delta))
         self._candidate: tuple[float, float, float] | None = None
         self._candidate_reads = 0
+        self._candidate_at = 0.0
         self._last_emitted: tuple[float, float, float] | None = None
+        self._last_emitted_at: float | None = None
+
+    def note_unreadable(self, now: float | None = None) -> None:
+        """Record a frame without coordinates; expire a stale candidate."""
+
+        now = time.monotonic() if now is None else now
+        if self._candidate is not None and now - self._candidate_at > self.CANDIDATE_TTL_S:
+            self.reset_candidate()
+
+    def is_jump(self, value: tuple[float, float, float], now: float) -> bool:
+        """True if ``value`` is further than the player could have travelled."""
+        if self._last_emitted is None or self._last_emitted_at is None:
+            return False
+        elapsed = max(0.0, now - self._last_emitted_at)
+        allowed = self.JUMP_ALLOWANCE + self.MAX_TRAVEL_SPEED * elapsed
+        dx = value[0] - self._last_emitted[0]
+        dy = value[1] - self._last_emitted[1]
+        return (dx * dx + dy * dy) ** 0.5 > allowed
 
     def reset_candidate(self) -> None:
         self._candidate = None
         self._candidate_reads = 0
 
     def observe(
-        self, parsed: ParsedCoordinates
+        self, parsed: ParsedCoordinates, now: float | None = None
     ) -> Literal["pending", "emit", "duplicate"]:
+        now = time.monotonic() if now is None else now
         value = (parsed.x, parsed.y, parsed.z)
         if value == self._last_emitted:
             self.reset_candidate()
             return "duplicate"
+        self.note_unreadable(now)
+        self._candidate_at = now
         if self._candidate is not None and max(
             abs(current - previous)
             for current, previous in zip(value, self._candidate)
@@ -139,9 +220,11 @@ class CoordinateConfirmation:
         else:
             self._candidate = value
             self._candidate_reads = 1
-        if self._candidate_reads < self.required_reads:
+        needed = self.jump_reads if self.is_jump(value, now) else self.required_reads
+        if self._candidate_reads < needed:
             return "pending"
         self._last_emitted = value
+        self._last_emitted_at = now
         self.reset_candidate()
         return "emit"
 
@@ -151,12 +234,21 @@ class _OcrWorkerSignals(QObject):
 
 
 class _OcrWorker(QRunnable):
-    def __init__(self, sequence: int, engine: OcrEngine, png_bytes: bytes) -> None:
+    def __init__(
+        self,
+        sequence: int,
+        engine: OcrEngine,
+        png_bytes: bytes,
+        signals: _OcrWorkerSignals,
+    ) -> None:
         super().__init__()
         self.sequence = sequence
         self.engine = engine
         self.png_bytes = png_bytes
-        self.signals = _OcrWorkerSignals()
+        # Owned by the tracker, not the worker: a per-worker signal object can
+        # be freed with the auto-deleted runnable before its queued result is
+        # delivered, which would leave the tracker waiting forever.
+        self.signals = signals
 
     @Slot()
     def run(self) -> None:
@@ -183,6 +275,14 @@ class AutomaticCoordinateTracker(QObject):
     status_changed = Signal(str)
     unavailable = Signal(str)
 
+    # OCR normally takes well under a second and Tesseract is killed after
+    # 10 s, so a read pending longer than this was lost.
+    STALL_TIMEOUT_S = 15.0
+    # Delay before the follow-up read that confirms a new position.
+    CONFIRM_POLL_MS = 250
+    # While reads keep failing, log what OCR sees at most this often.
+    UNREADABLE_LOG_INTERVAL_S = 15.0
+
     def __init__(
         self,
         engine: OcrEngine,
@@ -195,11 +295,17 @@ class AutomaticCoordinateTracker(QObject):
         self._timer = QTimer(self)
         self._timer.timeout.connect(self._poll)
         self._thread_pool = QThreadPool.globalInstance()
+        self._worker_signals = _OcrWorkerSignals(self)
+        self._worker_signals.finished.connect(self._on_ocr_finished)
+        # Workers stay referenced until they report back.
+        self._workers: dict[int, _OcrWorker] = {}
         self._region: CaptureRegion | None = None
         self._confirmation = CoordinateConfirmation()
         self._busy = False
+        self._busy_since = 0.0
         self._sequence = 0
         self._last_status = ""
+        self._last_unreadable_log = 0.0
 
     @property
     def enabled(self) -> bool:
@@ -235,6 +341,7 @@ class AutomaticCoordinateTracker(QObject):
         self._timer.stop()
         self._sequence += 1
         self._busy = False
+        self._workers.clear()
         self._confirmation.reset_candidate()
         self._set_status("Automatic tracking: off")
 
@@ -244,35 +351,53 @@ class AutomaticCoordinateTracker(QObject):
 
     @Slot()
     def _poll(self) -> None:
-        if self._busy or self._region is None or not self.enabled:
+        if self._region is None or not self.enabled:
             return
+        if self._busy:
+            if time.monotonic() - self._busy_since < self.STALL_TIMEOUT_S:
+                return
+            # The previous read never reported back. Abandon it (its late
+            # result is ignored via the sequence number) instead of waiting
+            # forever, which used to stop tracking until a restart.
+            LOGGER.warning(
+                "Automatic tracking: no OCR result after %.0f s; retrying",
+                self.STALL_TIMEOUT_S,
+            )
+            self._workers.pop(self._sequence, None)
+            self._sequence += 1
+            self._busy = False
         # Set before capturing: the Wayland portal waits in a nested event
         # loop, during which the timer could otherwise start a second poll.
         self._busy = True
+        self._busy_since = time.monotonic()
         sequence = self._sequence
         try:
             pixmap = self.capture_service.capture(self._region)
             png_bytes = self.capture_service.png_bytes_for_ocr(pixmap)
         except CaptureBackendUnavailable as exc:
+            # Capture worked when tracking started, so treat this as
+            # temporary: keep polling and re-detect capture methods.
             if sequence == self._sequence:
                 self._busy = False
-                self._timer.stop()
-                reason = str(exc)
-                self._set_status(f"Automatic tracking unavailable: {reason}")
-                self.unavailable.emit(reason)
+                self._confirmation.note_unreadable()
+                self.capture_service.reset_backends()
+                self._set_status(
+                    f"Automatic tracking: screen capture failed, retrying ({exc})"
+                )
             return
         except ScreenCaptureError as exc:
             if sequence == self._sequence:
                 self._busy = False
-                self._confirmation.reset_candidate()
+                self._confirmation.note_unreadable()
                 self._set_status(f"Automatic tracking: {exc}")
             return
         if sequence != self._sequence or not self.enabled:
             # Stopped or restarted while the capture was in progress.
             return
 
-        worker = _OcrWorker(self._sequence, self.engine, png_bytes)
-        worker.signals.finished.connect(self._on_ocr_finished)
+        worker = _OcrWorker(sequence, self.engine, png_bytes, self._worker_signals)
+        worker.setAutoDelete(False)
+        self._workers[sequence] = worker
         self._thread_pool.start(worker)
 
     @Slot(int, object, object)
@@ -282,6 +407,7 @@ class AutomaticCoordinateTracker(QObject):
         text: object,
         error: object,
     ) -> None:
+        self._workers.pop(sequence, None)
         if sequence != self._sequence:
             return
         self._busy = False
@@ -292,7 +418,8 @@ class AutomaticCoordinateTracker(QObject):
             self.unavailable.emit(reason)
             return
         if isinstance(error, OcrRecognitionError):
-            self._confirmation.reset_candidate()
+            self._confirmation.note_unreadable()
+            LOGGER.debug("Automatic tracking OCR error: %s", error)
             self._set_status("Automatic tracking: OCR could not read this frame")
             return
         self.process_ocr_text(str(text or ""))
@@ -303,14 +430,37 @@ class AutomaticCoordinateTracker(QObject):
         try:
             parsed = parse_coordinates_from_ocr(text)
         except CoordinateParseError as exc:
-            self._confirmation.reset_candidate()
-            LOGGER.debug("Automatic OCR coordinate rejected: %s", exc)
-            self._set_status("Automatic tracking: waiting for visible coordinates")
+            self._confirmation.note_unreadable()
+            status = "Automatic tracking: waiting for visible coordinates"
+            now = time.monotonic()
+            if (
+                status != self._last_status
+                or now - self._last_unreadable_log >= self.UNREADABLE_LOG_INTERVAL_S
+            ):
+                # Shows what the capture area contains during a failure
+                # streak (e.g. a clipped box or other text in the way).
+                self._last_unreadable_log = now
+                seen = " | ".join(
+                    line.strip() for line in text.splitlines() if line.strip()
+                )[:120]
+                LOGGER.info("OCR read %r (%s)", seen, exc)
+            self._set_status(status)
             return
 
         state = self._confirmation.observe(parsed)
+        if state == "pending" and self._confirmation.is_jump(
+            (parsed.x, parsed.y, parsed.z), time.monotonic()
+        ):
+            LOGGER.debug(
+                "Large jump to x=%.3f y=%.3f; waiting for more consistent reads",
+                parsed.x,
+                parsed.y,
+            )
         if state == "pending":
             self._set_status("Automatic tracking: confirming coordinates")
+            # Read again soon instead of waiting a full polling interval, so
+            # a position confirms in about half a second.
+            QTimer.singleShot(self.CONFIRM_POLL_MS, self._poll)
             return
         if state == "duplicate":
             self._set_status("Automatic tracking: coordinates unchanged")
@@ -330,4 +480,7 @@ class AutomaticCoordinateTracker(QObject):
         if value == self._last_status:
             return
         self._last_status = value
+        # Status changes are infrequent (deduplicated); logging them makes a
+        # stalled or failing tracker diagnosable from logs/companion.log.
+        LOGGER.info("%s", value)
         self.status_changed.emit(value)
